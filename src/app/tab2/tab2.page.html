@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="primary">
+      <ion-button type="button" text="Profile" (click)="openSettings()">
+        <ion-text>Profile</ion-text>
+      </ion-button>
+    </ion-buttons>
     <ion-title>
       Dashboard
     </ion-title>
@@ -8,7 +13,7 @@
 
 <ion-content class="ion-padding">
 
-  <ion-item lines="none" class="profile-top">
+  <!-- <ion-item lines="none" class="profile-top">
     <ion-avatar item-start>
       <img *ngIf="userinfo?.pic !== ''" src="{{userinfo.pic}}">
       <ion-icon *ngIf="userinfo?.pic == ''" name="contact" size="large" ></ion-icon>
@@ -17,7 +22,7 @@
   </ion-item>
 
   <ion-list class="profile-bottom">
-
+ -->
     <!-- <ion-item>
       <ion-label position="stacked">Name</ion-label>
       <ion-text>{{userinfo.firstname}} {{userinfo.lastname}}</ion-text>
@@ -33,7 +38,7 @@
       <ion-text>{{userinfo.phone}}</ion-text>
     </ion-item> -->
 
-    <br>
+    <!-- <br>
     <ion-item lines="none">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-align-items-center ion-justify-content-center" >
@@ -54,7 +59,7 @@
       <ion-textarea auto-grow="true" *ngIf="userinfo?.notes == ''" placeholder="Jot something down" name="usernotes"></ion-textarea>
     </ion-item>
 
-  </ion-list>
+  </ion-list> -->
 
   <ion-buttons slot="end">
     <ion-button (click)="today()">Today</ion-button>
@@ -107,16 +112,16 @@
   startingDayWeek="1">
   </calendar>
 
-  <ion-button (click)="logout()" color="danger" routerDirection="root"><ion-icon name="log-out"></ion-icon> &nbsp; Logout</ion-button>
+  <!-- <ion-button (click)="logout()" color="danger" routerDirection="root"><ion-icon name="log-out"></ion-icon> &nbsp; Logout</ion-button>
   <br><br><br><br>
   <ion-text>OPTIONS BELOW ARE FOR HSH DEMO PURPOSES AND WILL NOT APPEAR ON THE FINAL VERSION</ion-text>
   <br><br>
   <ion-button color="secondary" (click)="loadEvents()">Load Random Events</ion-button>
-  
+   -->
 
   <!-- FOR DEV PURPOSES -->
   <!-- Card for adding a new event -->
-  <ion-card>
+ <!--  <ion-card>
     <ion-card-header tappable (click)="collapseCard = !collapseCard">
       <ion-card-title>New Event</ion-card-title>
     </ion-card-header>
@@ -148,5 +153,5 @@
       <ion-button  expand="block" (click)="addEvent()" [disabled]="event.title == ''">Add Event</ion-button>
  
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
 </ion-content>

@@ -5,5 +5,85 @@
 </ion-header>
 
 <ion-content>
+    <ion-item-divider sticky="true">
+      <ion-label>
+        Pending Invites ({{count_invites}})
+      </ion-label>
+    </ion-item-divider>
+    
+    <ion-list lines="full">
+        <div *ngIf="count_invites > 0">
+        <ion-item *ngFor="let invite of invites">
+            <ion-avatar><ion-icon color="warning" size="large" name="mail-unread"></ion-icon></ion-avatar>
+            <ion-label>
+              <h2>{{invite.service_title}}</h2>
+              <p>{{invite.service_date}}</p>
+              <div class="invite-details-div">
+                  <ion-grid class="invite-details-grid">
+                    <ion-row>
+                      <ion-col><p class="st">Start Time</p></ion-col>
+                      <ion-col><p class="et">End Time</p></ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col><p>{{invite.service_starttime}}</p></ion-col>
+                      <ion-col><p>{{invite.service_endtime}}</p></ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col>
+                        <ion-button size="default" color="success" type="button" text="Accept" (click)="modifyInvite('accept', invite.id)">
+                          <ion-text>Accept</ion-text>
+                        </ion-button>
+                      </ion-col>
+                      <ion-col>
+                        <ion-button size="default"  type="button" text="Decline" (click)="modifyInvite('decline', invite.id)">
+                          <ion-text>Decline</ion-text>
+                        </ion-button>
+                      </ion-col>
+                      <ion-col>
+                        <ion-button size="default" type="button" text="Question" (click)="modifyInvite('question', invite.id)">
+                          <ion-text>Question</ion-text>
+                        </ion-button>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </div>
+            </ion-label>
+          </ion-item>
+        </div>
+          <p class="ion-padding" *ngIf="count_invites == 0">No invites available at this time, please check again later</p>
+    </ion-list>
 
+    <ion-item-divider sticky="true">
+      <ion-label>
+        Notifications ({{count_notifications}})
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-list lines="full">
+        <div *ngIf="count_notifications > 0">
+        <ion-item (click)="goToDetail(service.workorderid)" *ngFor="let notification of notifications">
+            <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
+            <ion-label>
+              <h2>{{notification.title}}</h2>
+              <p>Date: {{notification.date}}</p>
+              <div class="invite-details-div">
+                <ion-grid class="invite-details-grid">
+                  <ion-row>
+                    <ion-col><p>{{notification.comment}}</p></ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </ion-label>
+            <!-- <ion-badge slot="end" class="status" color="white"
+            data-color="{{(service?.wostatus == 'Cancelled' || service?.wostatus == 'Declined') ? 'danger' : 'warning'}}"
+            [ngStyle]="{'background-color': service?.wostatus == 'Cancelled' || service?.wostatus == 'Declined' ? 'var(--ion-color-danger)' : 
+            service?.wostatus == 'Under Review' ? 'var(--ion-color-warning)' : 
+            service?.wostatus == 'Completed' ? 'var(--ion-color-medium)' : 'var(--ion-color-success)', 'border-color':service?.wostatus == 'Cancelled' || service?.wostatus == 'Declined' ? 'var(--ion-color-danger)' : service?.wostatus == 'Under Review' ? 'var(--ion-color-warning)' : 'var(--ion-color-success)' }"
+            >
+              <ion-text class="status-text">{{service.wostatus}}</ion-text>
+            </ion-badge> -->
+          </ion-item>
+        </div>
+          <p class="ion-padding" *ngIf="count_notifications == 0">No new notifications</p>
+    </ion-list>
 </ion-content>

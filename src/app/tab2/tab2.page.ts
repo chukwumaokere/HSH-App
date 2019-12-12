@@ -1,9 +1,10 @@
 import { Component, OnInit, LOCALE_ID, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from  "@angular/router";
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { formatDate } from '@angular/common';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
+import { ProfileModalPage } from '../services/profile/profile.page';
 
 @Component({
   selector: 'app-tab2',
@@ -25,6 +26,8 @@ export class Tab2Page implements OnInit {
   minDate = new Date().toISOString();
   eventSource = [];
   viewTitle: any;
+  user_id: any;
+  dataReturned: any;
 
   calendar = {
     mode: 'month',
@@ -33,7 +36,7 @@ export class Tab2Page implements OnInit {
 
   @ViewChild(CalendarComponent, <any>[]) myCal: CalendarComponent;
 
-  constructor(public navCtrl: NavController, private  router:  Router, public storage: Storage, private activatedRoute: ActivatedRoute, private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string ) { }
+  constructor(public modalCtrl : ModalController, public navCtrl: NavController, private  router:  Router, public storage: Storage, private activatedRoute: ActivatedRoute, private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string ) { }
 
   loadEvents() {
     this.eventSource = this.createRandomEvents();
@@ -245,6 +248,25 @@ export class Tab2Page implements OnInit {
     document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.
     console.log('turning off previous theme', theme_switcher[theme]);
    }
+
+   async openSettings(){
+    console.log('opening settings page for user id', this.user_id);
+     const modal = await this.modalCtrl.create({
+         component: ProfileModalPage,
+         componentProps: {
+             "user_id" : this.user_id,
+             "userinfo": this.userinfo,
+         }
+     });
+
+     modal.onDidDismiss().then((dataReturned) => {
+         if (dataReturned !== null) {
+             this.dataReturned = dataReturned.data;
+         }
+     });
+
+     return await modal.present();
+  }
 
   ngOnInit(){
      this.activatedRoute.params.subscribe((userData)=>{

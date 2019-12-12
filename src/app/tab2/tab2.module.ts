@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { NgCalendarModule  } from 'ionic2-calendar';
+import { ProfileModalPage } from '../services/profile/profile.page';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { NgCalendarModule  } from 'ionic2-calendar';
     NgCalendarModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }])
   ],
-  declarations: [Tab2Page]
+  declarations: [Tab2Page, ProfileModalPage],
+  entryComponents: [ProfileModalPage],
 })
 export class Tab2PageModule {}

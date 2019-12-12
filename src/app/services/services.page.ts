@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from  "@angular/router";
 import { NavController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { Storage } from '@ionic/storage';
+import { ProfileModalPage } from './profile/profile.page';
+
 
 @Component({
   selector: 'app-services',
@@ -14,6 +16,11 @@ export class ServicesPage implements OnInit {
   todayServices: object;
   futureServices: object;
   completedServices: object;
+  count_weeklyServices : number=0;
+  count_futureServices : number=0;
+  count_completedServices : number=0;
+  user_id: any;
+  apiurl:any;
   service = {
     id: '',
     title: '', //Will be the Transferee + type of service
