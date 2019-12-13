@@ -42,7 +42,7 @@ export class LoginPage implements OnInit {
           this.userdata = userjson.users[data.email];
           this.storage.ready().then(() => {
             this.storage.set('userdata', this.userdata);
-            return this.router.navigate(["/tabs/tab2", this.userdata]);
+            return this.router.navigate(["/tabs/services", this.userdata]);
           })
         }else{
           console.log('login failed');
@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
     /* Verify user login */
     }else if (origin == 'auto'){
       console.log('auto login from session');
-      return this.router.navigate(["/tabs/tab2", form]);
+      return this.router.navigate(["/tabs/services", form]);
     }
 
     return false;

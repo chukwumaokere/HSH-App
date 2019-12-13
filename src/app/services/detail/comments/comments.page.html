@@ -17,7 +17,7 @@
             </div>
         </div>  
         <div class="comment-bottom">
-            <ion-label color="dark" position="stacked" class="comment-sent">{{comment.date_sent}}</ion-label> 
+            <ion-label color="dark" position="stacked" class="comment-sent">{{comment.date_sent}} {{comment.author}}</ion-label> 
             <ion-icon color="dark" class="read-check" size="large" *ngIf="comment.read == true" name="checkmark"></ion-icon>
         </div>
     </div>
