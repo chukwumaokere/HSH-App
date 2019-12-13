@@ -17,14 +17,14 @@ ion-toolbar ion-icon[name="close"]{
 .title-input{
   background-color: var(--ion-color-light-shade);
 }
-.anchor-bottom-2{
-  position: fixed;
+.anchor-bottom{
+  /* position: fixed; */
   bottom: 0;
-  /* left: 0;*/ 
+  left: 0;
   /* display: block; */
   width: 100%;
   background-color: rgba(0, 0, 0, 0.137);
-  z-index: 9999;
+  /*z-index: 9999;*/
 }
 div[data-position='left']{
   color: white;
