@@ -25,8 +25,8 @@
     <p class="ion-padding" *ngIf="comments.length == 0">No messages</p>
 
     <br><br><br><br><br>
-    <div class="button-grouping anchor-bottom-2 ion-padding-horizontal" >
-        <!-- <ion-grid class="ion-no-padding">
+    <div class="button-grouping anchor-bottom ion-padding-horizontal" >
+        <ion-grid class="ion-no-padding">
             <ion-row class="ion-align-items-center ion-justify-content-center" >
                 <ion-col class="padding-left-none" size="9">
                     <ion-input (ionChange)="updateMessage($event)" placeholder="Write a message"></ion-input>
@@ -35,23 +35,6 @@
                     <ion-button size="large" expand="block" color="tertiary" (click)="sendMessage()">
                         <ion-icon name="send"></ion-icon>
                     </ion-button>
-                </ion-col>
-            </ion-row>
-        </ion-grid> -->
-        <ion-grid class="ion-no-padding">
-            <ion-row class="ion-align-items-center ion-justify-content-center" >
-                <ion-col class="padding-left-none" size="9">
-                <ion-button expand="full" size="large" expand="block" color="tertiary" (click)="openCamera(servicedetail?.id)">
-                    <ion-icon name="camera"></ion-icon>
-                    <ion-text class="add-photo-button">
-                    Take Photos
-                    </ion-text>
-                </ion-button>
-                </ion-col>
-                <ion-col size="3">
-                <ion-button size="large" expand="block" color="tertiary"  (click)="openLibrary(servicedetail?.id)">
-                    <ion-icon name="folder-open"></ion-icon>
-                </ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>
