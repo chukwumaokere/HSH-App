@@ -12,6 +12,9 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet/ngx';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { CommentsModalPageModule } from './services/detail/comments/comments.module';
 
 
 @NgModule({
@@ -24,7 +27,10 @@ import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera,
     ActionSheet,
-    PhotoLibrary
+    PhotoLibrary,
+    CallNumber,
+    EmailComposer,
+    CommentsModalPageModule
   ],
   bootstrap: [AppComponent]
 })

@@ -6,6 +6,9 @@ import { Storage } from '@ionic/storage';
 import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CommentsModalPage } from './comments/comments.page';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
+
 
 @Component({
   selector: 'app-detail',
@@ -71,11 +74,13 @@ export class DetailPage implements OnInit {
     public alertController: AlertController, 
     public modalCtrl : ModalController,
     private actionSheet: ActionSheet, 
+    private callNumber: CallNumber,
     private camera: Camera, 
     public navCtrl: NavController, 
     private  router:  Router, 
     public storage: Storage, 
     private activatedRoute: ActivatedRoute, 
+    private emailComposer: EmailComposer,
     @Inject(LOCALE_ID) private locale: string) { }
 
   loadDetails(serviceid){
@@ -294,10 +299,23 @@ export class DetailPage implements OnInit {
   }
   call(phonenumber){
     console.log('calling ', phonenumber);
-
+    this.callNumber.callNumber(phonenumber, true)
+    .then(res => console.log("Launched dialer!", res))
+    .catch(err => console.log("Error launching", err))
   }
+
   email(email){
     console.log('emailing ', email);
+    let emailtemplate = {
+      to: email,
+      cc: 'chukwumaokere@yahoo.com',
+      isHtml: true, 
+    }
+    this.emailComposer.isAvailable().then((available: boolean) => {
+      if(available){
+        //send
+      }
+    })
   }
   contact(supportname){
     console.log('opening action sheet for contact', supportname);

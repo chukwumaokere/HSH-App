@@ -2,7 +2,7 @@ import { Component, OnInit, LOCALE_ID, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from  "@angular/router";
 import { NavController, AlertController, ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { CommentsModalPage } from 'src/app/services/detail/comments/comments.page';
+import { CommentsModalPage } from './comments/comments.page';
 
 @Component({
   selector: 'app-notifications',
@@ -211,7 +211,7 @@ export class NotificationsPage implements OnInit {
   modifyInvite(choice, id){
     console.log('action taken', choice, id);
     if (choice == 'question'){
-      //this.goToComments(id);
+      this.goToComments(id);
     }
   }
   markRead(id){

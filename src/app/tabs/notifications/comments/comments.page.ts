@@ -36,38 +36,17 @@ comments: any = [
   {
     user_id: 1,
     author: "Chuck Okere",
-    message: "Invite Question: Hi, I was wondering when the start time for this service was?",
+    message: "Hi, I was wondering when the start time for this service was?",
     date_sent: "2019-12-12 01:22:30 PM",
     read: true,
   },
   {
     user_id: 14,
     author: "Kaye Caldwell",
-    message: "Invite Answer: According to my records its for 1:30PM on December 14th; are you seeing something different?",
+    message: "According to my records its for 1:30PM on December 14th; are you seeing something different?",
     date_sent: "2019-12-12 01:30:22 PM",
     read: true,
   },
-  {
-    user_id: 1,
-    author: "Chuck Okere",
-    message: "Okay, just making sure because I have another Quick Start scheduled at the same time, I accidentally accepted another invite at this time",
-    date_sent: "2019-12-12 02:15:45 PM",
-    read: true,
-  },
-  {
-    user_id: 14,
-    author: "Kaye Caldwell",
-    message: "Oh I see it! Which one would you like to keep? I'll reschedule the other",
-    date_sent: "2019-12-12 03:43:12 PM",
-    read: true,
-  },
-  {
-    user_id: 1,
-    author: "Chuck Okere",
-    message: "I'd like to keep the Discard and Donate at 1:30PM if possible!",
-    date_sent: "2019-12-12 05:22:43 PM",
-    read: false,
-  }
 ];
 
 constructor(
