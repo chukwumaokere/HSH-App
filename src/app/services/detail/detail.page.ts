@@ -28,6 +28,8 @@ export class DetailPage implements OnInit {
     d_for_dd: '',
     status: '',
     support: '',
+    support_ph: '',
+    support_email: '',
     service_type: '',
     title: '',
     complete_date: '',
@@ -91,6 +93,8 @@ export class DetailPage implements OnInit {
       status: '1 In-Process',
       service_type: 'Discard and Donate',
       support: 'Jackie Quick',
+      support_ph: '9541215534',
+      support_email: 'jquick@unpack.me',
       title: 'Ojomo: Discard and Donate',
       complete_date: '',
       desc: `***********************************************
@@ -288,5 +292,34 @@ export class DetailPage implements OnInit {
 
      return await modal.present();
   }
+  call(phonenumber){
+    console.log('calling ', phonenumber);
 
+  }
+  email(email){
+    console.log('emailing ', email);
+  }
+  contact(supportname){
+    console.log('opening action sheet for contact', supportname);
+    var contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Email: ' + this.servicedetail.support_email];
+
+    var contactOptions: ActionSheetOptions = {
+      title: 'Which would you like to do?',
+      buttonLabels: contactLabels,
+      addCancelButtonWithLabel: 'Cancel',
+      androidTheme: 1 //this.actionSheet.ANDROID_THEMES.THEME_HOLO_DARK,
+    }
+    this.actionSheet.show(contactOptions).then((buttonIndex: number) => {
+      console.log('Option pressed', buttonIndex);
+      if(buttonIndex == 1){
+        this.call(this.servicedetail.support_ph);
+      }
+      else if (buttonIndex == 2){
+        this.email(this.servicedetail.support_email);
+      }
+    }).catch((err) => {
+      console.log(err);
+      this.presentToast(`Operation failed! \n` + err);
+    })
+  }
 }

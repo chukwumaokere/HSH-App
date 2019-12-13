@@ -22,10 +22,12 @@
     <ion-item lines="none">
       <ion-label position="stacked">Transferee Phone Number</ion-label>
       <ion-text>{{servicedetail.transferee_phonenumber}}</ion-text>
+      <ion-button target="_self" color="primary" (click)="call(servicedetail.transferee_phonenumber)" size="default" slot="end" type="button"><ion-icon name="call" size="large" ></ion-icon></ion-button>
     </ion-item>
     <ion-item lines="none">
       <ion-label position="stacked">Address Details</ion-label>
       <ion-text>{{servicedetail.address_details}}</ion-text>
+      <ion-button target="_blank" color="primary" href="https://maps.apple.com/?daddr={{servicedetail.address_details}}" size="default" slot="end" type="button"><ion-icon name="navigate" size="large" ></ion-icon></ion-button>
     </ion-item>
     <ion-item lines="none">
       <ion-label position="stacked">Destination for Discard and Donate</ion-label>
@@ -42,6 +44,7 @@
     <ion-item lines="none">
       <ion-label position="stacked">Support Contact</ion-label>
       <ion-text>{{servicedetail.support}}</ion-text>
+      <ion-button target="_blank" color="primary" (click)="contact(servicedetail.support)" size="default" slot="end" type="button"><ion-icon name="contact" size="large" ></ion-icon></ion-button>
     </ion-item>
     <ion-item lines="none">
       <ion-label position="stacked">Start Date & Time</ion-label>

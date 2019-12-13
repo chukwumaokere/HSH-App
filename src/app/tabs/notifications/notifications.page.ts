@@ -2,6 +2,7 @@ import { Component, OnInit, LOCALE_ID, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from  "@angular/router";
 import { NavController, AlertController, ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { CommentsModalPage } from 'src/app/services/detail/comments/comments.page';
 
 @Component({
   selector: 'app-notifications',
@@ -13,10 +14,10 @@ export class NotificationsPage implements OnInit {
   invites: any = [
     {
       id: 0,
-      service_title: "Ojo: Discard and Donate",
+      service_title: "Ojomo: Discard and Donate",
       service_date: "December 21, 2019",
-      service_starttime: "12:00PM",
-      service_endtime: "1:30PM",
+      service_starttime: "1:30PM",
+      service_endtime: "2:30PM",
     },
     {
       id: 1,
@@ -55,7 +56,42 @@ export class NotificationsPage implements OnInit {
   ];
   count_invites: any = 3;
   count_notifications: any = 3;
-  constructor(public navCtrl: NavController, private  router:  Router, public storage: Storage, private activatedRoute: ActivatedRoute, private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string ) { }
+  servicedetail: any = { 
+    id: 0,
+    transferee_firstname: 'Feyi',
+    transferee_lastname: 'Ojomo',
+    transferee_phonenumber: '7073650079',
+    secondary_firstname: 'Esosa',
+    secondary_lastname: 'Ojomo',
+    secondary_phonenumber: '2133088643',
+    address_details: '872 Kells Circle, Vacaville, CA 95688',
+    d_for_dd: 'Hillsboro, OR',
+    status: '1 In-Process',
+    service_type: 'Discard and Donate',
+    support: 'Jackie Quick',
+    title: 'Ojomo: Discard and Donate',
+    complete_date: '',
+    desc: `***********************************************
+    Please ensure that the Consultant is copied on all correspondence moving forward  
+    House, 4 room, 2200 Sq ft
+    Entered by SL on 10/31/19 DD`,
+    startdate: '2019-11-12',
+    starttime: '08:00AM',
+    duedate: '2019-11-12',
+    duetime: '09:00AM',
+    enddate: '',
+    endtime:'',
+    isComplete: false,
+  }
+  dataReturned: any;
+  constructor(
+    public modalCtrl : ModalController,
+    public navCtrl: NavController, 
+    private  router:  Router,
+    public storage: Storage, 
+    private activatedRoute: ActivatedRoute, 
+    private alertCtrl: AlertController, 
+    @Inject(LOCALE_ID) private locale: string ) { }
   logout(){
     console.log('logout clicked');
     this.storage.set("userdata", null);
@@ -153,8 +189,30 @@ export class NotificationsPage implements OnInit {
     }); 
   }
 
+  async goToComments(id){
+    console.log('Navigating to comments page for', id);
+     const modal = await this.modalCtrl.create({
+         component: CommentsModalPage,
+         componentProps: {
+             "id" : id,
+             "service_record_details": this.servicedetail,
+         }
+     });
+
+     modal.onDidDismiss().then((dataReturned) => {
+         if (dataReturned !== null) {
+             this.dataReturned = dataReturned.data;
+         }
+     });
+
+     return await modal.present();
+  }
+
   modifyInvite(choice, id){
     console.log('action taken', choice, id);
+    if (choice == 'question'){
+      //this.goToComments(id);
+    }
   }
   markRead(id){
     console.log('Going to record and marking notification as read', id)

@@ -36,7 +36,7 @@ comments: any = [
   {
     user_id: 1,
     author: "Chuck Okere",
-    message: "Hi, I was wondering when the start time for this service was?",
+    message: "Invite Question: Hi, I was wondering when the start time for this service was?",
     date_sent: "2019-12-12 01:22:30 PM",
     read: true,
   },
