@@ -15,6 +15,7 @@ import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { CommentsModalPageModule } from './services/detail/comments/comments.module';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { CommentsModalPageModule } from './services/detail/comments/comments.mod
     PhotoLibrary,
     CallNumber,
     EmailComposer,
+    InAppBrowser,
     CommentsModalPageModule
   ],
   bootstrap: [AppComponent]

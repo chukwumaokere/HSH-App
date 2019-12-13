@@ -8,6 +8,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CommentsModalPage } from './comments/comments.page';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 
 @Component({
@@ -81,6 +82,7 @@ export class DetailPage implements OnInit {
     public storage: Storage, 
     private activatedRoute: ActivatedRoute, 
     private emailComposer: EmailComposer,
+    private iab: InAppBrowser,
     @Inject(LOCALE_ID) private locale: string) { }
 
   loadDetails(serviceid){
@@ -299,14 +301,16 @@ export class DetailPage implements OnInit {
   }
   call(phonenumber){
     console.log('calling ', phonenumber);
-    this.callNumber.callNumber(phonenumber, true)
+    /* this.callNumber.callNumber(phonenumber, true)
     .then(res => console.log("Launched dialer!", res))
-    .catch(err => console.log("Error launching", err))
+    .catch(err => console.log("Error launching", err)) */
+    this.iab.create('tel:'+ phonenumber, '_system');
   }
 
   email(email){
     console.log('emailing ', email);
-    let emailtemplate = {
+    this.iab.create('mailto:'+ email, '_system');
+    /* let emailtemplate = {
       to: email,
       cc: 'chukwumaokere@yahoo.com',
       isHtml: true, 
@@ -315,7 +319,7 @@ export class DetailPage implements OnInit {
       if(available){
         //send
       }
-    })
+    }) */
   }
   contact(supportname){
     console.log('opening action sheet for contact', supportname);
