@@ -61,27 +61,15 @@
 
     <ion-list lines="full">
         <div *ngIf="count_notifications > 0">
-        <ion-item (click)="goToDetail(service.workorderid)" *ngFor="let notification of notifications">
+        <ion-item (click)="markRead(notification.id)" *ngFor="let notification of notifications">
             <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
             <ion-label>
               <h2>{{notification.title}}</h2>
-              <p>Date: {{notification.date}}</p>
+              <p>{{notification.date}}</p>
               <div class="invite-details-div">
-                <ion-grid class="invite-details-grid">
-                  <ion-row>
-                    <ion-col><p>{{notification.comment}}</p></ion-col>
-                  </ion-row>
-                </ion-grid>
+                  <p>{{notification.comment}}</p>
               </div>
             </ion-label>
-            <!-- <ion-badge slot="end" class="status" color="white"
-            data-color="{{(service?.wostatus == 'Cancelled' || service?.wostatus == 'Declined') ? 'danger' : 'warning'}}"
-            [ngStyle]="{'background-color': service?.wostatus == 'Cancelled' || service?.wostatus == 'Declined' ? 'var(--ion-color-danger)' : 
-            service?.wostatus == 'Under Review' ? 'var(--ion-color-warning)' : 
-            service?.wostatus == 'Completed' ? 'var(--ion-color-medium)' : 'var(--ion-color-success)', 'border-color':service?.wostatus == 'Cancelled' || service?.wostatus == 'Declined' ? 'var(--ion-color-danger)' : service?.wostatus == 'Under Review' ? 'var(--ion-color-warning)' : 'var(--ion-color-success)' }"
-            >
-              <ion-text class="status-text">{{service.wostatus}}</ion-text>
-            </ion-badge> -->
           </ion-item>
         </div>
           <p class="ion-padding" *ngIf="count_notifications == 0">No new notifications</p>

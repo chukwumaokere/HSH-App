@@ -1,50 +1,57 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button type="button" defaultHref="/tabs/services" text="Back"></ion-back-button>
-      </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button type="button" defaultHref="/tabs/services" text="Back"></ion-back-button>
+    </ion-buttons>
     <ion-title>{{servicedetail.title}}</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button type="button" (click)="goToComments(servicedetail.id)" text="Comments">
+        <ion-text>Comments</ion-text>
+          <!-- <ion-badge color="danger">1</ion-badge> -->
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Transferee Name</ion-label>
       <ion-text>{{servicedetail.transferee_firstname}} {{servicedetail.transferee_lastname}}</ion-text>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Transferee Phone Number</ion-label>
       <ion-text>{{servicedetail.transferee_phonenumber}}</ion-text>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Address Details</ion-label>
       <ion-text>{{servicedetail.address_details}}</ion-text>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Destination for Discard and Donate</ion-label>
       <ion-text>{{servicedetail.d_for_dd}}</ion-text>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Status</ion-label>
       <ion-text>{{servicedetail.status}}</ion-text>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Service Type</ion-label>
       <ion-text>{{servicedetail.service_type}}</ion-text>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Support Contact</ion-label>
       <ion-text>{{servicedetail.support}}</ion-text>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Start Date & Time</ion-label>
       <ion-text>{{servicedetail.startdate}} {{servicedetail.starttime}}</ion-text>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="stacked">Service Description</ion-label>
       <ion-text>{{servicedetail.desc}}</ion-text>
     </ion-item>
+    <br>
   </ion-list>
 <div class="button-grouping ion-padding">
   <ion-button size="large" expand="block" color="warning"  [disabled]="servicedetail?.starttime == '' ? null : 'disabled'" >
@@ -57,5 +64,25 @@
       {{(servicedetail?.complete_date !== '') ? 'Completed' : 'Complete' }}       
     </ion-text>
   </ion-button>
+</div>
+<br><br><br><br><br>
+<div *ngIf="servicedetail?.isComplete == false" class="button-grouping ion-padding anchor-bottom" >
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-align-items-center ion-justify-content-center" >
+      <ion-col class="padding-left-none" size="9">
+        <ion-button expand="full" size="large" expand="block" color="tertiary" (click)="openCamera(servicedetail?.id)">
+          <ion-icon name="camera"></ion-icon>
+          <ion-text class="add-photo-button">
+            Take Photos
+          </ion-text>
+        </ion-button>
+      </ion-col>
+      <ion-col size="3">
+        <ion-button size="large" expand="block" color="tertiary"  (click)="openLibrary(servicedetail?.id)">
+          <ion-icon name="folder-open"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>
 </ion-content>

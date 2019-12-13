@@ -8,11 +8,11 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  selector: 'app-comments',
+  templateUrl: './comments.page.html',
+  styleUrls: ['./comments.page.scss'],
 })
-export class ProfileModalPage implements OnInit {
+export class CommentsModalPage implements OnInit {
 user_id: any = 1;
 userinfo: any= {
   first_name: "Chuck",
@@ -29,6 +29,46 @@ apiurl:any;
 updatefields: any;
 profile_picture: any;
 has_profile_picture: boolean = false;
+recordid: any;
+servicedetail: any;
+message: any;
+comments: any = [
+  {
+    user_id: 1,
+    author: "Chuck Okere",
+    message: "Hi, I was wondering when the start time for this service was?",
+    date_sent: "2019-12-12 01:22:30 PM",
+    read: true,
+  },
+  {
+    user_id: 14,
+    author: "Kaye Caldwell",
+    message: "According to my records its for 1:30PM on December 14th; are you seeing something different?",
+    date_sent: "2019-12-12 01:30:22 PM",
+    read: true,
+  },
+  {
+    user_id: 1,
+    author: "Chuck Okere",
+    message: "Okay, just making sure because I have another Quick Start scheduled at the same time, I accidentally accepted another invite at this time",
+    date_sent: "2019-12-12 02:15:45 PM",
+    read: true,
+  },
+  {
+    user_id: 14,
+    author: "Kaye Caldwell",
+    message: "Oh I see it! Which one would you like to keep? I'll reschedule the other",
+    date_sent: "2019-12-12 03:43:12 PM",
+    read: true,
+  },
+  {
+    user_id: 1,
+    author: "Chuck Okere",
+    message: "I'd like to keep the Discard and Donate at 1:30PM if possible!",
+    date_sent: "2019-12-12 05:22:43 PM",
+    read: false,
+  }
+];
 
 constructor(
 private modalController: ModalController,
@@ -53,6 +93,9 @@ public toastController: ToastController,
     this.userinfo.user_name = "Chuck";
     this.userinfo.profile_picture = this.userinfo.pic;
     this.has_profile_picture = true;
+    this.recordid = this.navParams.data.id;
+    this.servicedetail = this.navParams.data.service_record_details;
+    this.fetchComments();
     /* this.user_id = this.navParams.data.user_id;
     this.userinfo = this.navParams.data.userinfo;
     this.profile_picture = this.navParams.data.userinfo.profile_picture;
@@ -68,8 +111,17 @@ public toastController: ToastController,
     const onClosedData: string = "Wrapped Up!";
     await this.modalController.dismiss(onClosedData);
   }
-
-  async  sendUpdates(){
+  fetchComments(){
+    var id = this.recordid;
+    console.log('fetching comments for', id);
+  }
+  updateMessage(e){
+    //console.log(e);
+    this.message = e.detail.value;
+  }
+  async  sendMessage(){
+    var message = this.message; 
+    console.log('sending reply', message);
     /*
       this.updatefields;
       var headers = new HttpHeaders();

@@ -35,19 +35,22 @@ export class NotificationsPage implements OnInit {
   ];
   notifications: any = [
     {
+      id: 3,
       title: "You've been assigned a new service record",
       date: "December 12, 2019 11:00:00 PM",
-      comment: "Test"
+      comment: "Kaye assigned D&D: Leavette to you"
     },
     {
+      id: 4,
       title: "You've received a rating for a service record",
       date: "December 11, 2019 09:54:32 PM",
-      comment: "Test 2"
+      comment: "Rating for QS: Schott"
     },
     {
-      title: "You've received a rating for a service record",
+      id: 5,
+      title: "New comment on a service record",
       date: "December 10, 2019 06:30:14 PM",
-      comment: "Test 3"
+      comment: "Ojomo: Discard and Donate"
     }
   ];
   count_invites: any = 3;
@@ -152,6 +155,9 @@ export class NotificationsPage implements OnInit {
 
   modifyInvite(choice, id){
     console.log('action taken', choice, id);
+  }
+  markRead(id){
+    console.log('Going to record and marking notification as read', id)
   }
 
 }

@@ -1,8 +1,11 @@
 import { Component, OnInit, LOCALE_ID, Inject, } from '@angular/core';
 import { ActivatedRoute, Router } from  "@angular/router";
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController, AlertController, ModalController  } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { Storage } from '@ionic/storage';
+import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { CommentsModalPage } from './comments/comments.page';
 
 @Component({
   selector: 'app-detail',
@@ -12,8 +15,9 @@ import { Storage } from '@ionic/storage';
 export class DetailPage implements OnInit {
   userinfo: any;
   serviceid: any;
-  servicedetails: object;
+  dataReturned: any;
   servicedetail = {
+    id: 0,
     transferee_lastname: '',
     transferee_firstname: '',
     transferee_phonenumber: '',
@@ -33,13 +37,49 @@ export class DetailPage implements OnInit {
     duedate: '',
     duetime: '',
     enddate: '',
-    endtime: ''
+    endtime: '',
+    isComplete: false,
   }
-  constructor(public navCtrl: NavController, private  router:  Router, public storage: Storage, private activatedRoute: ActivatedRoute, @Inject(LOCALE_ID) private locale: string) { }
+  buttonLabels = ['Take Photo', 'Upload from Library'];
+
+  actionOptions: ActionSheetOptions = {
+    title: 'Which would you like to do?',
+    buttonLabels: this.buttonLabels,
+    addCancelButtonWithLabel: 'Cancel',
+    androidTheme: 1 //this.actionSheet.ANDROID_THEMES.THEME_HOLO_DARK,
+  }
+  options: CameraOptions = {
+    quality: 50,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    saveToPhotoAlbum: false //true causes crash probably due to permissions to access library.
+  }
+
+  libraryOptions: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+  }
+
+  constructor(
+    public toastController: ToastController,
+    public alertController: AlertController, 
+    public modalCtrl : ModalController,
+    private actionSheet: ActionSheet, 
+    private camera: Camera, 
+    public navCtrl: NavController, 
+    private  router:  Router, 
+    public storage: Storage, 
+    private activatedRoute: ActivatedRoute, 
+    @Inject(LOCALE_ID) private locale: string) { }
 
   loadDetails(serviceid){
     console.log('loading details for service id:', serviceid)
     var result = {
+      id: 0,
       transferee_firstname: 'Feyi',
       transferee_lastname: 'Ojomo',
       transferee_phonenumber: '7073650079',
@@ -63,6 +103,7 @@ export class DetailPage implements OnInit {
       duetime: '09:00AM',
       enddate: '',
       endtime:'',
+      isComplete: false,
     };
     this.servicedetail = result;
   }
@@ -140,7 +181,65 @@ export class DetailPage implements OnInit {
     document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.
     console.log('turning off previous theme', theme_switcher[theme]);
    }
-
+   openCamera(serviceid){
+    console.log('launching camera');
+         this.camera.getPicture(this.options).then((imageData) => {
+          // imageData is either a base64 encoded string or a file URI
+          // If it's base64 (DATA_URL):
+          let base64Image = 'data:image/png;base64,' + imageData;
+             //this.imgpov.setImage(imageData);
+             //this.openModal(serviceid,base64Image);
+          // TODO: need code to upload to server here.
+          // On success: show toast
+          this.presentToastPrimary('Photo uploaded and added! \n' + imageData);          
+        }, (err) => {
+          // Handle error
+          console.error(err);
+          // On Fail: show toast
+          if(err != "no image selected"){
+            this.presentToast(`Upload failed! Please try again \n` + err);
+          }
+        });
+  }
+  async presentToast(message: string) {
+    var toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: "top",
+      color: "danger"
+    });
+    toast.present();
+  }
+  
+  async presentToastPrimary(message: string) {
+    var toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: "bottom",
+      color: "primary"
+    });
+    toast.present();
+  }
+  openLibrary(serviceid){
+    console.log('launching gallery');
+        this.camera.getPicture(this.libraryOptions).then((imageData) => {
+          // imageData is either a base64 encoded string or a file URI
+          // If it's base64 (DATA_URL):
+          let base64Image = 'data:image/png;base64,' + imageData;
+            //this.imgpov.setImage(imageData);
+            //this.openModal(serviceid,base64Image);
+          // TODO: need code to upload to server here.
+          // On success: show toast
+          //this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
+        }, (err) => {
+          // Handle error
+          console.error(err);
+          // On Fail: show toast
+          if(err != "has no access to assets"){
+            this.presentToast(`Upload failed! Please try again \n` + err);
+          }
+        });  
+  }
   ngOnInit() {
     this.activatedRoute.params.subscribe((userData)=>{
       if(userData.length !== 0){
@@ -170,6 +269,24 @@ export class DetailPage implements OnInit {
         }
       }
     });
+  }
+  async goToComments(id){
+    console.log('Navigating to comments page for', id);
+     const modal = await this.modalCtrl.create({
+         component: CommentsModalPage,
+         componentProps: {
+             "id" : id,
+             "service_record_details": this.servicedetail,
+         }
+     });
+
+     modal.onDidDismiss().then((dataReturned) => {
+         if (dataReturned !== null) {
+             this.dataReturned = dataReturned.data;
+         }
+     });
+
+     return await modal.present();
   }
 
 }

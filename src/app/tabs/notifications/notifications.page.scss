@@ -4,3 +4,11 @@
 ion-col > p.st, ion-col > p.et {
     color: grey;
 }
+
+ion-label > h2 {
+    white-space: pre-wrap;
+}
+
+ion-button > ion-text{ 
+    color: white;
+}

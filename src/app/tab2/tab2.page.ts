@@ -64,7 +64,7 @@ export class Tab2Page implements OnInit {
             endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
             events.push({
                 id: i,
-                title: 'QS - ' + this.randomCompany[randomC],
+                title: ('QS - ' + this.randomCompany[randomC]).substring(0, 25),
                 desc: desc,
                 startTime: startTime,
                 endTime: endTime,
@@ -77,7 +77,7 @@ export class Tab2Page implements OnInit {
             endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
             events.push({
                 id: i,
-                title: 'D&D - ' + this.randomCompany[randomC],
+                title: ('D&D - ' + this.randomCompany[randomC]).substring(0, 25),
                 desc: desc,
                 startTime: startTime,
                 endTime: endTime,
