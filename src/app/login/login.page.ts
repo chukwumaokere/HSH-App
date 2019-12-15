@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { Storage } from '@ionic/storage';
-import { ToastController } from '@ionic/angular';
+import  {NavController, ToastController } from '@ionic/angular';
 import * as userjson from '../../assets/js/sampledata/users.json'; 
 
 @Component({
@@ -11,7 +11,10 @@ import * as userjson from '../../assets/js/sampledata/users.json';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private  router:  Router, public storage: Storage, public toastController: ToastController) { }
+  constructor(private  router:  Router,
+    public storage: Storage, 
+    public toastController: ToastController,
+    private navCtrl: NavController) { }
 
   userdata: Object;
 
@@ -42,7 +45,8 @@ export class LoginPage implements OnInit {
           this.userdata = userjson.users[data.email];
           this.storage.ready().then(() => {
             this.storage.set('userdata', this.userdata);
-            return this.router.navigate(["/tabs/dashboard", this.userdata]);
+            //return this.router.navigate(["/tabs/dashboard", this.userdata]);
+            this.navCtrl.navigateForward('/tabs/dashboard');
           })
         }else{
           console.log('login failed');
@@ -55,7 +59,8 @@ export class LoginPage implements OnInit {
     /* Verify user login */
     }else if (origin == 'auto'){
       console.log('auto login from session');
-      return this.router.navigate(["/tabs/dashboard", form]);
+      //return this.router.navigate(["/tabs/dashboard", form]);
+      this.navCtrl.navigateForward('/tabs/dashboard');
     }
 
     return false;
