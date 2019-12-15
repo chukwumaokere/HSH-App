@@ -68,6 +68,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'dashboard',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../tabs/dashboard/dashboard.module').then(m => m.DashboardPageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/login',
         pathMatch: 'full'
