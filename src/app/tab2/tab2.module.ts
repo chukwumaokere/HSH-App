@@ -15,7 +15,6 @@ import { ProfileModalPage } from '../services/profile/profile.page';
     NgCalendarModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }])
   ],
-  declarations: [Tab2Page, ProfileModalPage],
-  entryComponents: [ProfileModalPage],
+  declarations: [Tab2Page],
 })
 export class Tab2PageModule {}

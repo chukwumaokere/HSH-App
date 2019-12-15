@@ -19,6 +19,9 @@ ion-toolbar {
     border-bottom-left-radius: 24px;
     border-bottom-right-radius: 24px;
 }
+div.dashboard-top.ion-padding{
+    padding-top: 0 !important;
+}
 
 .profile{
     color: var(--ion-color-primary-contrast);
@@ -26,4 +29,11 @@ ion-toolbar {
 
 .inner-scroll{
     padding-top: 0 !important;
+}
+h1{
+    color: var(--ion-color-primary-contrast);
+}
+
+.primary-contrast{
+    color: var(--ion-color-primary-contrast);
 }

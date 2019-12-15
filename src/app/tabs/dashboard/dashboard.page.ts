@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { ProfileModalPage } from 'src/app/services/profile/profile.page';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,11 +16,13 @@ export class DashboardPage implements OnInit {
   profile_picture: any;
   has_profile_picture: boolean = false;
   apiurl:any;
+  dataReturned: any;
 
   constructor(
     public storage: Storage,
     private router:  Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public modalCtrl : ModalController
   ) { }
 
   fetchDashboard(){
@@ -30,6 +34,25 @@ export class DashboardPage implements OnInit {
     this.userinfo.profile_picture = this.userinfo.pic;
     this.has_profile_picture = true; */
     console.log("fetching dashboard data for", record_id);
+  }
+
+  async openSettings(){
+    console.log('opening settings page for user id', this.user_id);
+     const modal = await this.modalCtrl.create({
+         component: ProfileModalPage,
+         componentProps: {
+             "user_id" : this.user_id,
+             "userinfo": this.userinfo,
+         }
+     });
+
+     modal.onDidDismiss().then((dataReturned) => {
+         if (dataReturned !== null) {
+             this.dataReturned = dataReturned.data;
+         }
+     });
+
+     return await modal.present();
   }
 
   ngOnInit() {
