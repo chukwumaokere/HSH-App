@@ -58,6 +58,7 @@ ion-content{
     border-radius: 25px;
     background-color: var(--ion-background-color);
     transform: translate3d(0, -44px, 0);
+    padding: 16px 24px !important;
 }
 body.dark a{
     color: white;
