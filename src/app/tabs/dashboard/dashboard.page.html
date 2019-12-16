@@ -23,44 +23,28 @@
     <div class="dashboard-mid ion-padding">
         <h2>Invites</h2>
         <ul>
-          <li><h6>3 New <a href="tabs/notifications">Invites</a></h6></li>
+          <li><h6>3 New <a (click)="goToPage('notifications')">Invites</a></h6></li>
         </ul>
 
         <h2>Jobs</h2>
         <ul>
-          <li><h6>2 new <a href="tabs/services">Jobs</a></h6></li>
+          <li><h6>2 new <a (click)="goToPage('services')">Jobs</a></h6></li>
         </ul>
 
         <h2>Future Jobs</h2>
         <ul>
-          <li><h6>5 new assigned <a routerDirection="root" href="tabs/services">Future Jobs</a></h6></li>
+          <li><h6>5 new assigned <a (click)="goToPage('services')">Future Jobs</a></h6></li>
         </ul>
         
         <h2>Comments</h2>
         <ul>
-          <li><h6>1 reply to a <a href="">Question</a></h6></li>
+          <li><h6>1 reply to a <a (click)="goToPage('notifications')">Question</a></h6></li>
         </ul>
 
-        <h2>Invites</h2>
+        <h2>Completed Jobs</h2>
         <ul>
-          <li><h6>3 New <a href="tabs/notifications">Invites</a></h6></li>
+          <li><h6>You completed <a (click)="goToPage('services')">2 jobs yesterday</a></h6></li>
         </ul>
-
-        <h2>Jobs</h2>
-        <ul>
-          <li><h6>2 new <a href="tabs/services">Jobs</a></h6></li>
-        </ul>
-
-        <h2>Future Jobs</h2>
-        <ul>
-          <li><h6>5 new assigned <a routerDirection="root" href="tabs/services">Future Jobs</a></h6></li>
-        </ul>
-        
-        <h2>Comments</h2>
-        <ul>
-          <li><h6>1 reply to a <a href="">Question</a></h6></li>
-        </ul>
-
     </div>
   </div>
 </ion-content>

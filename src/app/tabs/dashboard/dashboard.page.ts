@@ -54,6 +54,9 @@ export class DashboardPage implements OnInit {
 
      return await modal.present();
   }
+  goToPage(page){
+    this.router.navigate(['tabs/' + page, {}]);
+  }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((userData)=>{

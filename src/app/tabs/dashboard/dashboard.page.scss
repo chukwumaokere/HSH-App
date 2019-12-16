@@ -22,6 +22,7 @@ ion-toolbar {
     //border-radius: 24px;
     //border-bottom-left-radius: 24px;
     //border-bottom-right-radius: 24px;
+    padding-top:0 !important;
 }
 div.dashboard-top.ion-padding{
     padding-top: 30px !important;
@@ -74,7 +75,6 @@ div.overlayed{
     z-index: 101;
     margin-top: 180px;
 }
-
-[ion-fixed]{
-    height: 100%;
+.z-index-100{
+    z-index: 100;
 }
