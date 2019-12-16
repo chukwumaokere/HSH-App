@@ -61,3 +61,20 @@ ion-content{
 body.dark a{
     color: white;
 }
+
+div.fixed{
+    width: 100%;
+    position: fixed;
+    top: 40px;
+    z-index: 100;
+}
+
+div.overlayed{
+    position:relative;
+    z-index: 101;
+    margin-top: 180px;
+}
+
+[ion-fixed]{
+    height: 100%;
+}

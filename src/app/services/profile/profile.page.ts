@@ -53,7 +53,7 @@ public toastController: ToastController,
     this.userinfo.email1 = "cokere@boruapps.com";
     this.userinfo.user_name = "Chuck";
     this.userinfo.profile_picture = this.userinfo.pic;
-    this.has_profile_picture = true;
+    this.has_profile_picture = false;
     this.userinfo.unavailable = "I'm on vacation January 1st to January 13th please don't book me during those times!";
     /* this.user_id = this.navParams.data.user_id;
     this.userinfo = this.navParams.data.userinfo;
