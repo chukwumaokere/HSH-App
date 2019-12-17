@@ -306,6 +306,13 @@ export class DetailPage implements OnInit {
     .catch(err => console.log("Error launching", err)) */
     this.iab.create('tel:'+ phonenumber, '_system');
   }
+  sms(phonenumber){
+    console.log('smsing ', phonenumber);
+    /* this.callNumber.callNumber(phonenumber, true)
+    .then(res => console.log("Launched dialer!", res))
+    .catch(err => console.log("Error launching", err)) */
+    this.iab.create('sms:'+ phonenumber, '_system');
+  }
 
   email(email){
     console.log('emailing ', email);
@@ -323,7 +330,7 @@ export class DetailPage implements OnInit {
   }
   contact(supportname){
     console.log('opening action sheet for contact', supportname);
-    var contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Email: ' + this.servicedetail.support_email];
+    var contactLabels = ['Call: ' + this.servicedetail.support_ph, 'SMS: ' + this.servicedetail.support_ph ,'Email: ' + this.servicedetail.support_email];
 
     var contactOptions: ActionSheetOptions = {
       title: 'Which would you like to do?',
@@ -337,6 +344,9 @@ export class DetailPage implements OnInit {
         this.call(this.servicedetail.support_ph);
       }
       else if (buttonIndex == 2){
+        this.sms(this.servicedetail.support_ph);
+      }
+      else if (buttonIndex == 3){
         this.email(this.servicedetail.support_email);
       }
     }).catch((err) => {

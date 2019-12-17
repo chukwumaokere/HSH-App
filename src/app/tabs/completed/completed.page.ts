@@ -3,15 +3,13 @@ import { ActivatedRoute, Router } from  "@angular/router";
 import { NavController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { Storage } from '@ionic/storage';
-import { ProfileModalPage } from './profile/profile.page';
-
 
 @Component({
-  selector: 'app-services',
-  templateUrl: './services.page.html',
-  styleUrls: ['./services.page.scss'],
+  selector: 'app-completed',
+  templateUrl: './completed.page.html',
+  styleUrls: ['./completed.page.scss'],
 })
-export class ServicesPage implements OnInit {
+export class CompletedPage implements OnInit {
   userinfo: any;
   todayServices: object;
   futureServices: object;
@@ -31,11 +29,40 @@ export class ServicesPage implements OnInit {
     status: '',
   };
 
+  constructor(public navCtrl: NavController, private  router:  Router, public storage: Storage, private activatedRoute: ActivatedRoute, @Inject(LOCALE_ID) private locale: string) { }
+
   randomPeople = ['Ojomo','Charisse','Mitsue','Lilia','Lynelle','Lavette','Kerry','Beckie','Nathan','Kristle','Nickie','Coretta','Randy','Carmon','Bev','Maude','Cleora','Tracy','Casimira','Lowell','Particia','Bennie','Angelena','Elden','Marcel','Elene','Young','Rheba','Paulene','Latia','Shantay','Lavon','Dane','Darla','Joselyn','Zelda','Kasha','Kaitlin','Pasty','Essie','Delfina','Arla','Amy','Xavier','Jin','Ashlee','Millicent','Jeanetta','Willy','Rolf',];
   typesOfServices= ['Discard and Donate', 'Quick Start', 'Move IN Clean', 'Quick Start Exec', 'Move OUT Clean'];
   statuses= ["New", "Accepted", "Scheduled", "Follow-Up", "Complete", "Awaiting Reponse", "Withdrawn Invitation"];
-
-  constructor(public navCtrl: NavController, private  router:  Router, public storage: Storage, private activatedRoute: ActivatedRoute, @Inject(LOCALE_ID) private locale: string) { }
+  
+  ngOnInit() {
+    this.activatedRoute.params.subscribe((userData)=>{
+      if(userData.length !== 0){
+        this.userinfo = userData;
+        console.log('param user data:', userData);
+        try{ 
+          this.loadTheme(userData.theme.toLowerCase());
+        }catch{
+          console.log('couldnt load theme');
+        }
+        console.log('param user data length:', userData.length);
+        if(userData.length == undefined){
+          console.log ('nothing in params, so loading from storage');
+          this.isLogged().then(result => {
+            if (!(result == false)){
+              console.log('loading storage data (within param route function)', result);
+              this.userinfo = result;
+              this.loadTheme(result.theme.toLowerCase());
+            }else{
+              console.log('nothing in storage, going back to login');
+              this.logout();
+            }
+          }); 
+        }
+      }
+    }); 
+    this.loadRandomServices('completed').then((result) => { this.completedServices= result; });
+  }
 
   async loadRandomServices(type){
     var limit = 50;
@@ -169,35 +196,5 @@ export class ServicesPage implements OnInit {
     document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.
     console.log('turning off previous theme', theme_switcher[theme]);
    }
-
-  ngOnInit(){
-    this.activatedRoute.params.subscribe((userData)=>{
-     if(userData.length !== 0){
-       this.userinfo = userData;
-       console.log('param user data:', userData);
-       try{ 
-         this.loadTheme(userData.theme.toLowerCase());
-       }catch{
-         console.log('couldnt load theme');
-       }
-       console.log('param user data length:', userData.length);
-       if(userData.length == undefined){
-         console.log ('nothing in params, so loading from storage');
-         this.isLogged().then(result => {
-           if (!(result == false)){
-             console.log('loading storage data (within param route function)', result);
-             this.userinfo = result;
-             this.loadTheme(result.theme.toLowerCase());
-           }else{
-             console.log('nothing in storage, going back to login');
-             this.logout();
-           }
-         }); 
-       }
-     }
-   }); 
-   this.loadRandomServices('today').then((result) => { this.todayServices= result; });
-   this.loadRandomServices('future').then((result) => { this.futureServices= result; });
- }
 
 }

@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'ratings', loadChildren: './ratings/ratings.module#RatingsPageModule' },
   { path: 'services/detail/:serviceid', loadChildren: './services/detail/detail.module#DetailPageModule' },
   { path: 'notifications', loadChildren: './tabs/notifications/notifications.module#NotificationsPageModule' },
-  { path: 'tabs/dashboard', loadChildren: './tabs/dashboard/dashboard.module#DashboardPageModule' }
+  { path: 'tabs/dashboard', loadChildren: './tabs/dashboard/dashboard.module#DashboardPageModule' },
+  { path: 'tabs/completed', loadChildren: './tabs/completed/completed.module#CompletedPageModule' }
 
 
 
