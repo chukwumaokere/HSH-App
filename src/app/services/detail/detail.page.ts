@@ -20,6 +20,10 @@ export class DetailPage implements OnInit {
   userinfo: any;
   serviceid: any;
   dataReturned: any;
+  secondaryInfo: any = {
+    open: false,
+  };
+  
   servicedetail = {
     id: 0,
     transferee_lastname: '',
@@ -83,7 +87,9 @@ export class DetailPage implements OnInit {
     private activatedRoute: ActivatedRoute, 
     private emailComposer: EmailComposer,
     private iab: InAppBrowser,
-    @Inject(LOCALE_ID) private locale: string) { }
+    @Inject(LOCALE_ID) private locale: string) {
+      this.secondaryInfo.open = false;
+     }
 
   loadDetails(serviceid){
     console.log('loading details for service id:', serviceid)
@@ -352,5 +358,10 @@ export class DetailPage implements OnInit {
       console.log(err);
       this.presentToast(`Operation failed! \n` + err);
     })
+  }
+
+  toggleSecondary(){
+    this.secondaryInfo.open = !this.secondaryInfo.open;
+    console.log("secondary info is now", this.secondaryInfo.open);
   }
 }

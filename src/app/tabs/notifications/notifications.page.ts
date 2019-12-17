@@ -14,21 +14,21 @@ export class NotificationsPage implements OnInit {
   invites: any = [
     {
       id: 0,
-      service_title: "Ojomo: Discard and Donate",
+      service_title: "Discard and Donate",
       service_date: "December 21, 2019",
       service_starttime: "1:30PM",
       service_endtime: "2:30PM",
     },
     {
       id: 1,
-      service_title: "Lavette: Quick Start",
+      service_title: "Quick Start",
       service_date: "December 24, 2019",
       service_starttime: "1:00PM",
       service_endtime: "1:30PM",
     },
     {
       id: 2,
-      service_title: "Beckie: Move IN Clean",
+      service_title: "Move IN Clean",
       service_date: "December 28, 2019",
       service_starttime: "3:00PM",
       service_endtime: "4:30PM",
@@ -39,19 +39,22 @@ export class NotificationsPage implements OnInit {
       id: 3,
       title: "You've been assigned a new service record",
       date: "December 12, 2019 11:00:00 PM",
-      comment: "Kaye assigned D&D: Leavette to you"
+      comment: "Kaye assigned D&D: Leavette to you",
+      type: "services"
     },
     {
       id: 4,
       title: "You've received a rating for a service record",
       date: "December 11, 2019 09:54:32 PM",
-      comment: "Rating for QS: Schott"
+      comment: "Rating for QS: Schott",
+      type: "rating"
     },
     {
       id: 5,
       title: "New comment on a service record",
       date: "December 10, 2019 06:30:14 PM",
-      comment: "Ojomo: Discard and Donate"
+      comment: "Ojomo: Discard and Donate",
+      type: "comment"
     }
   ];
   count_invites: any = 3;

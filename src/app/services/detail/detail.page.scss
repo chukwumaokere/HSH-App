@@ -1,5 +1,7 @@
 ion-label{
     color: grey !important;
+    font-weight: 600;
+    font-size: 1.05rem !important;
 }
 
 ion-badge.ios.status{
@@ -43,4 +45,20 @@ ion-select{
 }
 ion-item > div {
     width: 100% !important;
+}
+
+.section{
+    //display: none !important;
+    visibility: hidden !important;
+    opacity: 0;
+    height: 0px;
+    transition: all 2s ease, height 1s ease;
+}
+.section-active{
+   // display: block !important;
+    visibility: visible;
+    opacity: 1;
+    height: 150px;
+    max-height: auto;
+    transition: all 2s ease, height 1s ease;
 }

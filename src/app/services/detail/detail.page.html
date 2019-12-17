@@ -27,23 +27,29 @@
     <ion-item lines="none">
       <ion-label position="stacked">Transferee Email</ion-label>
       <ion-text>{{servicedetail.transferee_email}}</ion-text>
-      <ion-button target="_self" color="primary" (click)="email(servicedetail.transferee_email)" size="default" slot="end" type="button"><ion-icon name="mail-open" size="large" ></ion-icon></ion-button>
+      <ion-button target="_self" color="primary" (click)="email(servicedetail.transferee_email)" size="default" slot="end" type="button"><ion-icon name="mail" size="large" ></ion-icon></ion-button>
     </ion-item>
     <!-- Secondary Info -->
-    <ion-item lines="none">
-      <ion-label position="stacked">Secondary Contact Name</ion-label>
-      <ion-text>{{servicedetail.secondary_firstname}} {{servicedetail.secondary_lastname}}</ion-text>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-label position="stacked">Secondary Contact Phone Number</ion-label>
-      <ion-text>{{servicedetail.secondary_phonenumber}}</ion-text>
-      <ion-button target="_self" color="primary" (click)="call(servicedetail.secondary_phonenubmer)" size="default" slot="end" type="button"><ion-icon name="call" size="large" ></ion-icon></ion-button>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-label position="stacked">Secondary Contact Email</ion-label>
-      <ion-text>{{servicedetail.secondary_email}}</ion-text>
-      <ion-button target="_self" color="primary" (click)="email(servicedetail.secondary_email)" size="default" slot="end" type="button"><ion-icon name="mail-open" size="large" ></ion-icon></ion-button>
-    </ion-item>
+    <div (click)="toggleSecondary()" class="accordion-list" >
+      <ion-item lines="none">
+        <ion-label position="stacked">Secondary Contact Name</ion-label>
+        <ion-text>{{servicedetail.secondary_firstname}} {{servicedetail.secondary_lastname}}</ion-text>
+        <ion-icon *ngIf="!secondaryInfo.open" name="arrow-forward" slot="end"></ion-icon>
+        <ion-icon *ngIf="secondaryInfo.open" name="arrow-down" slot="end"></ion-icon>
+      </ion-item>
+    </div>
+    <div [ngClass]="{'section-active': secondaryInfo.open, 'section': !secondaryInfo.open}">
+      <ion-item lines="none">
+        <ion-label position="stacked">Secondary Contact Phone</ion-label>
+        <ion-text>{{servicedetail.secondary_phonenumber}}</ion-text>
+        <ion-button target="_self" color="primary" (click)="call(servicedetail.secondary_phonenumber)" size="default" slot="end" type="button"><ion-icon name="call" size="large" ></ion-icon></ion-button>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Secondary Contact Email</ion-label>
+        <ion-text>{{servicedetail.secondary_email}}</ion-text>
+        <ion-button target="_self" color="primary" (click)="email(servicedetail.secondary_email)" size="default" slot="end" type="button"><ion-icon name="mail" size="large" ></ion-icon></ion-button>
+      </ion-item>
+    </div>
     <!-- Secondary Info -->
     <ion-item lines="none">
       <ion-label position="stacked">Address Details</ion-label>
