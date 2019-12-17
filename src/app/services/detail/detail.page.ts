@@ -92,9 +92,11 @@ export class DetailPage implements OnInit {
       transferee_firstname: 'Feyi',
       transferee_lastname: 'Ojomo',
       transferee_phonenumber: '7073650079',
+      transferee_email: 'fojomo@test.com',
       secondary_firstname: 'Esosa',
       secondary_lastname: 'Ojomo',
       secondary_phonenumber: '2133088643',
+      secondary_email: 'eojomo@testing.com',
       address_details: '872 Kells Circle, Vacaville, CA 95688',
       d_for_dd: 'Hillsboro, OR',
       status: '1 In-Process',
@@ -104,10 +106,7 @@ export class DetailPage implements OnInit {
       support_email: 'jquick@unpack.me',
       title: 'Ojomo: Discard and Donate',
       complete_date: '',
-      desc: `***********************************************
-      Please ensure that the Consultant is copied on all correspondence moving forward  
-      House, 4 room, 2200 Sq ft
-      Entered by SL on 10/31/19 DD`,
+      desc: `This lady has 4 cats and 3 kids. The place is a bit of a mess. Heads up`,
       startdate: '2019-11-12',
       starttime: '08:00AM',
       duedate: '2019-11-12',
