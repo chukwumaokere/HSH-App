@@ -29,6 +29,8 @@ export class ServicesPage implements OnInit {
     startTime: '', //Will be time as 00:00 A/PM
     endTime: '', //Will be time as 00:00 A/PM
     status: '',
+    coordinator: '',
+    city: ''
   };
 
   randomPeople = ['Ojomo','Charisse','Mitsue','Lilia','Lynelle','Lavette','Kerry','Beckie','Nathan','Kristle','Nickie','Coretta','Randy','Carmon','Bev','Maude','Cleora','Tracy','Casimira','Lowell','Particia','Bennie','Angelena','Elden','Marcel','Elene','Young','Rheba','Paulene','Latia','Shantay','Lavon','Dane','Darla','Joselyn','Zelda','Kasha','Kaitlin','Pasty','Essie','Delfina','Arla','Amy','Xavier','Jin','Ashlee','Millicent','Jeanetta','Willy','Rolf',];
@@ -41,7 +43,7 @@ export class ServicesPage implements OnInit {
     var limit = 50;
     var init = 0;
     if(type == 'today'){
-      var limit = 5;
+      var limit = 3;
     }else if (type == 'future'){
       var limit = 10;
       init = 5;
@@ -87,6 +89,8 @@ export class ServicesPage implements OnInit {
         startTime: start,
         endTime: end,
         status: status,
+        coordinator: 'Jackie Quick',
+        city: "Palo Alto",
       }); 
     }
     return services;
