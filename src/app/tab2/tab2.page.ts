@@ -162,7 +162,7 @@ export class Tab2Page implements OnInit {
       header: event.title,
       subHeader: event.desc,
       message: 'From: ' + start + '<br><br>To: ' + end,
-      buttons: [{text:'Close', role:'cancel'}, {text:'Open Service', handler: () => { console.log('Going to service record ID: ', event.id); this.router.navigateByUrl(`/services/detail/${event.id}`, {state: {}}); } }]
+      buttons: [{text:'Close', role:'cancel'}, {text:'Open Job', handler: () => { console.log('Going to service record ID: ', event.id); this.router.navigateByUrl(`/services/detail/${event.id}`, {state: {}}); } }]
     });
     alert.present();
   }

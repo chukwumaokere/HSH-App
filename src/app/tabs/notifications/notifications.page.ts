@@ -43,21 +43,21 @@ export class NotificationsPage implements OnInit {
   notifications: any = [
     {
       id: 3,
-      title: "You've been assigned a new service record",
+      title: "You've been assigned a new job",
       date: "December 12, 2019 11:00:00 PM",
       comment: "Kaye assigned D&D: Leavette to you",
       type: "services"
     },
     {
       id: 4,
-      title: "You've received a rating for a service record",
+      title: "You've received a rating for a job",
       date: "December 11, 2019 09:54:32 PM",
       comment: "Rating for QS: Schott",
       type: "rating"
     },
     {
       id: 5,
-      title: "New comment on a service record",
+      title: "New comment on a job",
       date: "December 10, 2019 06:30:14 PM",
       comment: "Ojomo: Discard and Donate",
       type: "comment"
