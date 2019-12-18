@@ -16,22 +16,28 @@ export class NotificationsPage implements OnInit {
       id: 0,
       service_title: "Discard and Donate",
       service_date: "December 21, 2019",
-      service_starttime: "1:30PM",
-      service_endtime: "2:30PM",
+      coordinator: "Jackie Quick",
+      city: "Palo Alto",
+      state: "CA",
+      zip: 94020
     },
     {
       id: 1,
       service_title: "Quick Start",
       service_date: "December 24, 2019",
-      service_starttime: "1:00PM",
-      service_endtime: "1:30PM",
+      coordinator: "Jackie Quick",
+      city: "Los Angeles",
+      state: "CA",
+      zip: 90004
     },
     {
       id: 2,
       service_title: "Move IN Clean",
       service_date: "December 28, 2019",
-      service_starttime: "3:00PM",
-      service_endtime: "4:30PM",
+      coordinator: "Jackie Quick",
+      city: "San Francisco",
+      state: "CA",
+      zip: 94104
     }
   ];
   notifications: any = [
