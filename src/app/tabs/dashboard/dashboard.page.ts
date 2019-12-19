@@ -21,8 +21,10 @@ export class DashboardPage implements OnInit {
   //Chart Info
   @ViewChild('barChart', <any>[]) barChart: ElementRef;
   @ViewChild('actionsNeeded', <any>[]) actionsNeeded: ElementRef;
+  @ViewChild('chart2', <any>[]) chart2: ElementRef;
   bars: any;
   ring: any;
+  chart2Data: any;
   colorArray: any;
 
   constructor(
@@ -32,7 +34,7 @@ export class DashboardPage implements OnInit {
     public modalCtrl : ModalController
   ) { }
 
-  createBarCharts() {
+  createCharts() {
     this.bars = new Chart(this.barChart.nativeElement, {
       type: 'bar',
       data: {
@@ -55,15 +57,44 @@ export class DashboardPage implements OnInit {
         }
       }
     });
+    var randomScalingFactor = function(){ return Math.round(Math.random() * 100) };
     this.ring = new Chart(this.actionsNeeded.nativeElement, {
       type: 'doughnut',
       data: {
-
+        datasets:[{
+          data:[
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+          ],
+          backgroundColor: [
+            'rgba(255,0,0,1)',
+            'rgba(0,255,0,1)',
+            'rgba(0,0,255,1)',
+          ],
+          label: 'Dataset 1'
+        }],
+        labels: [
+          'New Invites', 'Initial Contact Needed', 'Job Reports Needed'
+        ]
       },
       options:{
-
+        responsive: false,
+        legend:{
+          position: 'top',
+        },
+        animation:{
+          animateScale: true,
+          animateRotate: true,
+        },
+        title:{
+          display: false,
+        }
       }
     });
+    /* this.chart2Data = new Chart(this.chart2.nativeElement, {
+
+    }) */
   }
 
 
@@ -76,7 +107,7 @@ export class DashboardPage implements OnInit {
     this.userinfo.profile_picture = this.userinfo.pic;
     this.has_profile_picture = true; */
     console.log("fetching dashboard data for", record_id);
-    this.createBarCharts();
+    this.createCharts();
   }
 
   async openSettings(){
