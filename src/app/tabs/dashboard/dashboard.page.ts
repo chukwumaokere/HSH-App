@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { ProfileModalPage } from 'src/app/services/profile/profile.page';
@@ -19,7 +19,7 @@ export class DashboardPage implements OnInit {
   dataReturned: any;
 
   //Chart Info
-  @ViewChild('barChart', <any>[]) barChart: Object;
+  @ViewChild('barChart', <any>[]) barChart: ElementRef;
   bars: any;
   colorArray: any;
 
