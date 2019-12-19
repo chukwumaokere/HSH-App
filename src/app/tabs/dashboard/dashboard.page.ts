@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { ProfileModalPage } from 'src/app/services/profile/profile.page';
 import { ModalController } from '@ionic/angular';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +13,15 @@ import { ModalController } from '@ionic/angular';
 export class DashboardPage implements OnInit {
   user_id: any = 1;
   userinfo: any;
-
   profile_picture: any;
   has_profile_picture: boolean = false;
   apiurl:any;
   dataReturned: any;
+
+  //Chart Info
+  @ViewChild('barChart', <any>[]) barChart: Object;
+  bars: any;
+  colorArray: any;
 
   constructor(
     public storage: Storage,
@@ -24,6 +29,32 @@ export class DashboardPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     public modalCtrl : ModalController
   ) { }
+
+  createBarChart() {
+    this.bars = new Chart(this.barChart.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+        datasets: [{
+          label: 'Assigned Jobs',
+          data: [2.5, 3.8, 5, 6.9, 6.9],
+          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
+          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  }
+
 
   fetchDashboard(){
     var record_id = this.user_id;
@@ -34,6 +65,7 @@ export class DashboardPage implements OnInit {
     this.userinfo.profile_picture = this.userinfo.pic;
     this.has_profile_picture = true; */
     console.log("fetching dashboard data for", record_id);
+    this.createBarChart();
   }
 
   async openSettings(){
