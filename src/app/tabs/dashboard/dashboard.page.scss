@@ -24,6 +24,13 @@ ion-toolbar {
     //border-bottom-right-radius: 24px;
     padding-top:0 !important;
 }
+.dashboard-top-new{
+
+}
+.bg{
+    background-image: linear-gradient(to bottom right, #8E2DE2, #4A00E0);
+    height: 150%;
+}
 div.dashboard-top.ion-padding{
     padding-top: 30px !important;
     padding-bottom: 45px;
@@ -78,4 +85,30 @@ div.overlayed{
 }
 .z-index-100{
     z-index: 100;
+}
+
+.pills{
+    display: -webkit-box;
+    overflow-x: hidden;
+    overflow: scroll;
+}
+.pill-card{
+    //max-width: max-content;
+    width: 150px;
+    --background: var(--ion-background-color);
+    --color: #666;
+}
+.no-padding-bottom{
+    padding-bottom: 0 !important;
+}
+.pill-icon{
+    transform: translate3d(0px, 6px, 0px);
+}
+.graphs-container{
+    display: -webkit-box;
+    overflow-x: hidden;
+    overflow: scroll;
+}
+ion-text{
+    color: white;
 }

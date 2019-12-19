@@ -70,15 +70,15 @@ export class ServicesPage implements OnInit {
       var availableStatuses = this.statuses;
       var status = this.statuses[randomStatus];
       if (type=='today'){
-        var availableStatuses= ["New", "Awaiting Reponse"];
+        var availableStatuses= ["Accepted", "Confirmed"];
       }
       if (type == 'future'){
-        var availableStatuses= ["Scheduled", 'Approved', "Follow-Up"];
+        var availableStatuses= ["Waiting for a Reply", 'Mtg Scheduled', "Following Up"];
       }
       var status=availableStatuses[i%availableStatuses.length];
       if(type=='completed'){
         //var status = 'Completed';
-        var availableStatuses = ["Withdrawn Invitation", "Completed", ]
+        var availableStatuses = ["Completed"];
         var status = availableStatuses[i%availableStatuses.length];
       }
       services.push({

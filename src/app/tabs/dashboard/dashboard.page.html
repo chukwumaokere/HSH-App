@@ -10,7 +10,63 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <div class="fixed" ion-fixed>
+  <div class="bg">
+    <div class="dashboard-top-new ion-padding">
+      <div class="greeting">
+          <h1 class="thin-weight">Hello,</h1>&nbsp;&nbsp;<h1>{{userinfo?.firstname}}!</h1>
+      </div>
+      <ion-text class="weight-200 primary-contrast">Heres your summary for today:</ion-text>
+      <br><br>
+    </div>
+    <div class="graphs-container ion-padding">
+      <ion-img src=""></ion-img>
+    </div>
+
+    <div class="header ion-padding">
+      <ion-text>Notifications</ion-text>
+    </div>
+    <div class="pills ion-padding">
+        <ion-card class="pill-card" type="button">
+            <ion-card-header class="no-padding-bottom">
+              <ion-card-subtitle>New Invites</ion-card-subtitle>
+              <ion-card-title>3 <ion-icon class="pill-icon" name="mail" size="large"></ion-icon></ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              3 New Invites
+            </ion-card-content>
+          </ion-card>  
+          <ion-card class="pill-card" type="button">
+            <ion-card-header class="no-padding-bottom">
+              <ion-card-subtitle>New Jobs</ion-card-subtitle>
+              <ion-card-title>2 <ion-icon class="pill-icon" name="hammer" size="large"></ion-icon></ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              2 New Jobs
+            </ion-card-content>
+          </ion-card> 
+          <ion-card class="pill-card" type="button">
+            <ion-card-header class="no-padding-bottom">
+              <ion-card-subtitle>Active Jobs</ion-card-subtitle>
+              <ion-card-title>5 <ion-icon class="pill-icon" name="calendar" size="large"></ion-icon></ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              5 Active Jobs
+            </ion-card-content>
+          </ion-card> 
+          <ion-card class="pill-card" type="button">
+            <ion-card-header class="no-padding-bottom">
+              <ion-card-subtitle>New Replies</ion-card-subtitle>
+              <ion-card-title>1 <ion-icon class="pill-icon" name="mail-open" size="large"></ion-icon></ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              1 New Reply
+            </ion-card-content>
+          </ion-card>       
+    </div>
+  </div>
+  
+  <!-- Old Dashboard  -->
+  <!-- <div class="fixed" ion-fixed>
     <div class="dashboard-top ion-padding">
       <div class="greeting">
           <h1 class="thin-weight">Hello,</h1>&nbsp;&nbsp;<h1>{{userinfo?.firstname}}!</h1>
@@ -46,5 +102,5 @@
           <li><h6>You completed <a (click)="goToPage('completed')">2 jobs yesterday</a></h6></li>
         </ul>
     </div>
-  </div>
+  </div> -->
 </ion-content>
