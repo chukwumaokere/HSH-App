@@ -51,6 +51,13 @@ h1{
     color: var(--ion-color-primary-contrast);
 }
 
+//Deprecated - Old Dashboard 
+/* ion-content{
+    top: -44px !important;
+    --offset-top: -44px !important;
+    transform: translate3d(0, -44px, 0);
+} */
+
 ion-content{
     top: -44px !important;
     --offset-top: -44px !important;

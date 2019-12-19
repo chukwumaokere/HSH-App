@@ -20,7 +20,9 @@ export class DashboardPage implements OnInit {
 
   //Chart Info
   @ViewChild('barChart', <any>[]) barChart: ElementRef;
+  @ViewChild('actionsNeeded', <any>[]) actionsNeeded: ElementRef;
   bars: any;
+  ring: any;
   colorArray: any;
 
   constructor(
@@ -30,7 +32,7 @@ export class DashboardPage implements OnInit {
     public modalCtrl : ModalController
   ) { }
 
-  createBarChart() {
+  createBarCharts() {
     this.bars = new Chart(this.barChart.nativeElement, {
       type: 'bar',
       data: {
@@ -53,6 +55,15 @@ export class DashboardPage implements OnInit {
         }
       }
     });
+    this.ring = new Chart(this.actionsNeeded.nativeElement, {
+      type: 'doughnut',
+      data: {
+
+      },
+      options:{
+
+      }
+    });
   }
 
 
@@ -65,7 +76,7 @@ export class DashboardPage implements OnInit {
     this.userinfo.profile_picture = this.userinfo.pic;
     this.has_profile_picture = true; */
     console.log("fetching dashboard data for", record_id);
-    this.createBarChart();
+    this.createBarCharts();
   }
 
   async openSettings(){

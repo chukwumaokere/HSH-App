@@ -18,8 +18,19 @@
       <ion-text class="weight-200 primary-contrast">Heres your summary for today:</ion-text>
       <br><br>
     </div>
+    <!-- graphs -->
     <div class="graphs-container ion-padding">
-        <ion-card class="welcome-card">
+        <ion-card class="">
+          <ion-card-header>
+            <ion-card-subtitle>Today's</ion-card-subtitle>
+            <ion-card-title>Actions Needed</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #actionsNeeded></canvas>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="">
           <ion-card-header>
             <ion-card-subtitle>Status Of</ion-card-subtitle>
             <ion-card-title>Daily Assigned Jobs</ion-card-title>
@@ -28,50 +39,63 @@
             <canvas #barChart></canvas>
           </ion-card-content>
         </ion-card>
+
+        <ion-card class="">
+          <ion-card-header>
+            <ion-card-subtitle>Last 30 Days</ion-card-subtitle>
+            <ion-card-title>Work To Date</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #barChart2></canvas>
+          </ion-card-content>
+        </ion-card>
       <!-- <ion-img src=""></ion-img> -->
     </div>
+    <!-- graphs -->
 
-    <div class="header ion-padding">
+    <!-- <div class="header ion-padding">
       <ion-text>Notifications</ion-text>
-    </div>
+    </div> -->
+
     <div class="pills ion-padding">
-        <ion-card class="pill-card" type="button">
-            <ion-card-header class="no-padding-bottom">
-              <ion-card-subtitle>New Invites</ion-card-subtitle>
-              <ion-card-title>3 <ion-icon class="pill-icon" name="mail" size="large"></ion-icon></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              3 New Invites
-            </ion-card-content>
-          </ion-card>  
-          <ion-card class="pill-card" type="button">
-            <ion-card-header class="no-padding-bottom">
-              <ion-card-subtitle>New Jobs</ion-card-subtitle>
-              <ion-card-title>2 <ion-icon class="pill-icon" name="hammer" size="large"></ion-icon></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              2 New Jobs
-            </ion-card-content>
-          </ion-card> 
-          <ion-card class="pill-card" type="button">
-            <ion-card-header class="no-padding-bottom">
-              <ion-card-subtitle>Active Jobs</ion-card-subtitle>
-              <ion-card-title>5 <ion-icon class="pill-icon" name="calendar" size="large"></ion-icon></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              5 Active Jobs
-            </ion-card-content>
-          </ion-card> 
-          <ion-card class="pill-card" type="button">
-            <ion-card-header class="no-padding-bottom">
-              <ion-card-subtitle>New Replies</ion-card-subtitle>
-              <ion-card-title>1 <ion-icon class="pill-icon" name="mail-open" size="large"></ion-icon></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              1 New Reply
-            </ion-card-content>
-          </ion-card>       
+      <ion-card class="pill-card" type="button">
+        <ion-card-header class="no-padding-bottom">
+          <ion-card-subtitle>New Invites</ion-card-subtitle>
+          <ion-card-title>3 <ion-icon class="pill-icon" name="mail" size="large"></ion-icon></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          3 New Invites
+        </ion-card-content>
+      </ion-card>  
+      <ion-card class="pill-card" type="button">
+        <ion-card-header class="no-padding-bottom">
+          <ion-card-subtitle>New Jobs</ion-card-subtitle>
+          <ion-card-title>2 <ion-icon class="pill-icon" name="hammer" size="large"></ion-icon></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          2 New Jobs
+        </ion-card-content>
+      </ion-card> 
+      <ion-card class="pill-card" type="button">
+        <ion-card-header class="no-padding-bottom">
+          <ion-card-subtitle>Active Jobs</ion-card-subtitle>
+          <ion-card-title>5 <ion-icon class="pill-icon" name="calendar" size="large"></ion-icon></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          5 Active Jobs
+        </ion-card-content>
+      </ion-card> 
+      <ion-card class="pill-card" type="button">
+        <ion-card-header class="no-padding-bottom">
+          <ion-card-subtitle>New Replies</ion-card-subtitle>
+          <ion-card-title>1 <ion-icon class="pill-icon" name="mail-open" size="large"></ion-icon></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          1 New Reply
+        </ion-card-content>
+      </ion-card>       
     </div>
+
   </div>
   
   <!-- Old Dashboard  -->
