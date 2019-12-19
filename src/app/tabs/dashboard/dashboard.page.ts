@@ -72,7 +72,9 @@ export class DashboardPage implements OnInit {
             'rgba(0,255,0,1)',
             'rgba(0,0,255,1)',
           ],
-          label: 'Dataset 1'
+          label: 'Dataset 1',
+          //borderWidth: '50px'
+          weight: 5,
         }],
         labels: [
           'New Invites', 'Initial Contact Needed', 'Job Reports Needed'
@@ -82,7 +84,7 @@ export class DashboardPage implements OnInit {
         responsive: false,
         legend:{
           position: 'top',
-        },
+        }, 
         animation:{
           animateScale: true,
           animateRotate: true,

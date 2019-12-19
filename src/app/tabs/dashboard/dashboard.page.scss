@@ -25,7 +25,7 @@ ion-toolbar {
     padding-top:0 !important;
 }
 .dashboard-top-new{
-
+    padding-left: 0 !important;
 }
 .bg{
     background-image: linear-gradient(to bottom right, #8E2DE2, #4A00E0);
@@ -122,4 +122,8 @@ ion-card{
 }
 ion-text{
     color: white;
+}
+
+ion-card{
+    margin-left: 0 !important;
 }
