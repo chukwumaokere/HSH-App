@@ -60,8 +60,9 @@ h1{
 
 ion-content{
     top: -44px !important;
-    --offset-top: -44px !important;
     transform: translate3d(0, -44px, 0);
+   /*  --offset-top: -44px !important;
+    transform: translate3d(0, -44px, 0); */
 }
 
 :host{

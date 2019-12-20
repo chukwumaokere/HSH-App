@@ -38,16 +38,29 @@ export class DashboardPage implements OnInit {
       type: 'bar',
       data: {
         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-        datasets: [{
-          label: 'Assigned Jobs',
-          data: [2.5, 3.8, 5, 1, 6.9],
-          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
-          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            label: 'Assigned Jobs',
+            data: [2.5, 3.8, 5, 1, 6.9],
+            backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
+            borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
+            borderWidth: 1
+          },
+          {
+            label: 'Questions per Job',
+            data: [5, 2, 1, 7, 3],
+            backgroundColor: 'rgb(38, 194, 255)', // array should have same number of elements as number of dataset
+            borderColor: 'rgb(38, 194, 255)',// array should have same number of elements as number of dataset
+            borderWidth: 1
+          }
+      ]
       },
       options: {
         responsive: false,
+        animation:{
+          animateScale: true,
+          animateRotate: true,
+        },
         scales: {
           yAxes: [{
             ticks: {
@@ -125,6 +138,28 @@ export class DashboardPage implements OnInit {
             pointRadius: 1,
             pointHitRadius: 10,
             data: [65, 59, 80, 81, 56, 55, 40, 10, 5, 50, 10, 15],
+            spanGaps: false,
+          },
+          {
+            label: 'Invites per Week',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(255,255,0,0.4)',
+            borderColor: 'rgba(255,255,0,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(255,255,0,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(255,255,0,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [20, 30, 42, 10, 70, 15, 65, 55, 5, 40, 30, 15],
             spanGaps: false,
           }
         ]
