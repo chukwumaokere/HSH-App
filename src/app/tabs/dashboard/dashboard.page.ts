@@ -21,11 +21,10 @@ export class DashboardPage implements OnInit {
   //Chart Info
   @ViewChild('barChart', <any>[]) barChart: ElementRef;
   @ViewChild('actionsNeeded', <any>[]) actionsNeeded: ElementRef;
-  @ViewChild('chart2', <any>[]) chart2: ElementRef;
+  @ViewChild('line', <any>[]) line: ElementRef;
   bars: any;
   ring: any;
-  chart2Data: any;
-  colorArray: any;
+  lines: any;
 
   constructor(
     public storage: Storage,
@@ -41,13 +40,14 @@ export class DashboardPage implements OnInit {
         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
         datasets: [{
           label: 'Assigned Jobs',
-          data: [2.5, 3.8, 5, 6.9, 6.9],
+          data: [2.5, 3.8, 5, 1, 6.9],
           backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
           borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
           borderWidth: 1
         }]
       },
       options: {
+        responsive: false,
         scales: {
           yAxes: [{
             ticks: {
@@ -77,11 +77,17 @@ export class DashboardPage implements OnInit {
           weight: 5,
         }],
         labels: [
-          'New Invites', 'Initial Contact Needed', 'Job Reports Needed'
+          /* 'New Invites', 
+          'Initial Contact Needed', 
+          'Job Reports Needed' */
+          'Invites', 
+          'Contact Needed', 
+          'Reports Needed'
         ]
       },
       options:{
         responsive: false,
+        maintainAspectRatio: false,
         legend:{
           position: 'top',
         }, 
@@ -94,9 +100,47 @@ export class DashboardPage implements OnInit {
         }
       }
     });
-    /* this.chart2Data = new Chart(this.chart2.nativeElement, {
-
-    }) */
+    this.lines = new Chart(this.line.nativeElement, {
+      type: 'line',
+      data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'],
+        datasets: [
+          {
+            label: 'Jobs per Week',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [65, 59, 80, 81, 56, 55, 40, 10, 5, 50, 10, 15],
+            spanGaps: false,
+          }
+        ]
+      },
+      options:{
+        responsive: false,
+        maintainAspectRatio: false,
+        animation:{
+          animateScale: true,
+          animateRotate: true,
+        },
+        title:{
+          display: false,
+        }
+      }
+    });
   }
 
 

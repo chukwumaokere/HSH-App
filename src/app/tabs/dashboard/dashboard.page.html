@@ -40,15 +40,15 @@
           </ion-card-content>
         </ion-card>
 
-        <!-- <ion-card class="">
+        <ion-card class="">
           <ion-card-header>
-            <ion-card-subtitle>Last 30 Days</ion-card-subtitle>
+            <ion-card-subtitle>Past Year</ion-card-subtitle>
             <ion-card-title>Work To Date</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <canvas #barChart2></canvas>
+            <canvas #line></canvas>
           </ion-card-content>
-        </ion-card> -->
+        </ion-card>
 
     </div>
     <!-- graphs -->
@@ -58,7 +58,7 @@
     </div> -->
 
     <div class="pills">
-      <ion-card class="pill-card" type="button">
+      <ion-card class="pill-card" type="button" (click)="goToPage('notifications')">
         <ion-card-header class="no-padding-bottom">
           <ion-card-subtitle>New Invites</ion-card-subtitle>
           <ion-card-title>3 <ion-icon class="pill-icon" name="mail" size="large"></ion-icon></ion-card-title>
@@ -67,7 +67,7 @@
           3 New Invites
         </ion-card-content>
       </ion-card>  
-      <ion-card class="pill-card" type="button">
+      <ion-card class="pill-card" type="button" (click)="goToPage('services')">
         <ion-card-header class="no-padding-bottom">
           <ion-card-subtitle>New Jobs</ion-card-subtitle>
           <ion-card-title>2 <ion-icon class="pill-icon" name="hammer" size="large"></ion-icon></ion-card-title>
@@ -76,7 +76,7 @@
           2 New Jobs
         </ion-card-content>
       </ion-card> 
-      <ion-card class="pill-card" type="button">
+      <ion-card class="pill-card" type="button" (click)="goToPage('services')">
         <ion-card-header class="no-padding-bottom">
           <ion-card-subtitle>Active Jobs</ion-card-subtitle>
           <ion-card-title>5 <ion-icon class="pill-icon" name="calendar" size="large"></ion-icon></ion-card-title>
@@ -85,7 +85,7 @@
           5 Active Jobs
         </ion-card-content>
       </ion-card> 
-      <ion-card class="pill-card" type="button">
+      <ion-card class="pill-card" type="button" (click)="goToPage('notifications')">
         <ion-card-header class="no-padding-bottom">
           <ion-card-subtitle>New Replies</ion-card-subtitle>
           <ion-card-title>1 <ion-icon class="pill-icon" name="mail-open" size="large"></ion-icon></ion-card-title>
