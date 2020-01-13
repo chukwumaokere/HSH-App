@@ -96,15 +96,28 @@ div.overlayed{
 }
 
 .pills{
-    display: -webkit-box;
-    overflow-x: hidden;
-    overflow: scroll;
+    //display: -webkit-box;
+    display: grid;
+    grid-template-columns: 150px 150px;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    width: fit-content;
+    margin: 0 auto;
+    //overflow-x: hidden;
+    //overflow: scroll;
 }
 .pill-card{
     //max-width: max-content;
     width: 150px;
     --background: var(--ion-background-color);
     --color: #666;
+    margin: 0;
+}
+.card-content-ios {
+    white-space: nowrap;
+}
+ion-card-subtitle{
+    white-space: nowrap;
 }
 
 ion-card{
