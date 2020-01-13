@@ -239,7 +239,7 @@ export class DashboardPage implements OnInit {
         }
       }
     }); 
-    this.fetchDashboard();
+    //this.fetchDashboard();
   }
 
   logout(){
