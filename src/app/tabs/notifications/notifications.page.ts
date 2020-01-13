@@ -1,4 +1,4 @@
-import { Component, OnInit, LOCALE_ID, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, LOCALE_ID, Inject, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from  "@angular/router";
 import { NavController, AlertController, ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -10,6 +10,8 @@ import { CommentsModalPage } from './comments/comments.page';
   styleUrls: ['./notifications.page.scss'],
 })
 export class NotificationsPage implements OnInit {
+  @ViewChild('responses_ref', <any>[]) public responses_ref:ElementRef;
+  @ViewChild('invites_ref', <any>[]) public invites_ref:ElementRef;
   userinfo: any;
   invites: any = [
     {
@@ -213,6 +215,7 @@ export class NotificationsPage implements OnInit {
         }
       }
     }); 
+    //this.responses_ref.nativeElement.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'start'});
   }
 
   async goToComments(id){

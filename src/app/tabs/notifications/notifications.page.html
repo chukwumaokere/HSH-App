@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-    <ion-item-divider sticky="true">
+    <ion-item-divider sticky="true" #invites_ref>
       <ion-label>
         Pending Invites ({{count_invites}})
       </ion-label>
@@ -59,7 +59,7 @@
           <p class="ion-padding" *ngIf="count_invites == 0">No invites available at this time, please check again later</p>
     </ion-list>
 
-    <ion-item-divider sticky="true">
+    <ion-item-divider sticky="true" #responses_ref>
       <ion-label>
         Responses ({{count_notifications}})
       </ion-label>
