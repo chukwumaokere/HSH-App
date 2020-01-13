@@ -72,6 +72,17 @@
       <ion-text>{{servicedetail.desc}}</ion-text>
     </ion-item>
     <br>
+    <ion-item lines="none">
+      <ion-label position="stacked">Follow Up Date</ion-label>
+      <ion-datetime displayFormat="MMM DD, YYYY h:mmA" placeholder="Select Date"></ion-datetime>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label position="stacked">Status</ion-label>
+      <ion-select name="status"  value="{{servicedetail.status}}">
+        <ion-select-option *ngFor="let picklist of status_picklist">{{picklist}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <br>
   </ion-list>
 <div class="button-grouping ion-padding">
   <!-- <ion-button size="large" expand="block" color="warning"  [disabled]="servicedetail?.starttime == '' ? null : 'disabled'" >

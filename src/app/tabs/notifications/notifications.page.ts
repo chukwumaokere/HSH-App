@@ -19,7 +19,9 @@ export class NotificationsPage implements OnInit {
       coordinator: "Jackie Quick",
       city: "Palo Alto",
       state: "CA",
-      zip: 94020
+      zip: 94020,
+      status: "Accepted",
+      job_desc: "This lady has 4 cats and 3 kids. The place is a bit of a mess. Heads up!",
     },
     {
       id: 1,
@@ -28,7 +30,9 @@ export class NotificationsPage implements OnInit {
       coordinator: "Jackie Quick",
       city: "Los Angeles",
       state: "CA",
-      zip: 90004
+      zip: 90004,
+      status: "Invited",
+      job_desc: "Some other description"
     },
     {
       id: 2,
@@ -37,30 +41,43 @@ export class NotificationsPage implements OnInit {
       coordinator: "Jackie Quick",
       city: "San Francisco",
       state: "CA",
-      zip: 94104
+      zip: 94104,
+      status: "Invited",
+      job_desc: "Some third description"
     }
   ];
   notifications: any = [
-    {
+    /* {
       id: 3,
       title: "You've been assigned a new job",
       date: "December 12, 2019 11:00:00 PM",
       comment: "Kaye assigned D&D: Leavette to you",
-      type: "services"
+      type: "services",
+      recordid: 0,
+    }, */
+    {
+      id: 4,
+      title: "New response on a job",
+      date: "December 12, 2019 11:00:00 PM",
+      comment: "Mitsue: Move IN Clean",
+      type: "comment",
+      recordid: 13,
     },
     {
       id: 4,
-      title: "You've received a rating for a job",
+      title: "New response on a job",
       date: "December 11, 2019 09:54:32 PM",
-      comment: "Rating for QS: Schott",
-      type: "rating"
+      comment: "Charisse: Quick Start",
+      type: "comment",
+      recordid: 15,
     },
     {
       id: 5,
-      title: "New comment on a job",
+      title: "New response on a job",
       date: "December 10, 2019 06:30:14 PM",
       comment: "Ojomo: Discard and Donate",
-      type: "comment"
+      type: "comment",
+      recordid: 0,
     }
   ];
   count_invites: any = 3;
@@ -221,6 +238,21 @@ export class NotificationsPage implements OnInit {
     console.log('action taken', choice, id);
     if (choice == 'question'){
       this.goToComments(id);
+    }
+    if (choice == 'accept'){
+      //postInivte.php api
+      var invite = this.invites.find(invite => invite.id == id);
+      console.log(invite);
+      invite.status = 'Accepted';
+    }
+    if (choice == 'decline'){
+      //postInivte.php api
+      var invite = this.invites.find(invite => invite.id == id);
+      console.log(invite);
+      var index = this.invites.indexOf(invite);
+      this.invites.splice(index, 1);
+      invite.status = 'Declined';
+      this.count_invites--;
     }
   }
   markRead(id){

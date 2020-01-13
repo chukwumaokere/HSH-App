@@ -18,6 +18,7 @@
             <ion-label>
               <h2>{{invite.service_title}}</h2>
               <p>{{invite.service_date}}</p>
+              <p *ngIf="invite.job_desc !== ''" style="white-space: pre-wrap;">{{invite.job_desc}}</p>
               <div class="invite-details-div">
                   <ion-grid class="invite-details-grid">
                     <ion-row>
@@ -34,11 +35,12 @@
                     </ion-row>
                     <ion-row>
                       <ion-col>
-                        <ion-button size="default" color="success" type="button" text="Accept" (click)="modifyInvite('accept', invite.id)">
-                          <ion-text>Accept</ion-text>
+                        <ion-button size="default" color="success" type="button" text="Accept" (click)="modifyInvite('accept', invite.id)" [disabled]="invite.status != 'Accepted' ? null : 'disabled'">
+                          <ion-text *ngIf="invite.status != 'Accepted'">Accept</ion-text>
+                          <ion-text *ngIf="invite.status == 'Accepted'">Accepted</ion-text>
                         </ion-button>
                       </ion-col>
-                      <ion-col>
+                      <ion-col *ngIf="invite.status != 'Accepted'" >
                         <ion-button size="default"  type="button" text="Decline" (click)="modifyInvite('decline', invite.id)">
                           <ion-text>Decline</ion-text>
                         </ion-button>
@@ -59,7 +61,7 @@
 
     <ion-item-divider sticky="true">
       <ion-label>
-        Notifications ({{count_notifications}})
+        Responses ({{count_notifications}})
       </ion-label>
     </ion-item-divider>
 

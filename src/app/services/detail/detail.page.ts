@@ -20,6 +20,7 @@ export class DetailPage implements OnInit {
   userinfo: any;
   serviceid: any;
   dataReturned: any;
+  status_picklist: any = ['Following Up', 'Waiting for Reply', 'Mtg Scheduled', 'In-Process', 'Complete'];
   secondaryInfo: any = {
     open: false,
   };
@@ -105,7 +106,7 @@ export class DetailPage implements OnInit {
       secondary_email: 'eojomo@testing.com',
       address_details: '872 Kells Circle, Vacaville, CA 95688',
       d_for_dd: 'Hillsboro, OR',
-      status: '1 In-Process',
+      status: 'In-Process',
       service_type: 'Discard and Donate',
       support: 'Jackie Quick',
       support_ph: '9541215534',
