@@ -20,8 +20,15 @@ ion-note.status{
 ion-badge.status{
     padding: 10px;
     border-radius: 50px;
+    position: fixed;
+    right: 20px;
+    opacity: .8;
 }
 
 ion-text.status-text{
     color: white !important;
+}
+
+ion-row{
+    width: 70%;
 }

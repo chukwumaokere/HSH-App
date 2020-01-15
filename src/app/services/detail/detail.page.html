@@ -63,10 +63,10 @@
       <ion-text>{{servicedetail.support}}</ion-text>
       <ion-button target="_blank" color="primary" (click)="contact(servicedetail.support)" size="default" slot="end" type="button"><ion-icon name="contact" size="large" ></ion-icon></ion-button>
     </ion-item>
-    <ion-item lines="none">
+    <!-- <ion-item lines="none">
       <ion-label position="stacked">Start Date & Time</ion-label>
       <ion-text>{{servicedetail.startdate}} {{servicedetail.starttime}}</ion-text>
-    </ion-item>
+    </ion-item> -->
     <ion-item lines="none">
       <ion-label position="stacked">Job Description</ion-label>
       <ion-text>{{servicedetail.desc}}</ion-text>
@@ -74,6 +74,10 @@
     <br>
     <ion-item lines="none">
       <ion-label position="stacked">Follow Up Date</ion-label>
+      <ion-datetime displayFormat="MMM DD, YYYY h:mmA" placeholder="Select Date"></ion-datetime>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label position="stacked">Start Date & Time</ion-label>
       <ion-datetime displayFormat="MMM DD, YYYY h:mmA" placeholder="Select Date"></ion-datetime>
     </ion-item>
     <ion-item lines="none">

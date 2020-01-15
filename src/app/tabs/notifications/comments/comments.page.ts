@@ -32,6 +32,7 @@ has_profile_picture: boolean = false;
 recordid: any;
 servicedetail: any;
 message: any;
+show_button: any;
 comments: any = [
   {
     user_id: 1,
@@ -42,7 +43,7 @@ comments: any = [
   },
   {
     user_id: 14,
-    author: "Kaye Caldwell",
+    author: "Lesley Mullen",
     message: "According to my records its for 1:30PM on December 14th; are you seeing something different?",
     date_sent: "2019-12-12 01:30:22 PM",
     read: true,
@@ -74,6 +75,7 @@ public toastController: ToastController,
     this.has_profile_picture = true;
     this.recordid = this.navParams.data.id;
     this.servicedetail = this.navParams.data.service_record_details;
+    this.show_button = this.navParams.data.show_button;
     this.fetchComments();
     /* this.user_id = this.navParams.data.user_id;
     this.userinfo = this.navParams.data.userinfo;
@@ -97,6 +99,10 @@ public toastController: ToastController,
   updateMessage(e){
     //console.log(e);
     this.message = e.detail.value;
+  }
+  goToJob(serviceid){
+    this.router.navigateByUrl(`/services/detail/${serviceid}`, {state: {}});
+    this.closeModal();
   }
   async  sendMessage(){
     var message = this.message; 

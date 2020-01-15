@@ -67,7 +67,7 @@
 
     <ion-list lines="full">
         <div *ngIf="count_notifications > 0">
-        <ion-item (click)="markRead(notification.id)" *ngFor="let notification of notifications">
+        <ion-item (click)="markRead(notification.id, notification.recordid)" *ngFor="let notification of notifications">
             <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
             <ion-label>
               <h2>{{notification.title}}</h2>

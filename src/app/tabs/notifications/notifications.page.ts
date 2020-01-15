@@ -18,7 +18,7 @@ export class NotificationsPage implements OnInit {
       id: 0,
       service_title: "Discard and Donate",
       service_date: "December 21, 2019",
-      coordinator: "Jackie Quick",
+      coordinator: "Lesley Mullen",
       city: "Palo Alto",
       state: "CA",
       zip: 94020,
@@ -29,7 +29,7 @@ export class NotificationsPage implements OnInit {
       id: 1,
       service_title: "Quick Start",
       service_date: "December 24, 2019",
-      coordinator: "Jackie Quick",
+      coordinator: "Lesley Mullen",
       city: "Los Angeles",
       state: "CA",
       zip: 90004,
@@ -40,7 +40,7 @@ export class NotificationsPage implements OnInit {
       id: 2,
       service_title: "Move IN Clean",
       service_date: "December 28, 2019",
-      coordinator: "Jackie Quick",
+      coordinator: "Lesley Mullen",
       city: "San Francisco",
       state: "CA",
       zip: 94104,
@@ -96,7 +96,7 @@ export class NotificationsPage implements OnInit {
     d_for_dd: 'Hillsboro, OR',
     status: '1 In-Process',
     service_type: 'Discard and Donate',
-    support: 'Jackie Quick',
+    support: 'Lesley Mullen',
     title: 'Ojomo: Discard and Donate',
     complete_date: '',
     desc: `***********************************************
@@ -218,15 +218,26 @@ export class NotificationsPage implements OnInit {
     //this.responses_ref.nativeElement.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'start'});
   }
 
-  async goToComments(id){
+  async goToComments(id, notification=false){
     console.log('Navigating to comments page for', id);
-     const modal = await this.modalCtrl.create({
+    if(notification == true){
+      var modal = await this.modalCtrl.create({
+        component: CommentsModalPage,
+        componentProps: {
+            "id" : id,
+            "service_record_details": this.servicedetail,
+            "show_button": true,
+        }
+      });
+    }else{
+     var modal = await this.modalCtrl.create({
          component: CommentsModalPage,
          componentProps: {
              "id" : id,
              "service_record_details": this.servicedetail,
          }
      });
+    }
 
      modal.onDidDismiss().then((dataReturned) => {
          if (dataReturned !== null) {
@@ -258,8 +269,9 @@ export class NotificationsPage implements OnInit {
       this.count_invites--;
     }
   }
-  markRead(id){
-    console.log('Going to record and marking notification as read', id)
+  markRead(id, recordid){
+    console.log('Going to record and marking notification as read', id);
+    this.goToComments(recordid, true);
   }
 
 }

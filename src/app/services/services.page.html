@@ -56,7 +56,14 @@
         <ion-avatar><ion-icon size="large" name="document"></ion-icon></ion-avatar>
         <ion-label>
           <h2>{{service.title}}</h2>
-          <p>{{service.longdate}}</p>
+          <ion-row>
+            <ion-col><p>Follow up</p></ion-col>
+            <ion-col><p>Service Date</p></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col><p>{{service.longdate}}</p></ion-col>
+            <ion-col><p>{{service.longdate_2}}</p></ion-col>
+          </ion-row>
           <div class="service-details-div">
             <ion-grid class="service-details-grid">
               <!-- <ion-row>

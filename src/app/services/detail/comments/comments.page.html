@@ -1,5 +1,11 @@
 <ion-header>
     <ion-toolbar text-center>
+            <ion-buttons slot="secondary">
+            <ion-button type="button" (click)="goToJob(servicedetail.id)" text="Open Job">
+                    <ion-text>Open Job</ion-text>
+                      <!-- <ion-badge color="danger">1</ion-badge> -->
+                  </ion-button>
+            </ion-buttons>
         <ion-title>Comments for {{servicedetail.title}}</ion-title>
         <ion-icon name="close" (click)="closeModal()" size="large"></ion-icon>
     </ion-toolbar>

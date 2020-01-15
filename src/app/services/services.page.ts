@@ -26,6 +26,7 @@ export class ServicesPage implements OnInit {
     title: '', //Will be the Transferee + type of service
     desc: '', //Will be address here
     longdate: '',
+    longdate_2: '',
     startTime: '', //Will be time as 00:00 A/PM
     endTime: '', //Will be time as 00:00 A/PM
     status: '',
@@ -36,7 +37,8 @@ export class ServicesPage implements OnInit {
   randomPeople = ['Ojomo','Charisse','Mitsue','Lilia','Lynelle','Lavette','Kerry','Beckie','Nathan','Kristle','Nickie','Coretta','Randy','Carmon','Bev','Maude','Cleora','Tracy','Casimira','Lowell','Particia','Bennie','Angelena','Elden','Marcel','Elene','Young','Rheba','Paulene','Latia','Shantay','Lavon','Dane','Darla','Joselyn','Zelda','Kasha','Kaitlin','Pasty','Essie','Delfina','Arla','Amy','Xavier','Jin','Ashlee','Millicent','Jeanetta','Willy','Rolf',];
   typesOfServices= ['Discard and Donate', 'Quick Start', 'Move IN Clean', 'Quick Start Exec', 'Move OUT Clean'];
   statuses= ["New", "Accepted", "Scheduled", "Follow-Up", "Complete", "Awaiting Reponse", "Withdrawn Invitation"];
-
+  randomCoords = ['Lesley Mullen', 'Miki Brennan', 'Faye Feinstein', 'Schari Coale'];
+  randomCity = ['Palo Alto', 'San Bernadino', 'Los Angeles', 'San Francisco', 'Sacramento', 'Oakland', 'Riverside', 'Fresno'];
   constructor(public navCtrl: NavController, private  router:  Router, public storage: Storage, private activatedRoute: ActivatedRoute, @Inject(LOCALE_ID) private locale: string) { }
 
   async loadRandomServices(type){
@@ -66,7 +68,9 @@ export class ServicesPage implements OnInit {
       var randomStatus = i % this.statuses.length;
       let start = formatDate(startTime, 'shortTime', this.locale);
       let end = formatDate(endTime, 'shortTime', this.locale);
+      let longdate_2 = formatDate(endTime, 'mediumDate', this.locale);
       let longdate = formatDate(startTime, 'medium', this.locale);
+      let kayeFormat = formatDate(startTime, 'mediumDate', this.locale);
       var availableStatuses = this.statuses;
       var status = this.statuses[randomStatus];
       if (type=='today'){
@@ -85,12 +89,13 @@ export class ServicesPage implements OnInit {
         id: i,
         title: this.randomPeople[i] + ': ' + this.typesOfServices[randomTOS],
         desc: '',
-        longdate: longdate,
+        longdate: kayeFormat,
+        longdate_2: longdate_2,
         startTime: start,
         endTime: end,
         status: status,
-        coordinator: 'Jackie Quick',
-        city: "Palo Alto",
+        coordinator: this.randomCoords[i%this.randomCoords.length],
+        city: this.randomCity[i%this.randomCity.length],
       }); 
     }
     return services;

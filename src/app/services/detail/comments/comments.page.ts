@@ -42,7 +42,7 @@ comments: any = [
   },
   {
     user_id: 14,
-    author: "Kaye Caldwell",
+    author: "Lesley Mullen",
     message: "Invite Answer: According to my records its for 1:30PM on December 14th; are you seeing something different?",
     date_sent: "2019-12-12 01:30:22 PM",
     read: true,
@@ -56,7 +56,7 @@ comments: any = [
   },
   {
     user_id: 14,
-    author: "Kaye Caldwell",
+    author: "Lesley Mullen",
     message: "Oh I see it! Which one would you like to keep? I'll reschedule the other",
     date_sent: "2019-12-12 03:43:12 PM",
     read: true,
@@ -118,6 +118,10 @@ public toastController: ToastController,
   updateMessage(e){
     //console.log(e);
     this.message = e.detail.value;
+  }
+  goToJob(serviceid){
+    this.router.navigateByUrl(`/services/detail/${serviceid}`, {state: {}});
+    this.closeModal();
   }
   async  sendMessage(){
     var message = this.message; 
