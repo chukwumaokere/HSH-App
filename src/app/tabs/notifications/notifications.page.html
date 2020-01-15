@@ -17,8 +17,8 @@
             <ion-avatar><ion-icon color="warning" size="large" name="mail-unread"></ion-icon></ion-avatar>
             <ion-label>
               <h2>{{invite.service_title}}</h2>
-              <p>{{invite.service_date}}</p>
-              <p *ngIf="invite.job_desc !== ''" style="white-space: pre-wrap;">{{invite.job_desc}}</p>
+              <p class="main-color">{{invite.service_date}}</p>
+              <p *ngIf="invite.job_desc !== ''" style="white-space: pre-wrap;" class="main-color">{{invite.job_desc}}</p>
               <div class="invite-details-div">
                   <ion-grid class="invite-details-grid">
                     <ion-row>
@@ -71,7 +71,7 @@
             <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
             <ion-label>
               <h2>{{notification.title}}</h2>
-              <p>{{notification.date}}</p>
+              <p class="main-color">{{notification.date}}</p>
               <div class="invite-details-div">
                   <p>{{notification.comment}}</p>
               </div>

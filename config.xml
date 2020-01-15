@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.boruapps.hsh" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.boruapps.hsh" version="0.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>HSH Jobs</name>
-    <description>An awesome Ionic/Cordova app.</description>
+    <description>App to make your Jobs easier</description>
     <author email="appdev@boruapps.com" href="https://boruapps.com/">Boru Apps</author>
     <content src="index.html" />
     <access origin="*" />
