@@ -32,6 +32,8 @@ has_profile_picture: boolean = false;
 recordid: any;
 servicedetail: any;
 message: any;
+request: any;
+request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
 comments: any = [
   {
     user_id: 1,

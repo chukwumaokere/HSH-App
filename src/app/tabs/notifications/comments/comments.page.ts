@@ -33,6 +33,8 @@ recordid: any;
 servicedetail: any;
 message: any;
 show_button: any;
+request: any;
+request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
 comments: any = [
   {
     user_id: 1,

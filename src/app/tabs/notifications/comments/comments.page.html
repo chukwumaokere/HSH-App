@@ -34,6 +34,16 @@
 </ion-content>
 <div class="button-grouping anchor-bottom ion-padding-horizontal" >
         <ion-grid class="ion-no-padding">
+                <ion-row *ngIf="show_button == true" class="" >
+                        <ion-col class="padding-left-none" size="12">
+                            <ion-item lines="none">
+                                <ion-label position="stacked">Request</ion-label>
+                                <ion-select name="status"  value="{{request}}">
+                                    <ion-select-option *ngFor="let picklist of request_picklist">{{picklist}}</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
             <ion-row class="ion-align-items-center ion-justify-content-center" >
                 <ion-col class="padding-left-none" size="9">
                     <ion-input color="dark" (ionChange)="updateMessage($event)" placeholder="Write a message"></ion-input>
