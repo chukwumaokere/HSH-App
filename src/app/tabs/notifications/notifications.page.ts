@@ -111,6 +111,7 @@ export class NotificationsPage implements OnInit {
     endtime:'',
     isComplete: false,
   }
+  sectionScroll: any;
   dataReturned: any;
   constructor(
     public modalCtrl : ModalController,
@@ -120,6 +121,7 @@ export class NotificationsPage implements OnInit {
     private activatedRoute: ActivatedRoute, 
     private alertCtrl: AlertController, 
     @Inject(LOCALE_ID) private locale: string ) { }
+
   logout(){
     console.log('logout clicked');
     this.storage.set("userdata", null);
@@ -194,6 +196,15 @@ export class NotificationsPage implements OnInit {
       if(userData.length !== 0){
         this.userinfo = userData;
         console.log('param user data:', userData);
+        if(userData.fragment){
+          console.log(userData.fragment)
+          try{
+            var element = document.getElementById(userData.fragment);
+            this.sectionScroll = element;
+          }catch(err){
+            console.log(err);
+          }
+        }
         try{ 
           this.loadTheme(userData.theme.toLowerCase());
         }catch{
@@ -207,6 +218,13 @@ export class NotificationsPage implements OnInit {
               console.log('loading storage data (within param route function)', result);
               this.userinfo = result;
               this.loadTheme(result.theme.toLowerCase());
+              try{
+                console.log('scrolling to', this.sectionScroll);
+                this.sectionScroll.scrollIntoView();
+              }catch(err){
+                //console.log(err);
+              }
+              
             }else{
               console.log('nothing in storage, going back to login');
               this.logout();

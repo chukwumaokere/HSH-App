@@ -209,8 +209,8 @@ export class DashboardPage implements OnInit {
 
      return await modal.present();
   }
-  goToPage(page){
-    this.router.navigate(['tabs/' + page, {}]);
+  goToPage(page, dst=''){
+    this.router.navigate(['tabs/' + page, {fragment: dst}]);
   }
 
   ngOnInit() {

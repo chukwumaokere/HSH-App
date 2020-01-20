@@ -39,6 +39,7 @@ export class ServicesPage implements OnInit {
   statuses= ["New", "Accepted", "Scheduled", "Follow-Up", "Complete", "Awaiting Reponse", "Withdrawn Invitation"];
   randomCoords = ['Lesley Mullen', 'Miki Brennan', 'Faye Feinstein', 'Schari Coale'];
   randomCity = ['Palo Alto', 'San Bernadino', 'Los Angeles', 'San Francisco', 'Sacramento', 'Oakland', 'Riverside', 'Fresno'];
+  sectionScroll: any;
   constructor(public navCtrl: NavController, private  router:  Router, public storage: Storage, private activatedRoute: ActivatedRoute, @Inject(LOCALE_ID) private locale: string) { }
 
   async loadRandomServices(type){
@@ -184,6 +185,15 @@ export class ServicesPage implements OnInit {
      if(userData.length !== 0){
        this.userinfo = userData;
        console.log('param user data:', userData);
+       if(userData.fragment){
+        console.log(userData.fragment)
+        try{
+          var element = document.getElementById(userData.fragment);
+          this.sectionScroll = element;
+        }catch(err){
+          console.log(err);
+        }
+      }
        try{ 
          this.loadTheme(userData.theme.toLowerCase());
        }catch{
@@ -197,6 +207,12 @@ export class ServicesPage implements OnInit {
              console.log('loading storage data (within param route function)', result);
              this.userinfo = result;
              this.loadTheme(result.theme.toLowerCase());
+             try{
+              console.log('scrolling to', this.sectionScroll);
+              this.sectionScroll.scrollIntoView();
+            }catch(err){
+              //console.log(err);
+            }
            }else{
              console.log('nothing in storage, going back to login');
              this.logout();
