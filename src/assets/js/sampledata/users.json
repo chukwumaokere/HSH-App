@@ -54,6 +54,28 @@
             "phone": "1 (404) 555-2255",
             "pic": "/assets/img/profilephotos/iman.jpg",
             "notes": "Demo the app for the HSH Team!"
+        },
+        "kaye": {
+            "username": "kaye",
+            "password": "test",
+            "firstname": "Kaye",
+            "lastname": "Caldwell",
+            "organization": "Home Sweet Home",
+            "theme": "Dark",
+            "phone": "1 (404) 555-2255",
+            "pic": "",
+            "notes": "Demo the app for the HSH Team!"
+        },
+        "diana": {
+            "username": "diana",
+            "password": "test",
+            "firstname": "Diana",
+            "lastname": "Dirocco",
+            "organization": "Home Sweet Home",
+            "theme": "Light",
+            "phone": "1 (404) 555-2255",
+            "pic": "",
+            "notes": "Demo the app for the HSH Team!"
         }
     }
 }
