@@ -9,7 +9,8 @@
             "theme": "Dark",
             "phone": "1 (773) 307-2548",
             "pic": "/assets/img/profilephotos/chuck.jpg",
-            "notes": "Remember to upload photos from Skiba house. Remove 2 photos from Cook residence"
+            "notes": "Remember to upload photos from Skiba house. Remove 2 photos from Cook residence",
+            "email1": "cokere@boruapps.com"
         },
         "test": {
             "username": "test",
@@ -20,7 +21,8 @@
             "theme": "Light",
             "phone": "1 (555) 555-5555",
             "pic": "/assets/img/profilephotos/chuck2.jpg",
-            "notes": "Upload all kitchen screenshots"
+            "notes": "Upload all kitchen screenshots",
+            "email1": "cokere@boruapps.com"
         },
         "pinot": {
             "username": "pinot",
@@ -31,7 +33,8 @@
             "theme": "Dark",
             "phone": "1 (222) 555-2255",
             "pic": "/assets/img/profilephotos/1.png",
-            "notes": ""
+            "notes": "",
+            "email1": "cokere@boruapps.com"
         },
         "admin": {
             "username": "admin",
@@ -42,7 +45,8 @@
             "theme": "Dark",
             "phone": "1 (222) 555-2255",
             "pic": "",
-            "notes": ""
+            "notes": "",
+            "email1": "cokere@boruapps.com"
         },
         "iman": {
             "username": "iman",
@@ -53,7 +57,8 @@
             "theme": "Light",
             "phone": "1 (404) 555-2255",
             "pic": "/assets/img/profilephotos/iman.jpg",
-            "notes": "Demo the app for the HSH Team!"
+            "notes": "Demo the app for the HSH Team!",
+            "email1": "cokere@boruapps.com"
         },
         "kaye": {
             "username": "kaye",
@@ -64,7 +69,8 @@
             "theme": "Dark",
             "phone": "1 (404) 555-2255",
             "pic": "",
-            "notes": "Demo the app for the HSH Team!"
+            "notes": "Demo the app for the HSH Team!",
+            "email1": "kcaldwell@unpackme.com"
         },
         "diana": {
             "username": "diana",
@@ -75,7 +81,8 @@
             "theme": "Light",
             "phone": "1 (404) 555-2255",
             "pic": "",
-            "notes": "Demo the app for the HSH Team!"
+            "notes": "Demo the app for the HSH Team!",
+            "email1": "ddirocco@unpackme.com"
         }
     }
 }

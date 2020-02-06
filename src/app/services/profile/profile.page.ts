@@ -50,8 +50,8 @@ public toastController: ToastController,
   ngOnInit() {
     this.userinfo.first_name = this.userinfo.firstname;
     this.userinfo.last_name = this.userinfo.lastname;
-    this.userinfo.email1 = "cokere@boruapps.com";
-    this.userinfo.user_name = "Chuck";
+    this.userinfo.email1 = this.userinfo.email1;
+    this.userinfo.user_name = this.userinfo.username;
     this.userinfo.profile_picture = this.userinfo.pic;
     this.has_profile_picture = false;
     this.userinfo.unavailable = "I'm on vacation January 1st to January 13th please don't book me during those times!";
