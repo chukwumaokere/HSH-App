@@ -15,10 +15,12 @@
           <div class="ion-padding">
             <ion-item>
               <ion-input #un class="transparent" name="identifier" type="text" placeholder="Phone number or Email address" ngModel required autocomplete clear-input></ion-input>
-              <ion-input #me class="transparent" name="method" id="method" type="hidden" value="check"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="isShown">
+              <ion-input  #pw class="transparent auth_code_login" name="auth_code" type="text" placeholder="Auth Code" ngModel clear-input></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input #pw class="transparent ng-hide auth_code_login" name="auth_code" type="text" placeholder="Auth Code" ngModel clear-input></ion-input>
+              <ion-input #me class="transparent ng-hide" name="method" id="method" type="text" value="check" ngModel [(value)]="check" ng-value="check" value="check"></ion-input>
             </ion-item>
           </div>
           <div class="ion-padding">

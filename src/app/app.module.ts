@@ -16,7 +16,6 @@ import {CallNumber} from '@ionic-native/call-number/ngx';
 import {EmailComposer} from '@ionic-native/email-composer/ngx';
 import {CommentsModalPageModule} from './services/detail/comments/comments.module';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
-import {AppConstants} from './providers/constant/constant';
 import {AppConfig} from './AppConfig';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -35,7 +34,6 @@ import {HttpClientModule} from '@angular/common/http';
         EmailComposer,
         InAppBrowser,
         CommentsModalPageModule,
-        AppConstants,
         AppConfig
     ],
     bootstrap: [AppComponent]

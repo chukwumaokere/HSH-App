@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import  {NavController, ToastController } from '@ionic/angular';
 import * as userjson from '../../assets/js/sampledata/users.json';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { AppConstants } from '../providers/constant/constant';
+import {AppConfig} from '../AppConfig';
 
 @Component({
   selector: 'app-login',
@@ -19,14 +19,16 @@ export class LoginPage implements OnInit {
       public storage: Storage,
       public toastController: ToastController,
       private httpClient: HttpClient,
-      public appConst: AppConstants,
-      private navCtrl: NavController
+      private navCtrl: NavController,
+      public AppConfig: AppConfig
   ) {
-      this.apiurl = this.appConst.getApiUrl();
-      this.vturl = this.appConst.getVtUrl();
+      this.apiurl = this.AppConfig.apiurl;
+      this.vturl = this.AppConfig.vturl;
   }
 
   userdata: Object;
+  loginfields: any = {};
+  isShown: boolean = false ;
 
   malformedUriErrorHandler(error: any){
     console.log(error);
@@ -51,10 +53,13 @@ export class LoginPage implements OnInit {
       headers.append('Access-Control-Allow-Origin', '*');
 
       if(origin == 'manual'){
+          this.isShown = true;
       console.log('login clicked');
             var formvalue = form.value;
+            this.loginfields['identifier'] = formvalue.identifier;
+            this.loginfields['auth_code'] = formvalue.auth_code;
                 console.log(form.value);
-                this.httpClient.post(this.apiurl + "postLogin.php", form.value, {headers: headers, observe: 'response'})
+                this.httpClient.post(this.apiurl + "postLogin.php", this.loginfields, {headers: headers, observe: 'response'})
                     .subscribe(data => {
                         console.log(data['body']);
                         var verified = data['body']['success'];
@@ -64,7 +69,8 @@ export class LoginPage implements OnInit {
                             if (data_ == 'auth_created' || formvalue.method == 'check') {
                                 this.presentToast('Please enter Auth Code.');
                                 form.controls['method'].setValue('login');
-                                form.controls['auth_code'].removeClass('ng-hide');
+                                this.loginfields['method'] = 'login';
+                                form.controls['auth_code'].remove('ng-hide');
                             }
                             else if (data_ == 'missing_auth_code') {
                                 this.presentToast('Please enter Auth Code.');
@@ -90,23 +96,6 @@ export class LoginPage implements OnInit {
                         console.log('login failed');
                         this.presentToast('Login failed. Please try again');
                     });
-
-      /*if (userjson.users[data.email]){
-        if(userjson.users[data.email].password == data.password){
-          this.userdata = userjson.users[data.email];
-          this.storage.ready().then(() => {
-            this.storage.set('userdata', this.userdata);
-            //return this.router.navigate(["/tabs/dashboard", this.userdata]);
-            this.navCtrl.navigateForward('/tabs/dashboard');
-          })
-        }else{
-          console.log('login failed');
-          this.presentToast('Login failed. Please try again');
-        }
-      }else{
-        console.log('login failed');
-        this.presentToast('Login failed. Please try again');
-      }*/
     /* Verify user login */
     }else if (origin == 'auto'){
       console.log('auto login from session');
