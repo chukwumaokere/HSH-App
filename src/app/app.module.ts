@@ -16,12 +16,13 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { CommentsModalPageModule } from './services/detail/comments/comments.module';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-
+import { AppConstants } from './providers/constant/constant';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot()],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot()],
   providers: [
     StatusBar,
     SplashScreen,
@@ -32,7 +33,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     CallNumber,
     EmailComposer,
     InAppBrowser,
-    CommentsModalPageModule
+    CommentsModalPageModule,
+      AppConstants
   ],
   bootstrap: [AppComponent]
 })

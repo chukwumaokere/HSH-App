@@ -4,5 +4,15 @@
     "cordova": {}
   },
   "type": "angular",
+  "proxies": [
+    {
+      "path": "/drakelighting/*",
+      "proxyUrl": "http://devl06.borugroup.com"
+    },
+    {
+      "path": "/drakelighting/*",
+      "proxyUrl": "http://localhost"
+    }
+  ],
   "id": "313b03e1"
 }
