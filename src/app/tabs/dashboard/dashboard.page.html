@@ -1,156 +1,168 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="primary">
-      <ion-button (click)="openSettings()">
-        <ion-icon class="profile" size="large" name="Contact"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title></ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="primary">
+            <ion-button (click)="openSettings()">
+                <ion-icon class="profile" size="large" name="Contact"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title></ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen>
-  <div class="bg ion-padding">
-    <div class="dashboard-top-new ion-padding">
-      <div class="greeting">
-          <h1 class="thin-weight">Hello,</h1>&nbsp;&nbsp;<h1>{{userinfo?.firstname}}!</h1>
+    <div class="bg ion-padding">
+        <div class="dashboard-top-new ion-padding">
+            <div class="greeting">
+                <h1 class="thin-weight">Hello,</h1>&nbsp;&nbsp;<h1>{{userinfo?.firstname}}!</h1>
+            </div>
+            <ion-text class="weight-200 primary-contrast">Heres your summary for today:</ion-text>
+            <br><br>
+        </div>
+        <!-- graphs -->
+        <!--   <div class="graphs-container">
+              <ion-card class="">
+                <ion-card-header>
+                  <ion-card-subtitle>Today's</ion-card-subtitle>
+                  <ion-card-title>Actions Needed</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <canvas #actionsNeeded></canvas>
+                </ion-card-content>
+              </ion-card>
+
+              <ion-card class="">
+                <ion-card-header>
+                  <ion-card-subtitle>Status Of</ion-card-subtitle>
+                  <ion-card-title>Daily Assigned Jobs</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <canvas #barChart></canvas>
+                </ion-card-content>
+              </ion-card>
+
+              <ion-card class="">
+                <ion-card-header>
+                  <ion-card-subtitle>Past Year</ion-card-subtitle>
+                  <ion-card-title>Work To Date</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <canvas #line></canvas>
+                </ion-card-content>
+              </ion-card>
+
+          </div> -->
+        <!-- //graphs -->
+
+        <!-- <div class="header ion-padding">
+          <ion-text>Notifications</ion-text>
+        </div> -->
+
+        <div class="pills">
+            <ion-card class="pill-card" type="button" (click)="goToPage('notifications', 'invites_ref')">
+                <ion-card-header class="no-padding-bottom">
+                    <ion-card-subtitle>New Invites</ion-card-subtitle>
+                    <ion-card-title>
+                        {{dashboardData.new_invites.total}} <ion-icon class="pill-icon" name="mail" size="large"></ion-icon>
+                    </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    {{dashboardData.new_invites.total}} New Invites
+                </ion-card-content>
+            </ion-card>
+            <ion-card class="pill-card" type="button" (click)="goToPage('services', 'new_jobs')">
+                <ion-card-header class="no-padding-bottom">
+                    <ion-card-subtitle>New Jobs</ion-card-subtitle>
+                    <ion-card-title>
+                      {{dashboardData.new_jobs.total}} <ion-icon class="pill-icon" name="hammer" size="large"></ion-icon>
+                    </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    {{dashboardData.new_jobs.total}} New Jobs
+                </ion-card-content>
+            </ion-card>
+            <ion-card class="pill-card" type="button" (click)="goToPage('services', 'active_jobs')">
+                <ion-card-header class="no-padding-bottom">
+                    <ion-card-subtitle>Active Jobs</ion-card-subtitle>
+                    <ion-card-title>
+                      {{dashboardData.active_jobs.total}} <ion-icon class="pill-icon" name="calendar" size="large"></ion-icon>
+                    </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    {{dashboardData.active_jobs.total}} Active Jobs
+                </ion-card-content>
+            </ion-card>
+            <ion-card class="pill-card" type="button" (click)="goToPage('notifications', 'responses_ref')">
+                <ion-card-header class="no-padding-bottom">
+                    <ion-card-subtitle>Updates Needed</ion-card-subtitle>
+                    <ion-card-title>
+                      {{dashboardData.update_needed.total}} <ion-icon class="pill-icon" name="cloud-upload" size="large"></ion-icon>
+                    </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    {{dashboardData.update_needed.total}} Update Needed
+                </ion-card-content>
+            </ion-card>
+            <ion-card class="pill-card" type="button" (click)="goToPage('notifications')">
+                <ion-card-header class="no-padding-bottom">
+                    <ion-card-subtitle>Requests</ion-card-subtitle>
+                    <ion-card-title>
+                      {{dashboardData.request.total}} <ion-icon class="pill-icon" name="construct" size="large"></ion-icon>
+                    </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    {{dashboardData.request.total}} Request
+                </ion-card-content>
+            </ion-card>
+            <ion-card class="pill-card" type="button" (click)="goToPage('notifications', 'responses_ref')">
+                <ion-card-header class="no-padding-bottom">
+                    <ion-card-subtitle>Responses</ion-card-subtitle>
+                    <ion-card-title>
+                      {{dashboardData.response.total}} <ion-icon class="pill-icon" name="mail-open" size="large"></ion-icon>
+                    </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    {{dashboardData.response.total}} Response
+                </ion-card-content>
+            </ion-card>
+        </div>
+    </div>
+
+    <!-- Old Dashboard  -->
+    <!-- <div class="fixed" ion-fixed>
+      <div class="dashboard-top ion-padding">
+        <div class="greeting">
+            <h1 class="thin-weight">Hello,</h1>&nbsp;&nbsp;<h1>{{userinfo?.firstname}}!</h1>
+        </div>
+        <ion-text class="weight-200 primary-contrast">Heres your summary for today:</ion-text>
+        <br><br>
       </div>
-      <ion-text class="weight-200 primary-contrast">Heres your summary for today:</ion-text>
-      <br><br>
     </div>
-    <!-- graphs -->
-  <!--   <div class="graphs-container">
-        <ion-card class="">
-          <ion-card-header>
-            <ion-card-subtitle>Today's</ion-card-subtitle>
-            <ion-card-title>Actions Needed</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <canvas #actionsNeeded></canvas>
-          </ion-card-content>
-        </ion-card>
+    <div class="overlayed">
+      <div class="dashboard-mid ion-padding">
+          <h2>Invites</h2>
+          <ul>
+            <li><h6>3 New <a (click)="goToPage('notifications')">Invites</a></h6></li>
+          </ul>
 
-        <ion-card class="">
-          <ion-card-header>
-            <ion-card-subtitle>Status Of</ion-card-subtitle>
-            <ion-card-title>Daily Assigned Jobs</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <canvas #barChart></canvas>
-          </ion-card-content>
-        </ion-card>
+          <h2>Jobs</h2>
+          <ul>
+            <li><h6>2 new <a (click)="goToPage('services')">Jobs</a></h6></li>
+          </ul>
 
-        <ion-card class="">
-          <ion-card-header>
-            <ion-card-subtitle>Past Year</ion-card-subtitle>
-            <ion-card-title>Work To Date</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <canvas #line></canvas>
-          </ion-card-content>
-        </ion-card>
+          <h2>Future Jobs</h2>
+          <ul>
+            <li><h6>5 new assigned <a (click)="goToPage('services')">Future Jobs</a></h6></li>
+          </ul>
 
-    </div> -->
-    <!-- //graphs -->
+          <h2>Comments</h2>
+          <ul>
+            <li><h6>1 reply to a <a (click)="goToPage('notifications')">Question</a></h6></li>
+          </ul>
 
-    <!-- <div class="header ion-padding">
-      <ion-text>Notifications</ion-text>
-    </div> -->
-
-    <div class="pills">
-      <ion-card class="pill-card" type="button" (click)="goToPage('notifications', 'invites_ref')">
-        <ion-card-header class="no-padding-bottom">
-          <ion-card-subtitle>New Invites</ion-card-subtitle>
-          <ion-card-title>3 <ion-icon class="pill-icon" name="mail" size="large"></ion-icon></ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          3 New Invites
-        </ion-card-content>
-      </ion-card>  
-      <ion-card class="pill-card" type="button" (click)="goToPage('services', 'new_jobs')">
-        <ion-card-header class="no-padding-bottom">
-          <ion-card-subtitle>New Jobs</ion-card-subtitle>
-          <ion-card-title>2 <ion-icon class="pill-icon" name="hammer" size="large"></ion-icon></ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          2 New Jobs
-        </ion-card-content>
-      </ion-card> 
-      <ion-card class="pill-card" type="button" (click)="goToPage('services', 'active_jobs')">
-        <ion-card-header class="no-padding-bottom">
-          <ion-card-subtitle>Active Jobs</ion-card-subtitle>
-          <ion-card-title>5 <ion-icon class="pill-icon" name="calendar" size="large"></ion-icon></ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          5 Active Jobs
-        </ion-card-content>
-      </ion-card> 
-      <ion-card class="pill-card" type="button" (click)="goToPage('notifications', 'responses_ref')">
-        <ion-card-header class="no-padding-bottom">
-          <ion-card-subtitle>Updates Needed</ion-card-subtitle>
-          <ion-card-title>1 <ion-icon class="pill-icon" name="cloud-upload" size="large"></ion-icon></ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          1 Update Needed
-        </ion-card-content>
-      </ion-card> 
-      <ion-card class="pill-card" type="button" (click)="goToPage('notifications')">
-        <ion-card-header class="no-padding-bottom">
-          <ion-card-subtitle>Requests</ion-card-subtitle>
-          <ion-card-title>1 <ion-icon class="pill-icon" name="construct" size="large"></ion-icon></ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          1 Request
-        </ion-card-content>
-      </ion-card>
-      <ion-card class="pill-card" type="button" (click)="goToPage('notifications', 'responses_ref')">
-        <ion-card-header class="no-padding-bottom">
-          <ion-card-subtitle>Responses</ion-card-subtitle>
-          <ion-card-title>1 <ion-icon class="pill-icon" name="mail-open" size="large"></ion-icon></ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          1 Response
-        </ion-card-content>
-      </ion-card>      
-    </div>
-  </div>
-  
-  <!-- Old Dashboard  -->
-  <!-- <div class="fixed" ion-fixed>
-    <div class="dashboard-top ion-padding">
-      <div class="greeting">
-          <h1 class="thin-weight">Hello,</h1>&nbsp;&nbsp;<h1>{{userinfo?.firstname}}!</h1>
+          <h2>Completed Jobs</h2>
+          <ul>
+            <li><h6>You completed <a (click)="goToPage('completed')">2 jobs yesterday</a></h6></li>
+          </ul>
       </div>
-      <ion-text class="weight-200 primary-contrast">Heres your summary for today:</ion-text>
-      <br><br>
-    </div>
-  </div>
-  <div class="overlayed">
-    <div class="dashboard-mid ion-padding">
-        <h2>Invites</h2>
-        <ul>
-          <li><h6>3 New <a (click)="goToPage('notifications')">Invites</a></h6></li>
-        </ul>
-
-        <h2>Jobs</h2>
-        <ul>
-          <li><h6>2 new <a (click)="goToPage('services')">Jobs</a></h6></li>
-        </ul>
-
-        <h2>Future Jobs</h2>
-        <ul>
-          <li><h6>5 new assigned <a (click)="goToPage('services')">Future Jobs</a></h6></li>
-        </ul>
-        
-        <h2>Comments</h2>
-        <ul>
-          <li><h6>1 reply to a <a (click)="goToPage('notifications')">Question</a></h6></li>
-        </ul>
-
-        <h2>Completed Jobs</h2>
-        <ul>
-          <li><h6>You completed <a (click)="goToPage('completed')">2 jobs yesterday</a></h6></li>
-        </ul>
-    </div>
-  </div> -->
+    </div> -->
 </ion-content>
