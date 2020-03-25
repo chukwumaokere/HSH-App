@@ -13,11 +13,11 @@
   ],
   "proxies": [
     {
-      "path": "/drakelighting/*",
+      "path": "/hsh/*",
       "proxyUrl": "http://devl06.borugroup.com"
     },
     {
-      "path": "/drakelighting/*",
+      "path": "/hsh/*",
       "proxyUrl": "http://localhost"
     }
   ]

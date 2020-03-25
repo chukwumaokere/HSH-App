@@ -5,6 +5,8 @@ import {ProfileModalPage} from 'src/app/services/profile/profile.page';
 import {ModalController} from '@ionic/angular';
 import {Chart} from 'chart.js';
 import {AppConfig} from '../../AppConfig';
+import {LoadingController} from '@ionic/angular';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-dashboard',
@@ -17,6 +19,7 @@ export class DashboardPage implements OnInit {
     profile_picture: any;
     has_profile_picture: boolean = false;
     apiurl: any;
+    vturl: any;
     dataReturned: any;
     dashboardData: {};
 
@@ -33,8 +36,12 @@ export class DashboardPage implements OnInit {
         private router: Router,
         private activatedRoute: ActivatedRoute,
         public modalCtrl: ModalController,
-        public AppConfig: AppConfig
+        public AppConfig: AppConfig,
+        public loadingController: LoadingController,
+        private httpClient: HttpClient,
     ) {
+        this.apiurl = this.AppConfig.apiurl;
+        this.vturl = this.AppConfig.vturl;
     }
 
     createCharts() {
@@ -184,6 +191,22 @@ export class DashboardPage implements OnInit {
         });
     }
 
+    loading: any;
+
+    async showLoading() {
+        this.loading = await this.loadingController.create({
+            message: 'Loading ...'
+        });
+        return await this.loading.present();
+    }
+
+    async hideLoading() {
+        setTimeout(() => {
+            if (this.loading != undefined) {
+                this.loading.dismiss();
+            }
+        }, 3000);
+    }
 
     fetchDashboard() {
         var record_id = this.user_id;
@@ -221,29 +244,30 @@ export class DashboardPage implements OnInit {
     }
 
     ngOnInit() {
+
         this.dashboardData = {
             new_invites: {
-                total: 3,
+                total: 0,
                 data: {}
             },
             new_jobs: {
-                total: 2,
+                total: 0,
                 data: {}
             },
             active_jobs: {
-                total: 5,
+                total: 0,
                 data: {}
             },
             update_needed: {
-                total: 1,
+                total: 0,
                 data: {}
             },
             request: {
-                total: 2,
+                total: 0,
                 data: {}
             },
             response: {
-                total: 1,
+                total: 0,
                 data: {}
             },
         };
@@ -264,6 +288,7 @@ export class DashboardPage implements OnInit {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
                             this.loadTheme(result.theme.toLowerCase());
+                            this.loadDashboardData(this.userinfo.id, 2925701);
                         } else {
                             console.log('nothing in storage, going back to login');
                             this.logout();
@@ -347,5 +372,41 @@ export class DashboardPage implements OnInit {
         };
         document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.
         console.log('turning off previous theme', theme_switcher[theme]);
+    }
+
+    loadDashboardData(user_id, contractor_id){
+        const data = {
+            user_id: user_id,
+            contractor_id: contractor_id
+        };
+        const headers = new HttpHeaders();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.showLoading();
+        this.httpClient.post(this.apiurl + 'getJobs.php', data, {headers, observe: 'response'})
+            .subscribe(data => {
+                this.hideLoading();
+                const success = data.body.success;
+
+                if (success == true) {
+                    const items = data.body.data;
+                    items.forEach(item => {
+                        if(item.title == 'New Invites'){
+                            this.dashboardData.new_invites.total = item.count;
+                        } else if (item.title == 'New Jobs'){
+                            this.dashboardData.new_jobs.total = item.count;
+                        } else if (item.title == 'Active Jobs'){
+                            this.dashboardData.active_jobs.total = item.count;
+                        }
+                    });
+                } else {
+                    console.log('failed to fetch records');
+                }
+
+            }, error => {
+                this.hideLoading();
+                console.log('failed to fetch records');
+            });
     }
 }
