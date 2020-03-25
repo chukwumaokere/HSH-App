@@ -1,606 +1,375 @@
-import { Component, OnInit, LOCALE_ID, Inject, } from '@angular/core';
-import { ActivatedRoute, Router } from  "@angular/router";
-import { NavController, ToastController, AlertController, ModalController  } from '@ionic/angular';
-import { formatDate } from '@angular/common';
-import { Storage } from '@ionic/storage';
-import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet/ngx';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { CommentsModalPage } from './comments/comments.page';
-import { CallNumber } from '@ionic-native/call-number/ngx';
-import { EmailComposer } from '@ionic-native/email-composer/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import {Component, OnInit, LOCALE_ID, Inject,} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NavController, ToastController, AlertController, ModalController} from '@ionic/angular';
+import {formatDate} from '@angular/common';
+import {Storage} from '@ionic/storage';
+import {ActionSheet, ActionSheetOptions} from '@ionic-native/action-sheet/ngx';
+import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {CommentsModalPage} from './comments/comments.page';
+import {CallNumber} from '@ionic-native/call-number/ngx';
+import {EmailComposer} from '@ionic-native/email-composer/ngx';
+import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
+import {HttpHeaders, HttpClient} from '@angular/common/http';
+import {AppConfig} from '../../AppConfig';
 
 
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.page.html',
-  styleUrls: ['./detail.page.scss'],
+    selector: 'app-detail',
+    templateUrl: './detail.page.html',
+    styleUrls: ['./detail.page.scss'],
 })
 export class DetailPage implements OnInit {
-  userinfo: any;
-  serviceid: any;
-  dataReturned: any;
-  details: any = [
-    {
-      id: 0,
-      transferee_firstname: 'Feyi',
-      transferee_lastname: 'Ojomo',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'fojomo@test.com',
-      secondary_firstname: 'Esosa',
-      secondary_lastname: 'Ojomo',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'eojomo@testing.com',
-      address_details: '872 Kells Circle, Vacaville, CA 95688',
-      d_for_dd: 'Hillsboro, OR',
-      status: 'In-Process',
-      service_type: 'Discard and Donate',
-      support: 'Lesley Mullen',
-      support_ph: '9541215534',
-      support_email: 'lmullen@unpack.me',
-      title: 'Ojomo: Discard and Donate',
-      complete_date: '',
-      desc: `This lady has 4 cats and 3 kids. The place is a bit of a mess. Heads up`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    },
-    {
-      id: 1,
-      transferee_firstname: 'Adam',
-      transferee_lastname: 'Charisse',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'acharisse@test.com',
-      secondary_firstname: 'Chris',
-      secondary_lastname: 'Teller',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'cteller@testing.com',
-      address_details: '1 Infinite Loop, Cupertino, CA, 95014',
-      d_for_dd: 'San Bernadino, CA',
-      status: 'In-Process',
-      service_type: 'Quick Start',
-      support: 'Miki Brennan',
-      support_ph: '9541215534',
-      support_email: 'mbrennan@unpack.me',
-      title: 'Charisse: Quick Start',
-      complete_date: '',
-      desc: `Nothing to notify about`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    },
-    {
-      id: 2,
-      transferee_firstname: 'Quinton',
-      transferee_lastname: 'Mitsue',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'qmitsue@gmail.com',
-      secondary_firstname: 'Clarabelle',
-      secondary_lastname: 'Breitenberg',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'Clarabelle_Breitenberg@yahoo.com',
-      address_details: '15362 Emard Crescent, Lake Eliasborough, Delaware, 79380',
-      d_for_dd: 'Lost Angeles, CA',
-      status: 'In-Process',
-      service_type: 'Move IN Clean',
-      support: 'Faye Feinstein',
-      support_ph: '9541215534',
-      support_email: 'ffeinstein@unpack.me',
-      title: 'Mitsue: Move IN Clean',
-      complete_date: '',
-      desc: `N/A`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    },
-    {
-      id: 5,
-      transferee_firstname: 'Felipa',
-      transferee_lastname: 'Lavette',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'flavette@test.com',
-      secondary_firstname: 'Kyle',
-      secondary_lastname: 'Stoltenberg',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'kStoltenberg@testing.com',
-      address_details: '6084 Wolf Shoals, Eunashire, UT 34903',
-      d_for_dd: 'Oakland, CA',
-      status: 'In-Process',
-      service_type: 'Discard and Donate',
-      support: 'Miki Brennan',
-      support_ph: '9541215534',
-      support_email: 'mbrennan@unpack.me',
-      title: 'Lavette: Discard and Donate',
-      complete_date: '',
-      desc: `Something to notify about`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    },
-    {
-      id: 6,
-      transferee_firstname: 'Adam',
-      transferee_lastname: 'Kerry',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'akerry@test.com',
-      secondary_firstname: 'Chris',
-      secondary_lastname: 'Teller',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'cteller@testing.com',
-      address_details: '954 Microsoft Way, Palo Alto, CA, 95014',
-      d_for_dd: 'Riverside, CA',
-      status: 'In-Process',
-      service_type: 'Quick Start',
-      support: 'Miki Brennan',
-      support_ph: '9541215534',
-      support_email: 'ffeinstein@unpack.me',
-      title: 'Kerry: Quick Start',
-      complete_date: '',
-      desc: `Nothing to notify about`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    },
-    {
-      id: 7,
-      transferee_firstname: 'Adam',
-      transferee_lastname: 'Charisse',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'acharisse@test.com',
-      secondary_firstname: 'Chris',
-      secondary_lastname: 'Teller',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'cteller@testing.com',
-      address_details: '1 Infinite Loop, Cupertino, CA, 95014',
-      d_for_dd: 'Vacaville, CA',
-      status: 'In-Process',
-      service_type: 'Quick Start',
-      support: 'Miki Brennan',
-      support_ph: '9541215534',
-      support_email: 'mbrennan@unpack.me',
-      title: 'Charisse: Quick Start',
-      complete_date: '',
-      desc: `Nothing to notify about`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    },
-    {
-      id: 8,
-      transferee_firstname: 'Adam',
-      transferee_lastname: 'Charisse',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'acharisse@test.com',
-      secondary_firstname: 'Chris',
-      secondary_lastname: 'Teller',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'cteller@testing.com',
-      address_details: '1 Infinite Loop, Cupertino, CA, 95014',
-      d_for_dd: 'Vacaville, CA',
-      status: 'In-Process',
-      service_type: 'Quick Start',
-      support: 'Miki Brennan',
-      support_ph: '9541215534',
-      support_email: 'mbrennan@unpack.me',
-      title: 'Charisse: Quick Start',
-      complete_date: '',
-      desc: `Nothing to notify about`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    },
-    {
-      id: 9,
-      transferee_firstname: 'Adam',
-      transferee_lastname: 'Charisse',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'acharisse@test.com',
-      secondary_firstname: 'Chris',
-      secondary_lastname: 'Teller',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'cteller@testing.com',
-      address_details: '1 Infinite Loop, Cupertino, CA, 95014',
-      d_for_dd: 'Vacaville, CA',
-      status: 'In-Process',
-      service_type: 'Quick Start',
-      support: 'Miki Brennan',
-      support_ph: '9541215534',
-      support_email: 'mbrennan@unpack.me',
-      title: 'Charisse: Quick Start',
-      complete_date: '',
-      desc: `Nothing to notify about`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    },
-
-  ];
-  status_picklist: any = ['Following Up', 'Waiting for Reply', 'Mtg Scheduled', 'In-Process', 'Complete'];
-  secondaryInfo: any = {
-    open: false,
-  };
-  
-  servicedetail: any = {
-    id: '',
-    transferee_lastname: '',
-    transferee_firstname: '',
-    transferee_phonenumber: '',
-    secondary_lastname: '',
-    secondary_firstname: '',
-    secondary_phonenumber: '',
-    address_details: '',
-    d_for_dd: '',
-    status: '',
-    support: '',
-    support_ph: '',
-    support_email: '',
-    service_type: '',
-    title: '',
-    complete_date: '',
-    desc: '',
-    startdate: '',
-    starttime:'',
-    duedate: '',
-    duetime: '',
-    enddate: '',
-    endtime: '',
-    isComplete: false,
-  }
-  buttonLabels = ['Take Photo', 'Upload from Library'];
-
-  actionOptions: ActionSheetOptions = {
-    title: 'Which would you like to do?',
-    buttonLabels: this.buttonLabels,
-    addCancelButtonWithLabel: 'Cancel',
-    androidTheme: 1 //this.actionSheet.ANDROID_THEMES.THEME_HOLO_DARK,
-  }
-  options: CameraOptions = {
-    quality: 50,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    saveToPhotoAlbum: false //true causes crash probably due to permissions to access library.
-  }
-
-  libraryOptions: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-  }
-
-  constructor(
-    public toastController: ToastController,
-    public alertController: AlertController, 
-    public modalCtrl : ModalController,
-    private actionSheet: ActionSheet, 
-    private callNumber: CallNumber,
-    private camera: Camera, 
-    public navCtrl: NavController, 
-    private  router:  Router, 
-    public storage: Storage, 
-    private activatedRoute: ActivatedRoute, 
-    private emailComposer: EmailComposer,
-    private iab: InAppBrowser,
-    @Inject(LOCALE_ID) private locale: string) {
-      this.secondaryInfo.open = false;
-     }
-
-  loadDetails(serviceid){
-    console.log('loading details for service id:', serviceid);
-    var d = this.details;
-    var result = d.find( ({id}) => id == serviceid);
-    console.log('result is', result);
-     /* var result = {
-      id: 0,
-      transferee_firstname: 'Feyi',
-      transferee_lastname: 'Ojomo',
-      transferee_phonenumber: '7073650079',
-      transferee_email: 'fojomo@test.com',
-      secondary_firstname: 'Esosa',
-      secondary_lastname: 'Ojomo',
-      secondary_phonenumber: '2133088643',
-      secondary_email: 'eojomo@testing.com',
-      address_details: '872 Kells Circle, Vacaville, CA 95688',
-      d_for_dd: 'Hillsboro, OR',
-      status: 'In-Process',
-      service_type: 'Discard and Donate',
-      support: 'Lesly Mullen',
-      support_ph: '9541215534',
-      support_email: 'jquick@unpack.me',
-      title: 'Ojomo: Discard and Donate',
-      complete_date: '',
-      desc: `This lady has 4 cats and 3 kids. The place is a bit of a mess. Heads up`,
-      startdate: '2019-11-12',
-      starttime: '08:00AM',
-      duedate: '2019-11-12',
-      duetime: '09:00AM',
-      enddate: '',
-      endtime:'',
-      isComplete: false,
-    };  */
-    this.servicedetail = result;
-  }
-
-  logout(){
-    console.log('logout clicked');
-    this.storage.set("userdata", null);
-    this.router.navigateByUrl('/login');
-  }
-
-  async getCurrentTheme(){
-    var current_theme = this.storage.get('userdata').then((userdata) => {
-      if(userdata && userdata.length !== 0){
-        //current_theme = userdata.theme.toLowerCase();
-        return userdata.theme.toLowerCase();
-      }else{
-        return false;
-      }
-    })
-    return current_theme;
-  }
-
-  async updateCurrentTheme(theme: string){
-    var userjson: object;
-    await this.isLogged().then(result => {
-      if (!(result == false)){
-        userjson = result;
-      }
-    })
-    //console.log('from set current theme', userjson.theme);
-    userjson['theme'] = theme.charAt(0).toUpperCase() + theme.slice(1);
-    //console.log('from set current theme', userjson);
-    this.storage.set('userdata', userjson);
-    this.userinfo.theme= theme.charAt(0).toUpperCase() + theme.slice(1);
-    console.log('updated theme on storage memory');
-  }
-
-   async switchTheme(){
-    var current_theme;
-    await this.getCurrentTheme().then((theme) => {
-      console.log("the current theme is", theme);
-      current_theme = theme;
-    });
-    var theme_switcher = {
-                          "dark": "light", 
-                          "light": "dark"
+    userinfo: any;
+    serviceid: any;
+    dataReturned: any;
+    apiurl: any;
+    isCompleteJob: number = 0;
+    status_picklist: any = ['Following Up', 'Waiting for Reply', 'Mtg Scheduled', 'In-Process', 'Complete'];
+    secondaryInfo: any = {
+        open: false,
     };
-    var destination_theme = theme_switcher[current_theme]
-    console.log('switching theme from:', current_theme);
-    console.log('switching theme to:', destination_theme);
-    document.body.classList.toggle(destination_theme, true);
-    document.body.classList.toggle(current_theme, false);
-    this.updateCurrentTheme(destination_theme);
-    console.log('theme switched');
-  }
 
-  async isLogged(){
-    var log_status = this.storage.get('userdata').then((userdata) => {
-       if(userdata && userdata.length !== 0){
-         return userdata;
-       }else{
-         return false;
-       }
-     })
-     return log_status;
-   }
+    servicedetail: any = {};
+    buttonLabels = ['Take Photo', 'Upload from Library'];
 
-   loadTheme(theme){
-    console.log('loading theme', theme);
-    document.body.classList.toggle(theme, true);
-    var theme_switcher = {
-      "dark": "light", 
-      "light": "dark"
-    };
-    document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.
-    console.log('turning off previous theme', theme_switcher[theme]);
-   }
-   openCamera(serviceid){
-    console.log('launching camera');
-         this.camera.getPicture(this.options).then((imageData) => {
-          // imageData is either a base64 encoded string or a file URI
-          // If it's base64 (DATA_URL):
-          let base64Image = 'data:image/png;base64,' + imageData;
-             //this.imgpov.setImage(imageData);
-             //this.openModal(serviceid,base64Image);
-          // TODO: need code to upload to server here.
-          // On success: show toast
-          this.presentToastPrimary('Photo uploaded and added! \n' + imageData);          
-        }, (err) => {
-          // Handle error
-          console.error(err);
-          // On Fail: show toast
-          if(err != "no image selected"){
-            this.presentToast(`Upload failed! Please try again \n` + err);
-          }
+    actionOptions: ActionSheetOptions = {
+        title: 'Which would you like to do?',
+        buttonLabels: this.buttonLabels,
+        addCancelButtonWithLabel: 'Cancel',
+        androidTheme: 1 //this.actionSheet.ANDROID_THEMES.THEME_HOLO_DARK,
+    }
+    options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        saveToPhotoAlbum: false //true causes crash probably due to permissions to access library.
+    }
+
+    libraryOptions: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    }
+
+    constructor(public toastController: ToastController,
+                public alertController: AlertController,
+                public modalCtrl: ModalController,
+                private actionSheet: ActionSheet,
+                private callNumber: CallNumber,
+                private camera: Camera,
+                public navCtrl: NavController,
+                private  router: Router,
+                public storage: Storage,
+                private activatedRoute: ActivatedRoute,
+                private emailComposer: EmailComposer,
+                private httpClient: HttpClient,
+                public AppConfig: AppConfig,
+                private iab: InAppBrowser,
+                @Inject(LOCALE_ID) private locale: string) {
+        this.secondaryInfo.open = false;
+        this.apiurl = this.AppConfig.apiurl;
+    }
+
+    loadDetails(serviceid) {
+        console.log('loading details for service id:', serviceid)
+        var params = {
+            record_id: serviceid
+        }
+        var headers = new HttpHeaders();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.httpClient.post(this.apiurl + 'getJobDetail.php', params, {headers: headers, observe: 'response'})
+            .subscribe(data => {
+                console.log(data['body']);
+                var success = data['body']['success'];
+                console.log('getJobDetail response was', success);
+                if (success == true) {
+                   // var workorder = data['body']['data'];
+                    var allfields = data['body']['allfields'];
+                    console.log('allfields are', allfields);
+                    this.servicedetail = allfields;
+                    if (allfields.job_status == 'Released') {
+                        this.isCompleteJob = 1;
+                    }
+                    /*for (let key in workorder) {
+                        if (key != 'subject') {
+                            this.servicedetail.push({
+                                columnname: key,
+                                uitype: workorder[key].uitype,
+                                value: workorder[key].value,
+                                picklist: workorder[key].picklist,
+                                fieldlabel: workorder[key].fieldlabel,
+                            });
+                        }
+                    }*/
+                    console.log('servicedetail', this.servicedetail);
+                } else {
+                    console.log('failed to fetch record');
+                }
+
+            }, error => {
+                console.log('failed to fetch record');
+            });
+    }
+
+    logout() {
+        console.log('logout clicked');
+        this.storage.set('userdata', null);
+        this.router.navigateByUrl('/login');
+    }
+
+    async getCurrentTheme() {
+        var current_theme = this.storage.get('userdata').then((userdata) => {
+            if (userdata && userdata.length !== 0) {
+                //current_theme = userdata.theme.toLowerCase();
+                return userdata.theme.toLowerCase();
+            } else {
+                return false;
+            }
+        })
+        return current_theme;
+    }
+
+    async updateCurrentTheme(theme: string) {
+        var userjson: object;
+        await this.isLogged().then(result => {
+            if (!(result == false)) {
+                userjson = result;
+            }
+        })
+        //console.log('from set current theme', userjson.theme);
+        userjson['theme'] = theme.charAt(0).toUpperCase() + theme.slice(1);
+        //console.log('from set current theme', userjson);
+        this.storage.set('userdata', userjson);
+        this.userinfo.theme = theme.charAt(0).toUpperCase() + theme.slice(1);
+        console.log('updated theme on storage memory');
+    }
+
+    async switchTheme() {
+        var current_theme;
+        await this.getCurrentTheme().then((theme) => {
+            console.log('the current theme is', theme);
+            current_theme = theme;
         });
-  }
-  async presentToast(message: string) {
-    var toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      position: "top",
-      color: "danger"
-    });
-    toast.present();
-  }
-  
-  async presentToastPrimary(message: string) {
-    var toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      position: "bottom",
-      color: "primary"
-    });
-    toast.present();
-  }
-  openLibrary(serviceid){
-    console.log('launching gallery');
-        this.camera.getPicture(this.libraryOptions).then((imageData) => {
-          // imageData is either a base64 encoded string or a file URI
-          // If it's base64 (DATA_URL):
-          let base64Image = 'data:image/png;base64,' + imageData;
+        var theme_switcher = {
+            'dark': 'light',
+            'light': 'dark'
+        };
+        var destination_theme = theme_switcher[current_theme]
+        console.log('switching theme from:', current_theme);
+        console.log('switching theme to:', destination_theme);
+        document.body.classList.toggle(destination_theme, true);
+        document.body.classList.toggle(current_theme, false);
+        this.updateCurrentTheme(destination_theme);
+        console.log('theme switched');
+    }
+
+    async isLogged() {
+        var log_status = this.storage.get('userdata').then((userdata) => {
+            if (userdata && userdata.length !== 0) {
+                return userdata;
+            } else {
+                return false;
+            }
+        })
+        return log_status;
+    }
+
+    loadTheme(theme) {
+        console.log('loading theme', theme);
+        document.body.classList.toggle(theme, true);
+        var theme_switcher = {
+            'dark': 'light',
+            'light': 'dark'
+        };
+        document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.
+        console.log('turning off previous theme', theme_switcher[theme]);
+    }
+
+    openCamera(serviceid) {
+        console.log('launching camera');
+        this.camera.getPicture(this.options).then((imageData) => {
+            // imageData is either a base64 encoded string or a file URI
+            // If it's base64 (DATA_URL):
+            let base64Image = 'data:image/png;base64,' + imageData;
             //this.imgpov.setImage(imageData);
             //this.openModal(serviceid,base64Image);
-          // TODO: need code to upload to server here.
-          // On success: show toast
-          //this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
+            // TODO: need code to upload to server here.
+            // On success: show toast
+            this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
         }, (err) => {
-          // Handle error
-          console.error(err);
-          // On Fail: show toast
-          if(err != "has no access to assets"){
-            this.presentToast(`Upload failed! Please try again \n` + err);
-          }
-        });  
-  }
-  ngOnInit() {
-    this.activatedRoute.params.subscribe((userData)=>{
-      if(userData.length !== 0){
-        this.userinfo = userData;
-        console.log('param user data:', userData);
-        try{ 
-          this.loadTheme(userData.theme.toLowerCase());
-        }catch{
-          console.log('couldnt load theme');
-        }
-        console.log('param user data length:', userData.length);
-        if(userData.serviceid){
-          this.loadDetails(userData.serviceid);
-        }
-        if(userData.length == undefined){
-          console.log ('nothing in params, so loading from storage');
-          this.isLogged().then(result => {
-            if (!(result == false)){
-              console.log('loading storage data (within param route function)', result);
-              this.userinfo = result;
-              this.loadTheme(result.theme.toLowerCase());
-            }else{
-              console.log('nothing in storage, going back to login');
-              this.logout();
+            // Handle error
+            console.error(err);
+            // On Fail: show toast
+            if (err != 'no image selected') {
+                this.presentToast(`Upload failed! Please try again \n` + err);
             }
-          }); 
+        });
+    }
+
+    async presentToast(message: string) {
+        var toast = await this.toastController.create({
+            message: message,
+            duration: 2000,
+            position: 'top',
+            color: 'danger'
+        });
+        toast.present();
+    }
+
+    async presentToastPrimary(message: string) {
+        var toast = await this.toastController.create({
+            message: message,
+            duration: 2000,
+            position: 'bottom',
+            color: 'primary'
+        });
+        toast.present();
+    }
+
+    openLibrary(serviceid) {
+        console.log('launching gallery');
+        this.camera.getPicture(this.libraryOptions).then((imageData) => {
+            // imageData is either a base64 encoded string or a file URI
+            // If it's base64 (DATA_URL):
+            let base64Image = 'data:image/png;base64,' + imageData;
+            //this.imgpov.setImage(imageData);
+            //this.openModal(serviceid,base64Image);
+            // TODO: need code to upload to server here.
+            // On success: show toast
+            //this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
+        }, (err) => {
+            // Handle error
+            console.error(err);
+            // On Fail: show toast
+            if (err != 'has no access to assets') {
+                this.presentToast(`Upload failed! Please try again \n` + err);
+            }
+        });
+    }
+
+    ngOnInit() {
+        this.activatedRoute.params.subscribe((userData) => {
+            if (userData.length !== 0) {
+                this.userinfo = userData;
+                console.log('param user data:', userData);
+                try {
+                    this.loadTheme(userData.theme.toLowerCase());
+                } catch {
+                    console.log('couldnt load theme');
+                }
+                console.log('param user data length:', userData.length);
+                if (userData.serviceid) {
+                    this.loadDetails(userData.serviceid);
+                }
+                else {
+                    console.log('nothing in params, so loading from storage');
+                    this.isLogged().then(result => {
+                        if (!(result == false)) {
+                            console.log('loading storage data (within param route function)', result);
+                            this.userinfo = result;
+                            // this.loadTheme(result.theme.toLowerCase());
+                        } else {
+                            console.log('nothing in storage, going back to login');
+                            this.logout();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    async goToComments(id) {
+        console.log('Navigating to comments page for', id);
+        const modal = await this.modalCtrl.create({
+            component: CommentsModalPage,
+            componentProps: {
+                'id': id,
+                'service_record_details': this.servicedetail,
+            }
+        });
+
+        modal.onDidDismiss().then((dataReturned) => {
+            if (dataReturned !== null) {
+                this.dataReturned = dataReturned.data;
+            }
+        });
+
+        return await modal.present();
+    }
+
+    call(phonenumber) {
+        console.log('calling ', phonenumber);
+        /* this.callNumber.callNumber(phonenumber, true)
+        .then(res => console.log("Launched dialer!", res))
+        .catch(err => console.log("Error launching", err)) */
+        this.iab.create('tel:' + phonenumber, '_system');
+    }
+
+    sms(phonenumber) {
+        console.log('smsing ', phonenumber);
+        /* this.callNumber.callNumber(phonenumber, true)
+        .then(res => console.log("Launched dialer!", res))
+        .catch(err => console.log("Error launching", err)) */
+        this.iab.create('sms:' + phonenumber, '_system');
+    }
+
+    chat(recordid) {
+        console.log('opening chat for ', recordid);
+        /* this.callNumber.callNumber(phonenumber, true)
+        .then(res => console.log("Launched dialer!", res))
+        .catch(err => console.log("Error launching", err)) */
+        this.goToComments(recordid);
+    }
+
+    email(email) {
+        console.log('emailing ', email);
+        this.iab.create('mailto:' + email, '_system');
+        /* let emailtemplate = {
+          to: email,
+          cc: 'chukwumaokere@yahoo.com',
+          isHtml: true,
         }
-      }
-    });
-  }
-  async goToComments(id){
-    console.log('Navigating to comments page for', id);
-     const modal = await this.modalCtrl.create({
-         component: CommentsModalPage,
-         componentProps: {
-             "id" : id,
-             "service_record_details": this.servicedetail,
-         }
-     });
-
-     modal.onDidDismiss().then((dataReturned) => {
-         if (dataReturned !== null) {
-             this.dataReturned = dataReturned.data;
-         }
-     });
-
-     return await modal.present();
-  }
-  call(phonenumber){
-    console.log('calling ', phonenumber);
-    /* this.callNumber.callNumber(phonenumber, true)
-    .then(res => console.log("Launched dialer!", res))
-    .catch(err => console.log("Error launching", err)) */
-    this.iab.create('tel:'+ phonenumber, '_system');
-  }
-  sms(phonenumber){
-    console.log('smsing ', phonenumber);
-    /* this.callNumber.callNumber(phonenumber, true)
-    .then(res => console.log("Launched dialer!", res))
-    .catch(err => console.log("Error launching", err)) */
-    this.iab.create('sms:'+ phonenumber, '_system');
-  }
-  chat(recordid){
-    console.log('opening chat for ', recordid);
-    /* this.callNumber.callNumber(phonenumber, true)
-    .then(res => console.log("Launched dialer!", res))
-    .catch(err => console.log("Error launching", err)) */
-    this.goToComments(recordid);
-  }
-
-  email(email){
-    console.log('emailing ', email);
-    this.iab.create('mailto:'+ email, '_system');
-    /* let emailtemplate = {
-      to: email,
-      cc: 'chukwumaokere@yahoo.com',
-      isHtml: true, 
+        this.emailComposer.isAvailable().then((available: boolean) => {
+          if(available){
+            //send
+          }
+        }) */
     }
-    this.emailComposer.isAvailable().then((available: boolean) => {
-      if(available){
-        //send
-      }
-    }) */
-  }
-  contact(supportname){
-    console.log('opening action sheet for contact', supportname);
-    var contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Chat: ' + this.servicedetail.support ,'Email: ' + this.servicedetail.support_email];
 
-    var contactOptions: ActionSheetOptions = {
-      title: 'Which would you like to do?',
-      buttonLabels: contactLabels,
-      addCancelButtonWithLabel: 'Cancel',
-      androidTheme: 1 //this.actionSheet.ANDROID_THEMES.THEME_HOLO_DARK,
+    contact(supportname) {
+        console.log('opening action sheet for contact', supportname);
+        var contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Chat: ' + supportname, 'Email: ' + this.servicedetail.support_email];
+
+        var contactOptions: ActionSheetOptions = {
+            title: 'Which would you like to do?',
+            buttonLabels: contactLabels,
+            addCancelButtonWithLabel: 'Cancel',
+            androidTheme: 1 //this.actionSheet.ANDROID_THEMES.THEME_HOLO_DARK,
+        }
+        this.actionSheet.show(contactOptions).then((buttonIndex: number) => {
+            console.log('Option pressed', buttonIndex);
+            if (buttonIndex == 1) {
+                this.call(this.servicedetail.support_ph);
+            }
+            else if (buttonIndex == 2) {
+                this.chat(this.serviceid);
+            }
+            else if (buttonIndex == 3) {
+                this.email(this.servicedetail.support_email);
+            }
+        }).catch((err) => {
+            console.log(err);
+            this.presentToast(`Operation failed! \n` + err);
+        })
     }
-    this.actionSheet.show(contactOptions).then((buttonIndex: number) => {
-      console.log('Option pressed', buttonIndex);
-      if(buttonIndex == 1){
-        this.call(this.servicedetail.support_ph);
-      }
-      else if (buttonIndex == 2){
-        //this.sms(this.servicedetail.support_ph);
-        this.chat(this.serviceid);
-      }
-      else if (buttonIndex == 3){
-        this.email(this.servicedetail.support_email);
-      }
-    }).catch((err) => {
-      console.log(err);
-      this.presentToast(`Operation failed! \n` + err);
-    })
-  }
 
-  toggleSecondary(){
-    this.secondaryInfo.open = !this.secondaryInfo.open;
-    console.log("secondary info is now", this.secondaryInfo.open);
-  }
+    toggleSecondary() {
+        this.secondaryInfo.open = !this.secondaryInfo.open;
+        console.log('secondary info is now', this.secondaryInfo.open);
+    }
 }

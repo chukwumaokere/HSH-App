@@ -3,9 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button type="button" defaultHref="/tabs/services" text="Back"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{servicedetail.service_type}}</ion-title>
+    <ion-title>{{servicedetail.subject}}</ion-title>
     <ion-buttons slot="primary">
-      <ion-button type="button" (click)="goToComments(servicedetail.id)" text="Comments">
+      <ion-button type="button" (click)="goToComments(servicedetail.salesorderid)" text="Comments">
         <ion-text>Chat</ion-text>
           <!-- <ion-badge color="danger">1</ion-badge> -->
       </ion-button>
@@ -17,23 +17,23 @@
   <ion-list>
     <ion-item lines="none">
       <ion-label position="stacked">Transferee Name</ion-label>
-      <ion-text>{{servicedetail.transferee_firstname}} {{servicedetail.transferee_lastname}}</ion-text>
+      <ion-text>{{servicedetail.cf_765}} {{servicedetail.cf_743}}</ion-text>
     </ion-item>
     <ion-item lines="none">
       <ion-label position="stacked">Transferee Phone Number</ion-label>
-      <ion-text>{{servicedetail.transferee_phonenumber}}</ion-text>
-      <ion-button target="_self" color="primary" (click)="call(servicedetail.transferee_phonenumber)" size="default" slot="end" type="button"><ion-icon name="call" size="large" ></ion-icon></ion-button>
+      <ion-text>{{servicedetail.cf_748}}</ion-text>
+      <ion-button target="_self" color="primary" (click)="call(servicedetail.cf_748)" size="default" slot="end" type="button"><ion-icon name="call" size="large" ></ion-icon></ion-button>
     </ion-item>
     <ion-item lines="none">
       <ion-label position="stacked">Transferee Email</ion-label>
-      <ion-text>{{servicedetail.transferee_email}}</ion-text>
-      <ion-button target="_self" color="primary" (click)="email(servicedetail.transferee_email)" size="default" slot="end" type="button"><ion-icon name="mail" size="large" ></ion-icon></ion-button>
+      <ion-text>{{servicedetail.cf_752}}</ion-text>
+      <ion-button target="_self" color="primary" (click)="email(servicedetail.cf_752)" size="default" slot="end" type="button"><ion-icon name="mail" size="large" ></ion-icon></ion-button>
     </ion-item>
     <!-- Secondary Info -->
     <div (click)="toggleSecondary()" class="accordion-list" >
       <ion-item lines="none">
         <ion-label position="stacked">Secondary Contact Name</ion-label>
-        <ion-text>{{servicedetail.secondary_firstname}} {{servicedetail.secondary_lastname}}</ion-text>
+        <ion-text>{{servicedetail.cf_766}} {{servicedetail.cf_745}}</ion-text>
         <ion-icon *ngIf="!secondaryInfo.open" name="arrow-forward" slot="end"></ion-icon>
         <ion-icon *ngIf="secondaryInfo.open" name="arrow-down" slot="end"></ion-icon>
       </ion-item>
@@ -41,35 +41,31 @@
     <div [ngClass]="{'section-active': secondaryInfo.open, 'section': !secondaryInfo.open}">
       <ion-item lines="none">
         <ion-label position="stacked">Secondary Contact Phone</ion-label>
-        <ion-text>{{servicedetail.secondary_phonenumber}}</ion-text>
-        <ion-button target="_self" color="primary" (click)="call(servicedetail.secondary_phonenumber)" size="default" slot="end" type="button"><ion-icon name="call" size="large" ></ion-icon></ion-button>
+        <ion-text>{{servicedetail.cf_749}}</ion-text>
+        <ion-button target="_self" color="primary" (click)="call(servicedetail.cf_749)" size="default" slot="end" type="button"><ion-icon name="call" size="large" ></ion-icon></ion-button>
       </ion-item>
       <ion-item lines="none">
         <ion-label position="stacked">Secondary Contact Email</ion-label>
-        <ion-text>{{servicedetail.secondary_email}}</ion-text>
-        <ion-button target="_self" color="primary" (click)="email(servicedetail.secondary_email)" size="default" slot="end" type="button"><ion-icon name="mail" size="large" ></ion-icon></ion-button>
+        <ion-text>{{servicedetail.cf_753}}</ion-text>
+        <ion-button target="_self" color="primary" (click)="email(servicedetail.cf_753)" size="default" slot="end" type="button"><ion-icon name="mail" size="large" ></ion-icon></ion-button>
       </ion-item>
     </div>
     <!-- Secondary Info -->
     <ion-item lines="none">
       <ion-label position="stacked">Address Details</ion-label>
-      <ion-text>{{servicedetail.address_details}}</ion-text>
-      <ion-button target="_blank" color="primary" href="https://maps.apple.com/?daddr={{servicedetail.address_details}}" size="default" slot="end" type="button"><ion-icon name="navigate" size="large" ></ion-icon></ion-button>
+      <ion-text>{{servicedetail.bill_street}}, {{servicedetail.bill_city}} , {{servicedetail.bill_state}} {{servicedetail.bill_code}}</ion-text>
+      <ion-button target="_blank" color="primary" href="https://maps.apple.com/?daddr={{servicedetail.bill_street}}" size="default" slot="end" type="button"><ion-icon name="navigate" size="large" ></ion-icon></ion-button>
     </ion-item>
 
     <!-- Coordinator info -->
     <ion-item lines="none">
       <ion-label position="stacked">Coordinator</ion-label>
-      <ion-text>{{servicedetail.support}}</ion-text>
-      <ion-button target="_blank" color="primary" (click)="contact(servicedetail.support)" size="default" slot="end" type="button"><ion-icon name="contact" size="large" ></ion-icon></ion-button>
+      <ion-text>{{servicedetail.assigned_to}}</ion-text>
+      <ion-button target="_blank" color="primary" (click)="contact(servicedetail.assigned_to)" size="default" slot="end" type="button"><ion-icon name="contact" size="large" ></ion-icon></ion-button>
     </ion-item>
-    <!-- <ion-item lines="none">
-      <ion-label position="stacked">Start Date & Time</ion-label>
-      <ion-text>{{servicedetail.startdate}} {{servicedetail.starttime}}</ion-text>
-    </ion-item> -->
     <ion-item lines="none">
       <ion-label position="stacked">Job Description</ion-label>
-      <ion-text>{{servicedetail.desc}}</ion-text>
+      <ion-text>{{servicedetail.description}}</ion-text>
     </ion-item>
     <br>
     <ion-item lines="none">
@@ -82,30 +78,25 @@
     </ion-item>
     <ion-item lines="none">
       <ion-label position="stacked">Status</ion-label>
-      <ion-select name="status"  value="{{servicedetail.status}}">
+      <ion-select name="status"  value="{{servicedetail.job_status}}">
         <ion-select-option *ngFor="let picklist of status_picklist">{{picklist}}</ion-select-option>
       </ion-select>
     </ion-item>
     <br>
   </ion-list>
 <div class="button-grouping ion-padding">
-  <!-- <ion-button size="large" expand="block" color="warning"  [disabled]="servicedetail?.starttime == '' ? null : 'disabled'" >
+  <ion-button size="large" expand="block" color="success" [disabled]="isCompleteJob==0 ? null : 'disabled'">
     <ion-text color="dark">
-      {{(servicedetail?.starttime !== '') ? 'Started' : 'Start' }}
-    </ion-text>
-  </ion-button> -->
-  <ion-button size="large" expand="block" color="success" [disabled]="servicedetail?.complete_date == '' ? null : 'disabled'">
-    <ion-text color="dark">
-      {{(servicedetail?.complete_date !== '') ? 'Completed' : 'Complete' }}       
+      {{(isCompleteJob==0) ? 'Completed' : 'Complete' }}
     </ion-text>
   </ion-button>
 </div>
 <br><br><br><br><br>
-<div *ngIf="servicedetail?.isComplete == false" class="button-grouping ion-padding anchor-bottom" >
+<div *ngIf="isCompleteJob == 0" class="button-grouping ion-padding anchor-bottom" >
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-align-items-center ion-justify-content-center" >
       <ion-col class="padding-left-none" size="9">
-        <ion-button expand="full" size="large" expand="block" color="tertiary" (click)="openCamera(servicedetail?.id)">
+        <ion-button expand="full" size="large" expand="block" color="tertiary" (click)="openCamera(servicedetail?.salesorderid)">
           <ion-icon name="camera"></ion-icon>
           <ion-text class="add-photo-button">
             Take Photos
@@ -113,7 +104,7 @@
         </ion-button>
       </ion-col>
       <ion-col size="3">
-        <ion-button size="large" expand="block" color="tertiary"  (click)="openLibrary(servicedetail?.id)">
+        <ion-button size="large" expand="block" color="tertiary"  (click)="openLibrary(servicedetail?.salesorderid)">
           <ion-icon name="folder-open"></ion-icon>
         </ion-button>
       </ion-col>
