@@ -21,7 +21,32 @@ export class DashboardPage implements OnInit {
     apiurl: any;
     vturl: any;
     dataReturned: any;
-    dashboardData: {};
+    dashboardData: {
+        new_invites: {
+            total: 0,
+            data: {}
+        },
+        new_jobs: {
+            total: 0,
+            data: {}
+        },
+        active_jobs: {
+            total: 0,
+            data: {}
+        },
+        update_needed: {
+            total: 0,
+            data: {}
+        },
+        request: {
+            total: 0,
+            data: {}
+        },
+        response: {
+            total: 0,
+            data: {}
+        },
+    };
 
     //Chart Info
     @ViewChild('barChart', <any> []) barChart: ElementRef;
@@ -387,10 +412,11 @@ export class DashboardPage implements OnInit {
         this.httpClient.post(this.apiurl + 'getJobs.php', data, {headers, observe: 'response'})
             .subscribe(data => {
                 this.hideLoading();
-                const success = data.body.success;
+                const responseData = data.body;
+                const success = responseData['success'];
 
                 if (success == true) {
-                    const items = data.body.data;
+                    const items = responseData['data'];
                     items.forEach(item => {
                         if(item.title == 'New Invites'){
                             this.dashboardData.new_invites.total = item.count;
