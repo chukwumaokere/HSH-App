@@ -11,6 +11,7 @@ import {EmailComposer} from '@ionic-native/email-composer/ngx';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {HttpHeaders, HttpClient} from '@angular/common/http';
 import {AppConfig} from '../../AppConfig';
+//import { DatePicker } from '@ionic-native/date-picker/ngx';
 
 
 @Component({
@@ -20,11 +21,13 @@ import {AppConfig} from '../../AppConfig';
 })
 export class DetailPage implements OnInit {
     userinfo: any;
+    contractorinfo: any;
     serviceid: any;
     dataReturned: any;
     apiurl: any;
     isCompleteJob: number = 0;
-    status_picklist: any = ['Following Up', 'Waiting for Reply', 'Mtg Scheduled', 'In-Process', 'Complete'];
+    updatefields: any = {};
+    status_picklist: any = ['Released', 'Following Up', 'Mtg Scheduled', 'Waiting for a Reply'];
     secondaryInfo: any = {
         open: false,
     };
@@ -67,6 +70,7 @@ export class DetailPage implements OnInit {
                 private emailComposer: EmailComposer,
                 private httpClient: HttpClient,
                 public AppConfig: AppConfig,
+                //public datePicker: DatePicker,
                 private iab: InAppBrowser,
                 @Inject(LOCALE_ID) private locale: string) {
         this.secondaryInfo.open = false;
@@ -95,17 +99,6 @@ export class DetailPage implements OnInit {
                     if (allfields.job_status == 'Released') {
                         this.isCompleteJob = 1;
                     }
-                    /*for (let key in workorder) {
-                        if (key != 'subject') {
-                            this.servicedetail.push({
-                                columnname: key,
-                                uitype: workorder[key].uitype,
-                                value: workorder[key].value,
-                                picklist: workorder[key].picklist,
-                                fieldlabel: workorder[key].fieldlabel,
-                            });
-                        }
-                    }*/
                     console.log('servicedetail', this.servicedetail);
                 } else {
                     console.log('failed to fetch record');
@@ -114,6 +107,84 @@ export class DetailPage implements OnInit {
             }, error => {
                 console.log('failed to fetch record');
             });
+    }
+
+    async  addUpdate(event) {
+        console.log(this.updatefields);
+        //console.log(event);
+        var fieldname = event.target.name;
+        var fieldvalue = event.target.textContent + event.target.value;
+        if (event.target.tagName == 'ION-TEXTAREA' || event.target.tagName == 'ION-SELECT') {
+            fieldvalue = event.target.value;
+        }
+        this.updatefields[fieldname] = fieldvalue;
+        console.log('adding update to queue: ', fieldname, fieldvalue);
+        console.log(this.updatefields);
+    }
+
+    async completeJob(salesorderid) {
+        var field = {
+            job_status: 'Released'
+        };
+        var params = {
+            recordid: salesorderid,
+            contractorsid: this.userinfo.contractorsid,
+            updates: JSON.stringify(field)
+        }
+        var headers = new HttpHeaders();
+        headers.append("Accept", 'application/json');
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.httpClient.post(this.apiurl + 'postSOInfo.php', params, { headers: headers, observe: 'response' })
+            .subscribe(data=> {
+                var success = data['body']['success'];
+                console.log(data['body']);
+                if(success == true){
+                    console.log("Saved and updated data for jobs");
+                }else{
+                    this.presentToast('Failed to save due to an error');
+                    console.log('failed to save record, response was false');
+                }
+                this.router.navigateByUrl('/services');
+            }, error => {
+                this.presentToast('Failed to save due to an error \n' + error.message);
+                console.log('failed to save record', error.message);
+            });
+    }
+
+    async  saveJob(salesorderid) {
+        var data = this.updatefields;
+        var data_stringified = JSON.stringify(data);
+        console.log('attempting to submitting data to vtiger', salesorderid, data);
+        var params = {
+            recordid: salesorderid,
+            contractorsid: this.userinfo.contractorsid,
+            updates: data_stringified
+        }
+        if (Object.keys(data).length > 0) {
+            console.log('Some data was changed, pushing ' + Object.keys(data).length + ' changes');
+            var headers = new HttpHeaders();
+            headers.append("Accept", 'application/json');
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            headers.append('Access-Control-Allow-Origin', '*');
+            this.httpClient.post(this.apiurl + 'postSOInfo.php', params, { headers: headers, observe: 'response' })
+                .subscribe(data=> {
+                    var success = data['body']['success'];
+                    console.log(data['body']);
+                    if(success == true){
+                        console.log("Saved and updated data for jobs");
+                    }else{
+                        this.presentToast('Failed to save due to an error');
+                        console.log('failed to save record, response was false');
+                    }
+                }, error => {
+                    this.presentToast('Failed to save due to an error \n' + error.message);
+                    console.log('failed to save record', error.message);
+                });
+        } else {
+            console.log('no data modified for record', salesorderid);
+        }
+
     }
 
     logout() {
@@ -254,32 +325,18 @@ export class DetailPage implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((userData) => {
-            if (userData.length !== 0) {
-                this.userinfo = userData;
-                console.log('param user data:', userData);
-                try {
-                    this.loadTheme(userData.theme.toLowerCase());
-                } catch {
-                    console.log('couldnt load theme');
+            this.isLogged().then(result => {
+                if (!(result == false)) {
+                    console.log('loading storage data (within param route function)', result);
+                    this.userinfo = result;
+                    if (userData.serviceid) {
+                        this.loadDetails(userData.serviceid);
+                    }
+                } else {
+                    console.log('nothing in storage, going back to login');
+                    this.logout();
                 }
-                console.log('param user data length:', userData.length);
-                if (userData.serviceid) {
-                    this.loadDetails(userData.serviceid);
-                }
-                else {
-                    console.log('nothing in params, so loading from storage');
-                    this.isLogged().then(result => {
-                        if (!(result == false)) {
-                            console.log('loading storage data (within param route function)', result);
-                            this.userinfo = result;
-                            // this.loadTheme(result.theme.toLowerCase());
-                        } else {
-                            console.log('nothing in storage, going back to login');
-                            this.logout();
-                        }
-                    });
-                }
-            }
+            });
         });
     }
 

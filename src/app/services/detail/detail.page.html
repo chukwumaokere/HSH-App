@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button type="button" defaultHref="/tabs/services" text="Back"></ion-back-button>
+      <ion-back-button type="submit" defaultHref="/tabs/services" text="Back" (click)="saveJob(servicedetail.salesorderid)"></ion-back-button>
     </ion-buttons>
     <ion-title>{{servicedetail.subject}}</ion-title>
     <ion-buttons slot="primary">
@@ -14,6 +14,7 @@
 </ion-header>
 
 <ion-content>
+  <form #form="ngForm" (ngSubmit)="saveJob(servicedetail.salesorderid)">
   <ion-list>
     <ion-item lines="none">
       <ion-label position="stacked">Transferee Name</ion-label>
@@ -68,24 +69,40 @@
       <ion-text>{{servicedetail.description}}</ion-text>
     </ion-item>
     <br>
-    <ion-item lines="none">
-      <ion-label position="stacked">Follow Up Date</ion-label>
-      <ion-datetime displayFormat="MMM DD, YYYY h:mmA" placeholder="Select Date"></ion-datetime>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-label position="stacked">Start Date & Time</ion-label>
-      <ion-datetime displayFormat="MMM DD, YYYY h:mmA" placeholder="Select Date"></ion-datetime>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-label position="stacked">Status</ion-label>
-      <ion-select name="status"  value="{{servicedetail.job_status}}">
-        <ion-select-option *ngFor="let picklist of status_picklist">{{picklist}}</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <div *ngIf="isCompleteJob == 0">
+        <ion-item lines="none">
+          <ion-label position="stacked">Follow Up Date</ion-label>
+          <ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" [(ngModel)]="servicedetail.date_sent"></ion-datetime>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label position="stacked">Sevice Date</ion-label>
+            <ion-input (ionInput)="addUpdate($event)" type="text" name="cf_738"  value="{{servicedetail.cf_738}}"></ion-input>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label position="stacked">Status</ion-label>
+          <ion-select (ionChange)="addUpdate($event)"  name="job_status"  value="{{servicedetail.job_status}}">
+            <ion-select-option *ngFor="let picklist of status_picklist">{{picklist}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+      <div *ngIf="isCompleteJob == 1">
+          <ion-item lines="none">
+              <ion-label position="stacked">Follow Up Date</ion-label>
+              <ion-text>{{servicedetail.date_sent}}</ion-text>
+          </ion-item>
+          <ion-item lines="none">
+              <ion-label position="stacked">Sevice Date</ion-label>
+              <ion-text>{{servicedetail.cf_738}}</ion-text>
+          </ion-item>
+          <ion-item lines="none">
+              <ion-label position="stacked">Status</ion-label>
+              <ion-text>{{servicedetail.job_status}}</ion-text>
+          </ion-item>
+      </div>
     <br>
   </ion-list>
 <div class="button-grouping ion-padding">
-  <ion-button size="large" expand="block" color="success" [disabled]="isCompleteJob==0 ? null : 'disabled'">
+  <ion-button size="large" expand="block" color="success" [disabled]="isCompleteJob==0 ? null : 'disabled'" (click) = "completeJob(servicedetail.salesorderid)">
     <ion-text color="dark">
       {{(isCompleteJob==0) ? 'Completed' : 'Complete' }}
     </ion-text>
@@ -111,4 +128,5 @@
     </ion-row>
   </ion-grid>
 </div>
+  </form>
 </ion-content>
