@@ -301,7 +301,7 @@ export class DashboardPage implements OnInit {
                 this.userinfo = userData;
                 console.log('param user data:', userData);
                 try {
-                    this.loadTheme(userData.theme.toLowerCase());
+                    //this.loadTheme(userData.theme.toLowerCase());
                 } catch {
                     console.log('couldnt load theme');
                 }
@@ -312,8 +312,10 @@ export class DashboardPage implements OnInit {
                         if (!(result == false)) {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
-                            this.loadTheme(result.theme.toLowerCase());
-                            this.loadDashboardData(this.userinfo.id, 2925701);
+                            //this.loadTheme(result.theme.toLowerCase());
+                            console.log('11111111111111111111111');
+                            console.log(this.userinfo);
+                            this.loadDashboardData(this.userinfo.id, this.userinfo.contractorsid);
                         } else {
                             console.log('nothing in storage, going back to login');
                             this.logout();
