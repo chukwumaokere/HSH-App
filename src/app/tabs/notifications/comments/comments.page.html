@@ -11,27 +11,27 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-    
-    <div [attr.data-position]="(user_id == comment.user_id) ? 'right': 'left'" *ngFor="let comment of comments">
+
+    <div [attr.data-position]="(user_id == comment['userid']) ? 'right': 'left'" *ngFor="let comment of comments">
         <div class="message-container">
            <!--  <ion-avatar [slot]="(user_id == comment.user_id) ? 'end': 'start'">
                 <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
             </ion-avatar> -->
             <div class="message-bubble ion-padding">
-                <ion-text class="ion-text-left">{{comment.message}}</ion-text>        
+                <ion-text class="ion-text-left" style="display: block;" *ngIf="comment['contractorname'] != ''">{{comment['contractorname']}}</ion-text>
+                <ion-text class="ion-text-left">{{comment['commentcontent']}}</ion-text>
             </div>
-        </div>  
+        </div>
         <div class="comment-bottom">
-            <ion-label color="dark" position="stacked" class="comment-sent">{{comment.date_sent}} <br> {{comment.author}}</ion-label> 
+            <ion-label color="dark" position="stacked" class="comment-sent">{{comment['createdtime']}} <br> {{comment['first_name']}} {{comment['last_name']}}</ion-label>
             <ion-icon color="dark" class="read-check" size="large" *ngIf="comment.read == true" name="checkmark"></ion-icon>
         </div>
     </div>
 
     <p class="ion-padding" *ngIf="comments.length == 0">No messages</p>
 
-   
-
 </ion-content>
+
 <div class="button-grouping anchor-bottom ion-padding-horizontal" >
         <ion-grid class="ion-no-padding">
                 <ion-row *ngIf="show_button == true" class="" >

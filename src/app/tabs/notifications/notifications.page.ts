@@ -15,16 +15,16 @@ export class NotificationsPage implements OnInit {
   userinfo: any;
   invites: any = [
     {
-      id: 0,
-      service_title: "Discard and Donate",
-      service_date: "December 21, 2019",
-      coordinator: "Lesley Mullen",
-      city: "Palo Alto",
-      state: "CA",
-      zip: 94020,
-      status: "Accepted",
-      job_desc: "This lady has 4 cats and 3 kids. The place is a bit of a mess. Heads up!",
-    },
+    id: 2289619,
+    service_title: "Discard and Donate",
+    service_date: "December 21, 2019",
+    coordinator: "Lesley Mullen",
+    city: "Palo Alto",
+    state: "CA",
+    zip: 94020,
+    status: "Accepted",
+    job_desc: "This lady has 4 cats and 3 kids. The place is a bit of a mess. Heads up!",
+  },
     {
       id: 1,
       service_title: "Quick Start",
