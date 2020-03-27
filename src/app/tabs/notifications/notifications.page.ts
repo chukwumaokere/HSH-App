@@ -207,6 +207,7 @@ export class NotificationsPage implements OnInit {
    }
    
   ngOnInit() {
+    this.hideLoading();
     this.activatedRoute.params.subscribe((userData)=>{
       if(userData.length !== 0){
         this.userinfo = userData;
@@ -394,6 +395,7 @@ export class NotificationsPage implements OnInit {
     headers.append('Access-Control-Allow-Origin', '*');
     this.httpClient.post(this.apiurl + "postInvite.php", updatefields, {headers, observe: 'response'})
         .subscribe(data => {
+          this.hideLoading();
             const responseData = data.body;
             const success = responseData['success'];
             if (success == true) {
