@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
-/*import { ImageProvider } from '../../providers/image/image';*/
 import {AppConfig} from '../../AppConfig';
 
 @Component({
