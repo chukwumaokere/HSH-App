@@ -11,7 +11,7 @@ import {EmailComposer} from '@ionic-native/email-composer/ngx';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {HttpHeaders, HttpClient} from '@angular/common/http';
 import {AppConfig} from '../../AppConfig';
-//import { ImageModalPage } from '../image-modal/image-modal.page';
+import { ImageModalPage } from '../image-modal/image-modal.page';
 
 @Component({
     selector: 'app-detail',
@@ -171,11 +171,11 @@ export class DetailPage implements OnInit {
                     console.log(data['body']);
                     if(success == true){
                         console.log("Saved and updated data for jobs");
+                        this.router.navigateByUrl('/tabs/services');
                     }else{
                         this.presentToast('Failed to save due to an error');
                         console.log('failed to save record, response was false');
                     }
-                    this.router.navigateByUrl('/tabs/services');
                 }, error => {
                     this.presentToast('Failed to save due to an error \n' + error.message);
                     console.log('failed to save record', error.message);
@@ -261,7 +261,7 @@ export class DetailPage implements OnInit {
         console.log('turning off previous theme', theme_switcher[theme]);
     }
 
-   /* openCamera(serviceid) {
+   openCamera(serviceid) {
         console.log('launching camera');
         this.camera.getPicture(this.options).then((imageData) => {
             // imageData is either a base64 encoded string or a file URI
@@ -281,9 +281,9 @@ export class DetailPage implements OnInit {
                 this.presentToast(`Upload failed! Please try again \n` + err);
             }
         });
-    }*/
+    }
 
-    /*async openModal(serviceid,base64Image) {
+    async openModal(serviceid,base64Image) {
         const modal = await this.modalCtrl.create({
             component: ImageModalPage,
             componentProps: {
@@ -301,7 +301,7 @@ export class DetailPage implements OnInit {
         });
 
         return await modal.present();
-    }*/
+    }
 
     async presentToast(message: string) {
         var toast = await this.toastController.create({
@@ -323,7 +323,7 @@ export class DetailPage implements OnInit {
         toast.present();
     }
 
-   /* openLibrary(serviceid) {
+   openLibrary(serviceid) {
         console.log('launching gallery');
         this.camera.getPicture(this.libraryOptions).then((imageData) => {
             // imageData is either a base64 encoded string or a file URI
@@ -342,7 +342,7 @@ export class DetailPage implements OnInit {
                 this.presentToast(`Upload failed! Please try again \n` + err);
             }
         });
-    }*/
+    }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((userData) => {
