@@ -172,6 +172,7 @@ export class DetailPage implements OnInit {
                     if(success == true){
                         console.log("Saved and updated data for jobs");
                         this.navCtrl.navigateRoot('/tabs/services');
+                        //this.router.navigateByUrl('/tabs/services');
                     }else{
                         this.presentToast('Failed to save due to an error');
                         console.log('failed to save record, response was false');
@@ -181,6 +182,7 @@ export class DetailPage implements OnInit {
                     console.log('failed to save record', error.message);
                 });
         } else {
+            this.router.navigateByUrl('/tabs/services');
             console.log('no data modified for record', salesorderid);
         }
 
@@ -260,7 +262,7 @@ export class DetailPage implements OnInit {
         console.log('turning off previous theme', theme_switcher[theme]);
     }
 
-    openCamera(serviceid) {
+   openCamera(serviceid) {
         console.log('launching camera');
         this.camera.getPicture(this.options).then((imageData) => {
             // imageData is either a base64 encoded string or a file URI
@@ -322,7 +324,7 @@ export class DetailPage implements OnInit {
         toast.present();
     }
 
-    openLibrary(serviceid) {
+   openLibrary(serviceid) {
         console.log('launching gallery');
         this.camera.getPicture(this.libraryOptions).then((imageData) => {
             // imageData is either a base64 encoded string or a file URI
