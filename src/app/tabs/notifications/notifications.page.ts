@@ -349,7 +349,7 @@ export class NotificationsPage implements OnInit {
     }
   
   fetchInvites() {
-    this.showLoading();
+    // this.showLoading();
     const contractorid = this.userinfo.contractorsid;
     console.log("contractorid: " + contractorid);
     const reqData = {
@@ -379,7 +379,7 @@ export class NotificationsPage implements OnInit {
   }
   
   async postInviteStatus(status: any, id: any) {
-    this.showLoading();
+    // this.showLoading();
     const invite_status = status;
     const contractorid = this.userinfo.contractorsid;
     const salesorderid = id;
