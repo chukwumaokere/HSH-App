@@ -313,8 +313,6 @@ export class DashboardPage implements OnInit {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
                             //this.loadTheme(result.theme.toLowerCase());
-                            console.log('11111111111111111111111');
-                            console.log(this.userinfo);
                             this.loadDashboardData(this.userinfo.id, this.userinfo.contractorsid);
                         } else {
                             console.log('nothing in storage, going back to login');
