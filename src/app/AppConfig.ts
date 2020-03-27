@@ -5,4 +5,5 @@ import { Injectable } from '@angular/core';
 export class AppConfig  {
     apiurl : string = 'https://devl06.borugroup.com/hsh/api/';
     vturl : string = 'https://devl06.borugroup.com/hsh/';
+    base64img: string = '';
 }

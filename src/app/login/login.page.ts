@@ -79,6 +79,7 @@ export class LoginPage implements OnInit {
                                 console.log('usersdata', contractors[0]);
                                 this.storage.ready().then(() => {
                                     this.userdata = contractors[0];
+                                    this.userdata['theme'] = 'Light';
                                     this.storage.set('userdata', this.userdata);
                                     //return this.router.navigate(["/tabs/dashboard", this.userdata]);
                                     this.navCtrl.navigateForward('/tabs/dashboard');

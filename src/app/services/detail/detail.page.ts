@@ -11,8 +11,7 @@ import {EmailComposer} from '@ionic-native/email-composer/ngx';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {HttpHeaders, HttpClient} from '@angular/common/http';
 import {AppConfig} from '../../AppConfig';
-//import { DatePicker } from '@ionic-native/date-picker/ngx';
-
+import { ImageModalPage } from '../image-modal/image-modal.page';
 
 @Component({
     selector: 'app-detail',
@@ -70,7 +69,6 @@ export class DetailPage implements OnInit {
                 private emailComposer: EmailComposer,
                 private httpClient: HttpClient,
                 public AppConfig: AppConfig,
-                //public datePicker: DatePicker,
                 private iab: InAppBrowser,
                 @Inject(LOCALE_ID) private locale: string) {
         this.secondaryInfo.open = false;
@@ -267,8 +265,9 @@ export class DetailPage implements OnInit {
             // imageData is either a base64 encoded string or a file URI
             // If it's base64 (DATA_URL):
             let base64Image = 'data:image/png;base64,' + imageData;
+            this.AppConfig.base64img = imageData;
             //this.imgpov.setImage(imageData);
-            //this.openModal(serviceid,base64Image);
+            this.openModal(serviceid, base64Image);
             // TODO: need code to upload to server here.
             // On success: show toast
             this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
@@ -280,6 +279,26 @@ export class DetailPage implements OnInit {
                 this.presentToast(`Upload failed! Please try again \n` + err);
             }
         });
+    }
+
+    async openModal(serviceid,base64Image) {
+        const modal = await this.modalCtrl.create({
+            component: ImageModalPage,
+            componentProps: {
+                "base64Image": base64Image,
+                "paramTitle": "Edit Photo",
+                "serviceid" : serviceid,
+            }
+        });
+
+        modal.onDidDismiss().then((dataReturned) => {
+            if (dataReturned !== null) {
+                this.dataReturned = dataReturned.data;
+                //alert('Modal Sent Data :'+ dataReturned);
+            }
+        });
+
+        return await modal.present();
     }
 
     async presentToast(message: string) {
