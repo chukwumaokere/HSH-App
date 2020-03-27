@@ -327,8 +327,8 @@ export class DetailPage implements OnInit {
             // imageData is either a base64 encoded string or a file URI
             // If it's base64 (DATA_URL):
             let base64Image = 'data:image/png;base64,' + imageData;
-            //this.imgpov.setImage(imageData);
-            //this.openModal(serviceid,base64Image);
+            this.AppConfig.base64img = imageData;
+            this.openModal(serviceid,base64Image);
             // TODO: need code to upload to server here.
             // On success: show toast
             //this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
