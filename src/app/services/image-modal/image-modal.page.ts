@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams, ToastController, PickerController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-/*import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { File } from '@ionic-native/file';*/
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import {AppConfig} from '../../AppConfig';
 
