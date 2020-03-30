@@ -13,73 +13,33 @@
         <div *ngIf="has_profile_picture == true">
             &nbsp;&nbsp;   
         </div> 
-        <ion-text>Hello, <b>{{userinfo?.first_name}}</b>!</ion-text>
+        <ion-text>Hello, <b>{{userinfo?.contractorname}}</b>!</ion-text>
     </ion-item>
     <ion-item lines="none">
         <ion-label position="stacked">USER NAME</ion-label>
-        <ion-text>{{userinfo?.user_name}}</ion-text>
+        <ion-text>{{userinfo?.cf_756}}</ion-text>
     </ion-item>
     <ion-item lines="none">
         <ion-label position="stacked">FULL NAME</ion-label>
-        <ion-text value="">{{userinfo?.first_name}} {{userinfo?.last_name}}</ion-text>
+        <ion-text value="">{{userinfo?.contractorname}}</ion-text>
     </ion-item>
     <ion-item lines="none">
         <ion-label position="stacked">EMAIL</ion-label>
-        <ion-text value="">{{userinfo?.email1}}</ion-text>
-    </ion-item>
+        <ion-text value="">{{userinfo?.cf_756}}</ion-text>
+    </ion-item><br>
     <ion-item lines="none">
-        <ion-label >DAYS/TIMES UNAVAILABLE</ion-label>
-    </ion-item>
-    <ion-item>
-        <ion-textarea autoGrow="true" placeholder="Put any unavailable dates here" value="{{userinfo?.unavailable}}">
-            
+        <ion-label position="stacked">DAYS/TIMES UNAVAILABLE</ion-label>
+        <ion-textarea name="cf_unavailable" placeholder="Put any unavailable dates here" value="{{userinfo?.cf_unavailable}}" (ionBlur)="addUpdate($event)">
         </ion-textarea>
     </ion-item>
-    <!-- <ion-item>
-        <ion-label>Monday:</ion-label>
-        <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label>Tuesday:</ion-label>
-        <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label>Wednesday:</ion-label>
-        <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label>Thursday:</ion-label>
-        <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label>Friday:</ion-label>
-        <ion-input></ion-input>
-    </ion-item> -->
     <ion-item lines="none">
         <br>
         <ion-label position="stacked">
             CURRENT THEME (TAP TO CHANGE)
         </ion-label>
+        <br>
         <ion-button id="themecolor" *ngIf="userinfo?.theme=='Dark'" type="button" size="default" color="dark" (click)="switchTheme()"><ion-icon name="color-palette"></ion-icon>&nbsp; {{userinfo.theme}}</ion-button>
         <ion-button id="themecolor" *ngIf="userinfo?.theme=='Light'" type="button" size="default" color="dark" (click)="switchTheme()"><ion-icon name="color-palette"></ion-icon>&nbsp; {{userinfo.theme}}</ion-button>
-        <!-- <ion-grid class="ion-no-padding">
-            <ion-row class="ion-align-items-center ion-justify-content-center" >
-            <ion-col class="padding-left-none" >
-                <ion-label position="stacked">Current Theme <br/> (Tap to change)</ion-label> 
-            </ion-col>
-            <ion-col>
-                <ion-button id="themecolor" *ngIf="userinfo?.theme=='Dark'" type="button" size="default" color="dark" (click)="switchTheme()"><ion-icon name="color-palette"></ion-icon>&nbsp; {{userinfo.theme}}</ion-button>
-                <ion-button id="themecolor" *ngIf="userinfo?.theme=='Light'" type="button" size="default" color="dark" (click)="switchTheme()"><ion-icon name="color-palette"></ion-icon>&nbsp; {{userinfo.theme}}</ion-button>
-            </ion-col>          
-            </ion-row>
-            <ion-row class="ion-align-items-center ion-justify-content-center">
-            <ion-col class="padding-left-none">
-            </ion-col>
-            <ion-col>
-                
-            </ion-col>
-            </ion-row>
-        </ion-grid> -->
         <br>
     </ion-item>
     <br><br><br><br>
