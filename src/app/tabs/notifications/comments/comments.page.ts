@@ -54,10 +54,10 @@ request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', '
 //     read: true,
 //   },
 // ];
-comments: any;
-parent_comments: any;
-child_comments: any;
+comments: any = [];
 contractorsid: any;
+contractorInfo: any = [];
+dataReturned: any;
 
 constructor(
     private modalController: ModalController,
@@ -88,7 +88,7 @@ ngOnInit() {
     this.recordid = this.navParams.data.id;
     this.servicedetail = this.navParams.data.service_record_details;
     this.show_button = this.navParams.data.show_button;
-    this.fetchComments();
+    this.contractorInfo = this.navParams.data.contractorInfo;
     /* this.user_id = this.navParams.data.user_id;
     this.userinfo = this.navParams.data.userinfo;
     this.profile_picture = this.navParams.data.userinfo.profile_picture;
@@ -109,6 +109,7 @@ ngOnInit() {
                     if (!(result == false)) {
                         console.log('loading storage data (within param route function)', result);
                         this.userinfo = result;
+                        this.fetchComments();
                     } else {
                         console.log('nothing in storage, going back to login');
                         this.logout();
@@ -155,15 +156,13 @@ ngOnInit() {
         console.log('Get Comments Success');
         const responseData = data.body;
         const success = responseData['success'];
+        const commentCount = responseData['count'];
         if (success == true) {
           this.hideLoading();
-          const comments = responseData['data'];
-          const parent_comments = comments['parent_comments'];
-          const child_comments = comments['child_comments'];
-          this.parent_comments = parent_comments;
-          this.child_comments = child_comments;
-          this.comments = comments;
-          console.log(this.comments);
+          if(commentCount > 0){
+            const getComments = responseData['data'];
+            this.comments = getComments;
+          }
         } else {
           this.hideLoading();
           console.log('failed to fetch Comments');
@@ -207,8 +206,9 @@ ngOnInit() {
             const responseData = data.body;
             const success = responseData['success'];
             if (success == true) {
-                location.reload();
-                this.hideLoading();
+              this.closeModal();
+              this.reloadComments(this.recordid);
+              this.hideLoading();
             } else {
                 this.hideLoading();
                 console.log('failed to Push Comments');
@@ -217,6 +217,25 @@ ngOnInit() {
             this.hideLoading();
             this.presentToast('failed to Push Comments \n' + error.message);
         });
+  }
+  
+  async reloadComments(id) {
+    const modal = await this.modalController.create({
+      component: CommentsModalPage,
+      componentProps: {
+        "id": id,
+        "service_record_details": this.servicedetail,
+        'contractorInfo': this.userinfo
+      }
+    });
+    
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+        this.dataReturned = dataReturned.data;
+      }
+    });
+    
+    return await modal.present();
   }
 
     async presentToast(message: string) {
