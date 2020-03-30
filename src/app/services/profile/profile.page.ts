@@ -68,8 +68,9 @@ public appConst: AppConfig,
               if ( data['body']['success'] == true) {
                 this.presentToastPrimary('Profile updated \n');
                   this.storage.ready().then(() => {
+                      var theme = this.userinfo.theme;
                       this.userinfo = data['body']['data'];
-                      this.userinfo.theme = this.getCurrentTheme();
+                      this.userinfo.theme = theme;
                       this.storage.set('userdata', this.userinfo);
                   });
                 this.closeModal();
