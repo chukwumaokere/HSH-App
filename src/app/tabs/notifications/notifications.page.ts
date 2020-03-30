@@ -16,7 +16,7 @@ export class NotificationsPage implements OnInit {
   @ViewChild('responses_ref', <any>[]) public responses_ref:ElementRef;
   @ViewChild('invites_ref', <any>[]) public invites_ref:ElementRef;
   userinfo: any;
-  invites: any;
+  invites: any = [];
   // invites: any = [
   //   {
   //   id: 2289619,
@@ -262,6 +262,7 @@ export class NotificationsPage implements OnInit {
             "id" : id,
             "service_record_details": this.servicedetail,
             "show_button": true,
+            'contractorInfo': this.userinfo
         }
       });
     }else{
@@ -270,10 +271,11 @@ export class NotificationsPage implements OnInit {
          componentProps: {
              "id" : id,
              "service_record_details": this.servicedetail,
+            'contractorInfo': this.userinfo
          }
      });
     }
-
+    
      modal.onDidDismiss().then((dataReturned) => {
          if (dataReturned !== null) {
              this.dataReturned = dataReturned.data;
@@ -349,7 +351,7 @@ export class NotificationsPage implements OnInit {
     }
   
   fetchInvites() {
-    // this.showLoading();
+    this.showLoading();
     const contractorid = this.userinfo.contractorsid;
     console.log("contractorid: " + contractorid);
     const reqData = {
@@ -366,8 +368,10 @@ export class NotificationsPage implements OnInit {
         const success = responseData['success'];
         if (success == true) {
           this.hideLoading();
-          this.invites = responseData['data'];
+          const getInvites = responseData['data'];
+          this.invites = getInvites;
           console.log(this.invites);
+          this.count_invites = getInvites.length;
         } else {
           this.hideLoading();
           console.log('failed to fetch Invites');
@@ -379,7 +383,7 @@ export class NotificationsPage implements OnInit {
   }
   
   async postInviteStatus(status: any, id: any) {
-    // this.showLoading();
+    this.showLoading();
     const invite_status = status;
     const contractorid = this.userinfo.contractorsid;
     const salesorderid = id;
