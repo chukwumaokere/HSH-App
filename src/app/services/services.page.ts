@@ -248,7 +248,7 @@ export class ServicesPage implements OnInit {
                         if (!(result == false)) {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
-                            //this.loadTheme(result.theme.toLowerCase());
+                            this.loadTheme(result.theme.toLowerCase());
                             this.getListJobs(this.userinfo.contractorsid);
                             try {
                                 console.log('scrolling to', this.sectionScroll);

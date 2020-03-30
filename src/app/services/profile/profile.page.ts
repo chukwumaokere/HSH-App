@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams, ToastController, PickerController } from '@ionic/angular';
-//import { HttpClient, HttpHeaders } from '@angular/common/http';
-//import {Validators, FormBuilder, FormGroup } from '@angular/forms';
-//import { ImageProvider } from '../../providers/image/image';
-//import { AppConstants } from '../../providers/constant/constant';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import {AppConfig} from '../../AppConfig';
 
 @Component({
   selector: 'app-profile',
@@ -13,87 +11,76 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfileModalPage implements OnInit {
-user_id: any = 1;
-userinfo: any= {
-  first_name: "Chuck",
-  user_name: "admin",
-  last_name: "Okere",
-  email1: "cokere@boruapps.com",
-  unavailable: "I'm on vacation January 1st to January 13th please don't book me during those times!"
-  //theme: "Dark",
-};
-imageData: any;
-modalTitle:string;
-modelId:number;
-serviceid: any;
-apiurl:any;
-updatefields: any;
-profile_picture: any;
+user_id: any;
+userinfo: any = {};
+apiurl: any;
+updatefields: any = {};
 has_profile_picture: boolean = false;
 
 constructor(
 private modalController: ModalController,
 public storage: Storage,
-private  router:  Router,
+private  router: Router,
 private navParams: NavParams,
-//public httpClient: HttpClient,
 private pickerCtrl: PickerController,
-//private formBuilder: FormBuilder,
 public toastController: ToastController,
-//public imgpov: ImageProvider,
-//public appConst: AppConstants,
-){
-    //this.imageData = this.imgpov.getImage();
-  //  this.apiurl = this.appConst.getApiUrl();
+private httpClient: HttpClient,
+public appConst: AppConfig,
+) {
+   this.apiurl = this.appConst.apiurl;
 }
 
   ngOnInit() {
-    this.userinfo.first_name = this.userinfo.firstname;
-    this.userinfo.last_name = this.userinfo.lastname;
-    this.userinfo.email1 = this.userinfo.email1;
-    this.userinfo.user_name = this.userinfo.username;
-    this.userinfo.profile_picture = this.userinfo.pic;
-    this.has_profile_picture = false;
-    this.userinfo.unavailable = "I'm on vacation January 1st to January 13th please don't book me during those times!";
-    /* this.user_id = this.navParams.data.user_id;
-    this.userinfo = this.navParams.data.userinfo;
-    this.profile_picture = this.navParams.data.userinfo.profile_picture;
-    if(this.navParams.data.userinfo.imagename !== ""){
-      this.has_profile_picture = true
-    }else{
+      this.isLogged().then(result => {
+          if (!(result == false)) {
+              console.log('loading storage data (within param route function)', result);
+              this.userinfo = result;
+              this.loadTheme(result.theme.toLowerCase());
+          } else {
+              console.log('nothing in storage, going back to login');
+              this.logout();
+          }
+      });
       this.has_profile_picture = false;
-    }
-    console.log('nav params', this.navParams.data.userinfo); */
   }
-  
+
   async closeModal() {
     const onClosedData: string = "Wrapped Up!";
     await this.modalController.dismiss(onClosedData);
   }
 
-  async  sendUpdates(){
-    /*
-      this.updatefields;
+  async  addUpdate(event) {
+    //console.log(event);
+      var fieldvalue = event.target.textContent;
+      var fieldname = event.target.name;
+      this.updatefields[fieldname] = fieldvalue;
+      console.log(this.updatefields);
+      var params = {
+          contractorsid: this.userinfo.contractorsid,
+          updates: JSON.stringify(this.updatefields)
+      }
       var headers = new HttpHeaders();
       headers.append("Accept", 'application/json');
       headers.append('Content-Type', 'application/json');
       headers.append('Access-Control-Allow-Origin', '*');
-       this.httpClient.post(this.apiurl + "updateProfile.php", this.updatefields, { headers:headers, observe: 'response' })
+      this.httpClient.post(this.apiurl + "updateProfile.php", params, { headers:headers, observe: 'response' })
           .subscribe(data => {
-              //console.log(data['_body']);
-              if(data['body']['success'] == true){
+              if ( data['body']['success'] == true) {
                 this.presentToastPrimary('Profile updated \n');
+                  this.storage.ready().then(() => {
+                      var theme = this.userinfo.theme;
+                      this.userinfo = data['body']['data'];
+                      this.userinfo.theme = theme;
+                      this.storage.set('userdata', this.userinfo);
+                  });
                 this.closeModal();
-              }else{
+              } else {
                   console.log('update failed');
                   this.presentToast('Profile update failed! Please try again \n');
               }
           }, error => {
-              //console.log(error);
-              //console.log(error.message);
-              //console.error(error.message);
               this.presentToast("Profile update failed! Please try again \n" + error.message);
-          }); */
+          });
   }
 
     async presentToast(message: string) {
@@ -116,13 +103,13 @@ public toastController: ToastController,
         toast.present();
     }
 
-    logout(){
+    logout() {
         console.log('logout clicked');
         this.storage.set("userdata", null);
         this.closeModal();
         this.router.navigateByUrl('/login');
     }
-    async getCurrentTheme(){
+    async getCurrentTheme() {
         var current_theme = this.storage.get('userdata').then((userdata) => {
           if(userdata && userdata.length !== 0){
             //current_theme = userdata.theme.toLowerCase();
@@ -165,7 +152,7 @@ public toastController: ToastController,
         this.updateCurrentTheme(destination_theme);
         console.log('theme switched');
     }
-    async isLogged(){
+    async isLogged() {
         var log_status = this.storage.get('userdata').then((userdata) => {
             if(userdata && userdata.length !== 0){
                 return userdata;
@@ -175,11 +162,11 @@ public toastController: ToastController,
         })
         return log_status;
     }
-    loadTheme(theme){
+    loadTheme(theme) {
         console.log('loading theme', theme);
         document.body.classList.toggle(theme, true);
         var theme_switcher = {
-            "dark": "light", 
+            "dark": "light",
             "light": "dark"
         };
         document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.

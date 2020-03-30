@@ -352,6 +352,7 @@ export class DetailPage implements OnInit {
                     console.log('loading storage data (within param route function)', result);
                     this.userinfo = result;
                     if (userData.serviceid) {
+                        this.loadTheme(result.theme.toLowerCase());
                         this.loadDetails(userData.serviceid);
                     }
                 } else {
