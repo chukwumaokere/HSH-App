@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams, ToastController, PickerController } from '@ionic/angular';
-//import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 //import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 //import { ImageProvider } from '../../providers/image/image';
-//import { AppConstants } from '../../providers/constant/constant';
-import { Router } from '@angular/router';
+import {AppConfig} from '../../../AppConfig';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import {LoadingController} from '@ionic/angular';
 
 @Component({
   selector: 'app-comments',
@@ -14,11 +15,12 @@ import { Storage } from '@ionic/storage';
 })
 export class CommentsModalPage implements OnInit {
 user_id: any = 1;
-userinfo: any= {
+userinfo: any = {
   first_name: "Chuck",
   user_name: "admin",
   last_name: "Okere",
   email1: "cokere@boruapps.com",
+  contractorsid: 2925705,
   //theme: "Dark",
 };
 imageData: any;
@@ -32,72 +34,62 @@ has_profile_picture: boolean = false;
 recordid: any;
 servicedetail: any;
 message: any;
+show_button: any;
+reqData: any;
 request: any;
 request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
-comments: any = [
-  {
-    user_id: 1,
-    author: "Chuck Okere",
-    message: "Invite Question: Hi, I was wondering when the start time for this service was?",
-    date_sent: "2019-12-12 01:22:30 PM",
-    read: true,
-  },
-  {
-    user_id: 14,
-    author: "Lesley Mullen",
-    message: "Invite Answer: According to my records its for 1:30PM on December 14th; are you seeing something different?",
-    date_sent: "2019-12-12 01:30:22 PM",
-    read: true,
-  },
-  {
-    user_id: 1,
-    author: "Chuck Okere",
-    message: "Okay, just making sure because I have another Quick Start scheduled at the same time, I accidentally accepted another invite at this time",
-    date_sent: "2019-12-12 02:15:45 PM",
-    read: true,
-  },
-  {
-    user_id: 14,
-    author: "Lesley Mullen",
-    message: "Oh I see it! Which one would you like to keep? I'll reschedule the other",
-    date_sent: "2019-12-12 03:43:12 PM",
-    read: true,
-  },
-  {
-    user_id: 1,
-    author: "Chuck Okere",
-    message: "I'd like to keep the Discard and Donate at 1:30PM if possible!",
-    date_sent: "2019-12-12 05:22:43 PM",
-    read: false,
-  }
-];
+// comments: any = [
+//   {
+//     user_id: 1,
+//     author: "Chuck Okere",
+//     message: "Hi, I was wondering when the start time for this service was?",
+//     date_sent: "2019-12-12 01:22:30 PM",
+//     read: true,
+//   },
+//   {
+//     user_id: 14,
+//     author: "Lesley Mullen",
+//     message: "According to my records its for 1:30PM on December 14th; are you seeing something different?",
+//     date_sent: "2019-12-12 01:30:22 PM",
+//     read: true,
+//   },
+// ];
+comments: any = [];
+contractorsid: any;
+contractorInfo: any = [];
+dataReturned: any;
+requestPicklistVal: any = '';
 
 constructor(
-private modalController: ModalController,
-public storage: Storage,
-private  router:  Router,
-private navParams: NavParams,
-//public httpClient: HttpClient,
-private pickerCtrl: PickerController,
-//private formBuilder: FormBuilder,
-public toastController: ToastController,
-//public imgpov: ImageProvider,
-//public appConst: AppConstants,
-){
+    private modalController: ModalController,
+    public storage: Storage,
+    private  router: Router,
+    private navParams: NavParams,
+    public httpClient: HttpClient,
+    private pickerCtrl: PickerController,
+    //private formBuilder: FormBuilder,
+    public toastController: ToastController,
+    //public imgpov: ImageProvider,
+    public AppConfig: AppConfig,
+    public loadingController: LoadingController,
+    private activatedRoute: ActivatedRoute
+) {
     //this.imageData = this.imgpov.getImage();
-  //  this.apiurl = this.appConst.getApiUrl();
+    this.apiurl = this.AppConfig.apiurl;
 }
 
-  ngOnInit() {
+ngOnInit() {
     this.userinfo.first_name = this.userinfo.firstname;
     this.userinfo.last_name = this.userinfo.lastname;
     this.userinfo.email1 = "cokere@boruapps.com";
     this.userinfo.user_name = "Chuck";
     this.userinfo.profile_picture = this.userinfo.pic;
+    this.contractorsid = this.userinfo.contractorsid;
     this.has_profile_picture = true;
     this.recordid = this.navParams.data.id;
     this.servicedetail = this.navParams.data.service_record_details;
-    this.fetchComments();
+    this.show_button = this.navParams.data.show_button;
+    this.contractorInfo = this.navParams.data.contractorInfo;
     /* this.user_id = this.navParams.data.user_id;
     this.userinfo = this.navParams.data.userinfo;
     this.profile_picture = this.navParams.data.userinfo.profile_picture;
@@ -107,15 +99,79 @@ public toastController: ToastController,
       this.has_profile_picture = false;
     }
     console.log('nav params', this.navParams.data.userinfo); */
+
+    this.activatedRoute.params.subscribe((userData) => {
+        if (userData.length !== 0) {
+            this.userinfo = userData;
+            console.log('param user data length:', userData.length);
+            if (userData.length == undefined) {
+                console.log('nothing in params, so loading from storage');
+                this.isLogged().then(result => {
+                    if (!(result == false)) {
+                        console.log('loading storage data (within param route function)', result);
+                        this.userinfo = result;
+                        this.fetchComments();
+                    } else {
+                        console.log('nothing in storage, going back to login');
+                        this.logout();
+                    }
+                });
+            }
+        }
+    });
+}
+
+  loading: any;
+
+  async showLoading() {
+      this.loading = await this.loadingController.create({
+          message: 'Loading ...'
+      });
+      return await this.loading.present();
   }
-  
+
+  async hideLoading() {
+      setTimeout(() => {
+          if (this.loading != undefined) {
+              this.loading.dismiss();
+          }
+      }, 500);
+  }
+
   async closeModal() {
     const onClosedData: string = "Wrapped Up!";
     await this.modalController.dismiss(onClosedData);
   }
-  fetchComments(){
-    var id = this.recordid;
-    console.log('fetching comments for', id);
+  
+  fetchComments() {
+    this.showLoading();
+    const reqData = {
+      crmid: this.recordid
+    };
+    const headers = new HttpHeaders();
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('Access-Control-Allow-Origin', '*');
+    this.httpClient.post(this.apiurl + "getComment.php", reqData, {headers: headers, observe: 'response'})
+      .subscribe(data => {
+        console.log('Get Comments Success');
+        const responseData = data.body;
+        const success = responseData['success'];
+        const commentCount = responseData['count'];
+        if (success == true) {
+          this.hideLoading();
+          if(commentCount > 0){
+            const getComments = responseData['data'];
+            this.comments = getComments;
+          }
+        } else {
+          this.hideLoading();
+          console.log('failed to fetch Comments');
+        }
+      }, error => {
+        this.hideLoading();
+        console.log('failed to fetch Comments');
+      });
   }
   updateMessage(e){
     //console.log(e);
@@ -125,31 +181,73 @@ public toastController: ToastController,
     this.router.navigateByUrl(`/services/detail/${serviceid}`, {state: {}});
     this.closeModal();
   }
-  async  sendMessage(){
-    var message = this.message; 
-    console.log('sending reply', message);
-    /*
-      this.updatefields;
-      var headers = new HttpHeaders();
-      headers.append("Accept", 'application/json');
-      headers.append('Content-Type', 'application/json');
-      headers.append('Access-Control-Allow-Origin', '*');
-       this.httpClient.post(this.apiurl + "updateProfile.php", this.updatefields, { headers:headers, observe: 'response' })
-          .subscribe(data => {
-              //console.log(data['_body']);
-              if(data['body']['success'] == true){
-                this.presentToastPrimary('Profile updated \n');
-                this.closeModal();
-              }else{
-                  console.log('update failed');
-                  this.presentToast('Profile update failed! Please try again \n');
-              }
-          }, error => {
-              //console.log(error);
-              //console.log(error.message);
-              //console.error(error.message);
-              this.presentToast("Profile update failed! Please try again \n" + error.message);
-          }); */
+  
+  async updateRequestPickList(event) {
+      let fieldvalue = '';
+      if (event.target.tagName == 'ION-SELECT') {
+          fieldvalue = event.target.value;
+          this.requestPicklistVal = fieldvalue;
+      }
+  }
+  
+  async sendMessage() {
+    this.showLoading();
+    const message = this.message;
+    const requestPicklist = this.requestPicklistVal;
+    const contractorid = this.userinfo.contractorsid;
+    const contractorname = this.userinfo.contractorname;
+    const commentContent = message + ' - Request: ' + requestPicklist;
+    const updatefields = {
+      crmid: this.recordid,
+      userid: 1,
+      commentcontent: commentContent,
+      parent_comments: '',
+      contractorid: contractorid,
+      contractorname: contractorname,
+      requestPicklist: requestPicklist
+    };
+    const headers = new HttpHeaders();
+    headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', '*');
+    this.httpClient.post(this.apiurl + "postComment.php", updatefields, {
+        headers: headers,
+        observe: 'response'
+    })
+        .subscribe(data => {
+            const responseData = data.body;
+            const success = responseData['success'];
+            if (success == true) {
+              this.closeModal();
+              this.reloadComments(this.recordid);
+              this.hideLoading();
+            } else {
+                this.hideLoading();
+                console.log('failed to Push Comments');
+            }
+        }, error => {
+            this.hideLoading();
+            this.presentToast('failed to Push Comments \n' + error.message);
+        });
+  }
+  
+  async reloadComments(id) {
+    const modal = await this.modalController.create({
+      component: CommentsModalPage,
+      componentProps: {
+        "id": id,
+        "service_record_details": this.servicedetail,
+        'contractorInfo': this.userinfo
+      }
+    });
+    
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+        this.dataReturned = dataReturned.data;
+      }
+    });
+    
+    return await modal.present();
   }
 
     async presentToast(message: string) {
@@ -210,7 +308,7 @@ public toastController: ToastController,
           current_theme = theme;
         });
         var theme_switcher = {
-                              "dark": "light", 
+                              "dark": "light",
                               "light": "dark"
         };
         var destination_theme = theme_switcher[current_theme]
@@ -235,7 +333,7 @@ public toastController: ToastController,
         console.log('loading theme', theme);
         document.body.classList.toggle(theme, true);
         var theme_switcher = {
-            "dark": "light", 
+            "dark": "light",
             "light": "dark"
         };
         document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.

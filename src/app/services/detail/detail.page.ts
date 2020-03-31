@@ -371,6 +371,7 @@ export class DetailPage implements OnInit {
             componentProps: {
                 'id': id,
                 'service_record_details': this.servicedetail,
+                'contractorInfo': this.userinfo
             }
         });
 
