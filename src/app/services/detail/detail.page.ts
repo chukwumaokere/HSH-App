@@ -1,6 +1,6 @@
 import {Component, OnInit, LOCALE_ID, Inject,} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NavController, ToastController, AlertController, ModalController} from '@ionic/angular';
+import {NavController, ToastController, AlertController, ModalController, LoadingController} from '@ionic/angular';
 import {formatDate} from '@angular/common';
 import {Storage} from '@ionic/storage';
 import {ActionSheet, ActionSheetOptions} from '@ionic-native/action-sheet/ngx';
@@ -69,6 +69,7 @@ export class DetailPage implements OnInit {
                 private emailComposer: EmailComposer,
                 private httpClient: HttpClient,
                 public AppConfig: AppConfig,
+                public loadingController: LoadingController,
                 private iab: InAppBrowser,
                 @Inject(LOCALE_ID) private locale: string) {
         this.secondaryInfo.open = false;
@@ -150,7 +151,7 @@ export class DetailPage implements OnInit {
             });
     }
 
-    async  saveJob(salesorderid) {
+    saveJob(salesorderid) {
         var data = this.updatefields;
         var data_stringified = JSON.stringify(data);
         console.log('attempting to submitting data to vtiger', salesorderid, data);
@@ -165,24 +166,24 @@ export class DetailPage implements OnInit {
             headers.append("Accept", 'application/json');
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
             headers.append('Access-Control-Allow-Origin', '*');
+            //this.showLoading();
             this.httpClient.post(this.apiurl + 'postSOInfo.php', params, { headers: headers, observe: 'response' })
                 .subscribe(data=> {
+                    //this.hideLoading();
                     var success = data['body']['success'];
                     console.log(data['body']);
                     if(success == true){
                         console.log("Saved and updated data for jobs");
-                        this.navCtrl.navigateRoot('/tabs/services');
-                        //this.router.navigateByUrl('/tabs/services');
                     }else{
                         this.presentToast('Failed to save due to an error');
                         console.log('failed to save record, response was false');
                     }
                 }, error => {
+                    //this.hideLoading();
                     this.presentToast('Failed to save due to an error \n' + error.message);
                     console.log('failed to save record', error.message);
                 });
         } else {
-            this.router.navigateByUrl('/tabs/services');
             console.log('no data modified for record', salesorderid);
         }
 
@@ -451,5 +452,22 @@ export class DetailPage implements OnInit {
     toggleSecondary() {
         this.secondaryInfo.open = !this.secondaryInfo.open;
         console.log('secondary info is now', this.secondaryInfo.open);
+    }
+
+    loading: any;
+
+    async showLoading() {
+        this.loading = await this.loadingController.create({
+            message: 'Loading ...'
+        });
+        return await this.loading.present();
+    }
+
+    async hideLoading() {
+        setTimeout(() => {
+            if (this.loading != undefined) {
+                this.loading.dismiss();
+            }
+        }, 3000);
     }
 }
