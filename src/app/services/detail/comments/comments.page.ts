@@ -193,10 +193,13 @@ ngOnInit() {
   async sendMessage() {
     this.showLoading();
     const message = this.message;
-    const requestPicklist = this.requestPicklistVal;
+    let commentContent = message;
+    const req_picklist = this.requestPicklistVal;
     const contractorid = this.userinfo.contractorsid;
     const contractorname = this.userinfo.contractorname;
-    const commentContent = message + ' - Request: ' + requestPicklist;
+    if(typeof req_picklist != "undefined" && req_picklist != ''){
+      commentContent = message + ' - Request: ' + req_picklist;
+    }
     const updatefields = {
       crmid: this.recordid,
       userid: 1,
@@ -204,7 +207,7 @@ ngOnInit() {
       parent_comments: '',
       contractorid: contractorid,
       contractorname: contractorname,
-      requestPicklist: requestPicklist
+      requestpicklist: req_picklist
     };
     const headers = new HttpHeaders();
     headers.append("Accept", 'application/json');
