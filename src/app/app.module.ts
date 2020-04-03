@@ -19,6 +19,8 @@ import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {AppConfig} from './AppConfig';
 import {HttpClientModule} from '@angular/common/http';
 
+import { FCM } from '@ionic-native/fcm/ngx';
+
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
@@ -34,7 +36,8 @@ import {HttpClientModule} from '@angular/common/http';
         EmailComposer,
         InAppBrowser,
         CommentsModalPageModule,
-        AppConfig
+        AppConfig,
+        FCM
     ],
     bootstrap: [AppComponent]
 })

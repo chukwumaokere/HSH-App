@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "707211142117",
+    "firebase_url": "https://hsh-app-push-notification.firebaseio.com",
+    "project_id": "hsh-app-push-notification",
+    "storage_bucket": "hsh-app-push-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707211142117:android:291d22c154c15c19b6050c",
+        "android_client_info": {
+          "package_name": "com.boruapps.hsh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707211142117-vadbdu7c3g70g1fve6qe4067ece4vjed.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa3X4ayj_4Vv54ayvxiOWz_R6n4TS5TVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707211142117-vadbdu7c3g70g1fve6qe4067ece4vjed.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
