@@ -6,7 +6,7 @@ import {Storage} from '@ionic/storage';
 import {ActionSheet, ActionSheetOptions} from '@ionic-native/action-sheet/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {CommentsModalPage} from './comments/comments.page';
-import {CallNumber} from '@ionic-native/call-number/ngx';
+//import {CallNumber} from '@ionic-native/call-number/ngx';
 import {EmailComposer} from '@ionic-native/email-composer/ngx';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {HttpHeaders, HttpClient} from '@angular/common/http';
@@ -60,7 +60,7 @@ export class DetailPage implements OnInit {
                 public alertController: AlertController,
                 public modalCtrl: ModalController,
                 private actionSheet: ActionSheet,
-                private callNumber: CallNumber,
+                //private callNumber: CallNumber,
                 private camera: Camera,
                 public navCtrl: NavController,
                 private  router: Router,
