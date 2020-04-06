@@ -8,8 +8,8 @@ export class AppConfig  {
     base64img: string = '';
     fcmtoken: string = '';
 
-    setFCMToken($value) {
-        this.fcmtoken = $value;
+    setFCMToken(value) {
+        this.fcmtoken = value;
     }
     getFCMToken() {
         return this.fcmtoken;
