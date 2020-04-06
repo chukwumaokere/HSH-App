@@ -58,6 +58,7 @@ export class LoginPage implements OnInit {
             var formvalue = form.value;
             this.loginfields['identifier'] = formvalue.identifier;
             this.loginfields['auth_code'] = formvalue.auth_code;
+            this.loginfields['device_token'] = this.AppConfig.getFCMToken();
                 console.log(form.value);
                 this.httpClient.post(this.apiurl + "postLogin.php", this.loginfields, {headers: headers, observe: 'response'})
                     .subscribe(data => {
