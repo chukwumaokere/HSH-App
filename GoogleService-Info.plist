@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>707211142117-md5h6hbq94s3o00u8lhun7pe6mo7hn8t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.707211142117-md5h6hbq94s3o00u8lhun7pe6mo7hn8t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBErsq8BPDA3DUDCQAkeV5rnmF4YmClr1o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>707211142117</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.boruapps.hsh</string>
+	<key>PROJECT_ID</key>
+	<string>hsh-app-push-notification</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hsh-app-push-notification.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:707211142117:ios:fee9ebcd08b9e518b6050c</string>
+	<key>DATABASE_URL</key>
+	<string>https://hsh-app-push-notification.firebaseio.com</string>
+</dict>
+</plist>
