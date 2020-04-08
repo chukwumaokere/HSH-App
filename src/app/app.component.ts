@@ -39,8 +39,10 @@ export class AppComponent {
             console.log(data);
             if (data.wasTapped) {
                 console.log('Received in background');
+                this.router.navigate(['notifications']);
             } else {
                 console.log('Received in foreground');
+                this.router.navigate(['notifications']);
             }
         });
 

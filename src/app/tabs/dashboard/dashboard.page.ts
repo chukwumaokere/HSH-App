@@ -312,9 +312,9 @@ export class DashboardPage implements OnInit {
                         if (!(result == false)) {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
-                            const contractorname = result.contractorname;
+                            /*const contractorname = result.contractorname;
                             const names = contractorname.split(' ');
-                            this.userinfo.firstname = names[0];
+                            this.userinfo.firstname = names[0];*/
                             this.loadTheme(result.theme.toLowerCase());
                             this.loadDashboardData(this.userinfo.id, this.userinfo.contractorsid);
                         } else {
