@@ -32,5 +32,7 @@
 	<string>1:707211142117:ios:fee9ebcd08b9e518b6050c</string>
 	<key>DATABASE_URL</key>
 	<string>https://hsh-app-push-notification.firebaseio.com</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <true></true>
 </dict>
 </plist>
