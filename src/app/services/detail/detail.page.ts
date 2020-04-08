@@ -268,7 +268,7 @@ export class DetailPage implements OnInit {
         this.camera.getPicture(this.options).then((imageData) => {
             // imageData is either a base64 encoded string or a file URI
             // If it's base64 (DATA_URL):
-            let base64Image = 'data:image/png;base64,' + imageData;
+            const base64Image = 'data:image/png;base64,' + imageData;
             this.AppConfig.base64img = imageData;
             //this.imgpov.setImage(imageData);
             this.openModal(serviceid, base64Image);
@@ -285,7 +285,7 @@ export class DetailPage implements OnInit {
         });
     }
 
-    async openModal(serviceid,base64Image) {
+    async openModal(serviceid, base64Image) {
         const modal = await this.modalCtrl.create({
             component: ImageModalPage,
             componentProps: {
@@ -294,14 +294,14 @@ export class DetailPage implements OnInit {
                 "serviceid" : serviceid,
             }
         });
-
+        
         modal.onDidDismiss().then((dataReturned) => {
             if (dataReturned !== null) {
                 this.dataReturned = dataReturned.data;
                 //alert('Modal Sent Data :'+ dataReturned);
             }
         });
-
+        
         return await modal.present();
     }
 
