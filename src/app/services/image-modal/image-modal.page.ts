@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavParams, ToastController, PickerController } from '@ionic/angular';
+import { ModalController, NavParams, ToastController, PickerController, LoadingController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import {AppConfig} from '../../AppConfig';
@@ -33,6 +33,7 @@ private pickerCtrl: PickerController,
 private formBuilder: FormBuilder,
 public toastController: ToastController,
 public AppConfig: AppConfig,
+public loadingController: LoadingController,
 ){
     this.imageData = this.AppConfig.base64img;
     this.apiurl = this.AppConfig.apiurl;
@@ -83,19 +84,8 @@ public AppConfig: AppConfig,
       })
   }
 
-  modifyTowerSection(direction){
-      if(direction == 'up'){
-        var val = parseInt(this.photo.tower_section) + 1;
-        this.photo.tower_section = val.toString();
-        this.photo.title = this.photo.primary_title + "-" + this.photo.secondary_title + "-" + this.photo.tower_section ;
-      }else if (direction == 'down'){
-        var val = parseInt(this.photo.tower_section) - 1;
-        this.photo.tower_section = val.toString();
-        this.photo.title = this.photo.primary_title + "-" + this.photo.secondary_title + "-" + this.photo.tower_section ;
-      }
-  }
-
   async  uploadImage(form){
+      this.showLoading('Uploading ...');
       var headers = new HttpHeaders();
       headers.append("Accept", 'application/json');
       headers.append('Content-Type', 'application/json');
@@ -106,12 +96,13 @@ public AppConfig: AppConfig,
         base64Image: this.imageData,
         serviceid: this.serviceid,
       }
-      console.log('data send: ', reqData);
+      console.log('Request Data: ', reqData);
       this.httpClient.post(this.apiurl + "postPhotos.php", reqData, { headers:headers, observe: 'response' })
           .subscribe(data => {
-              console.log(data);
+              this.hideLoading(1000);
+              console.log('base64Image: ' + this.imageData);
               if(data['body']['success'] == true){
-                this.presentToastPrimary('Photo uploaded and added to Work Order \n');
+                this.presentToastPrimary('Photo uploaded and added to Work Order', 3000);
                 this.closeModal();
               }else{
                   console.log('upload failed');
@@ -121,27 +112,11 @@ public AppConfig: AppConfig,
               //console.log(error);
               //console.log(error.message);
               //console.error(error.message);
+              this.hideLoading(1000);
               this.presentToast("Upload failed! Please try again \n" + error.message);
           });
   }
-
-    async  fillTitlePrimary(title){
-        this.photo.primary_title = title;
-        if (this.photo.secondary_title !== '' || this.photo.tower_section !== ''){
-            this.photo.title = this.photo.primary_title + "-" + this.photo.secondary_title + "-" + this.photo.tower_section ;
-        }else{
-            this.photo.title = title;
-        }
-    }
-    async  fillTitleSecondary(title){
-        this.photo.secondary_title = title;
-        if (this.photo.primary_title !== '' || this.photo.tower_section !== ''){
-            this.photo.title = this.photo.primary_title + "-" + this.photo.secondary_title + "-" + this.photo.tower_section ;
-        }else{
-            this.photo.title = this.photo.secondary_title;
-        }
-        
-    }
+  
     async  fillTowerSection(section){
         this.photo.tower_section = section;
         if (this.photo.primary_title !== '' || this.photo.secondary_title !== ''){
@@ -161,13 +136,30 @@ public AppConfig: AppConfig,
         toast.present();
     }
 
-    async presentToastPrimary(message: string) {
+    async presentToastPrimary(message: string, duration: number = 2000) {
         var toast = await this.toastController.create({
             message: message,
-            duration: 2000,
+            duration: duration,
             position: "bottom",
             color: "primary"
         });
         toast.present();
+    }
+    
+    loading: any;
+
+    async showLoading( message: string = 'Loading ...' ) {
+        this.loading = await this.loadingController.create({
+            message
+        });
+        return await this.loading.present();
+    }
+
+    async hideLoading(time: any = 3000) {
+        setTimeout(() => {
+            if (this.loading != undefined) {
+                this.loading.dismiss();
+            }
+        }, time);
     }
 }

@@ -271,10 +271,11 @@ export class DetailPage implements OnInit {
             const base64Image = 'data:image/png;base64,' + imageData;
             this.AppConfig.base64img = imageData;
             //this.imgpov.setImage(imageData);
+            console.log('Open Modal');
             this.openModal(serviceid, base64Image);
             // TODO: need code to upload to server here.
             // On success: show toast
-            this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
+            // this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
         }, (err) => {
             // Handle error
             console.error(err);
@@ -286,6 +287,8 @@ export class DetailPage implements OnInit {
     }
 
     async openModal(serviceid, base64Image) {
+        this.showLoading();
+        console.log('In Modal');
         const modal = await this.modalCtrl.create({
             component: ImageModalPage,
             componentProps: {
@@ -294,6 +297,8 @@ export class DetailPage implements OnInit {
                 "serviceid" : serviceid,
             }
         });
+        
+        this.hideLoading(1000);
         
         modal.onDidDismiss().then((dataReturned) => {
             if (dataReturned !== null) {
@@ -464,11 +469,11 @@ export class DetailPage implements OnInit {
         return await this.loading.present();
     }
 
-    async hideLoading() {
+    async hideLoading(time: any = 3000) {
         setTimeout(() => {
             if (this.loading != undefined) {
                 this.loading.dismiss();
             }
-        }, 3000);
+        }, time);
     }
 }
