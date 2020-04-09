@@ -425,9 +425,9 @@ export class DetailPage implements OnInit {
 
     contact(supportname) {
         console.log('opening action sheet for contact', supportname);
-        var contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Chat: ' + supportname, 'Email: ' + this.servicedetail.support_email];
+        const contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Chat: ' + supportname, 'Email: ' + this.servicedetail.support_email];
 
-        var contactOptions: ActionSheetOptions = {
+        const contactOptions: ActionSheetOptions = {
             title: 'Which would you like to do?',
             buttonLabels: contactLabels,
             addCancelButtonWithLabel: 'Cancel',
