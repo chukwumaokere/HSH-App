@@ -444,7 +444,7 @@ export class DetailPage implements OnInit {
                 this.call(this.servicedetail.support_ph);
             }
             else if (buttonIndex == 2) {
-                this.chat(this.serviceid);
+                this.chat(this.servicedetail.salesorderid);
             }
             else if (buttonIndex == 3) {
                 this.email(this.servicedetail.support_email);
