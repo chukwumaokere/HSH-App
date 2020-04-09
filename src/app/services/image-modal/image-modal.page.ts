@@ -102,10 +102,14 @@ public AppConfig: AppConfig,
       headers.append('Access-Control-Allow-Origin', '*');
       form.value.base64Image = this.imageData;
       form.value.serviceid = this.serviceid;
-      console.log('adding photo for', form.value.serviceid);
-      this.httpClient.post(this.apiurl + "postPhotos.php", form.value, { headers:headers, observe: 'response' })
+      const reqData = {
+        base64Image: this.imageData,
+        serviceid: this.serviceid,
+      }
+      console.log('data send: ', reqData);
+      this.httpClient.post(this.apiurl + "postPhotos.php", reqData, { headers:headers, observe: 'response' })
           .subscribe(data => {
-              //console.log(data['_body']);
+              console.log(data);
               if(data['body']['success'] == true){
                 this.presentToastPrimary('Photo uploaded and added to Work Order \n');
                 this.closeModal();
