@@ -6,6 +6,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {FCM} from '@ionic-native/fcm/ngx';
 import {AppConfig} from './AppConfig';
 import {Router} from '@angular/router';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class AppComponent {
         private fcm: FCM,
         public appConst: AppConfig,
         private router: Router,
-        public navCtrl: NavController
+        public navCtrl: NavController,
+        private firebase: Firebase,
     ) {
         this.initializeApp();
     }
@@ -31,10 +33,7 @@ export class AppComponent {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
             // get FCM token
-            this.fcm.getToken().then(token => {
-                console.log(token);
-                this.appConst.setFCMToken(token);
-            });
+            this.getToken();
 
             // ionic push notification example
             this.fcm.onNotification().subscribe(data => {
@@ -59,5 +58,17 @@ export class AppComponent {
             // unsubscribe from a topic
             // this.fcm.unsubscribeFromTopic('offers');
         });
+    }
+    async getToken() {
+        let token;
+        if (this.platform.is('android')) {
+            token = await this.fcm.getToken();
+        }
+        if (this.platform.is('ios')) {
+            token = await this.firebase.getToken();
+            await this.firebase.grantPermission();
+        }
+        console.log(token);
+        this.appConst.setFCMToken(token);
     }
 }

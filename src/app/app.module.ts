@@ -23,6 +23,7 @@ import { ImageModalPage } from './services/image-modal/image-modal.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FCM } from '@ionic-native/fcm/ngx';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -41,7 +42,8 @@ import { FCM } from '@ionic-native/fcm/ngx';
         CommentsModalPageModule,
         ImageModalPage,
         AppConfig,
-        FCM
+        FCM,
+        Firebase
     ],
     bootstrap: [AppComponent]
 })
