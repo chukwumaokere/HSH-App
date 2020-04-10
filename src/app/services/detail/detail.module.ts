@@ -24,6 +24,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [DetailPage, CommentsModalPage, ImageModalPage] ,
-    entryComponents: [CommentsModalPage],
+    entryComponents: [CommentsModalPage, ImageModalPage],
 })
 export class DetailPageModule {}

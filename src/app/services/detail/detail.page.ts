@@ -268,13 +268,14 @@ export class DetailPage implements OnInit {
         this.camera.getPicture(this.options).then((imageData) => {
             // imageData is either a base64 encoded string or a file URI
             // If it's base64 (DATA_URL):
-            let base64Image = 'data:image/png;base64,' + imageData;
+            const base64Image = 'data:image/png;base64,' + imageData;
             this.AppConfig.base64img = imageData;
             //this.imgpov.setImage(imageData);
+            console.log('Open Modal');
             this.openModal(serviceid, base64Image);
             // TODO: need code to upload to server here.
             // On success: show toast
-            this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
+            // this.presentToastPrimary('Photo uploaded and added! \n' + imageData);
         }, (err) => {
             // Handle error
             console.error(err);
@@ -285,7 +286,9 @@ export class DetailPage implements OnInit {
         });
     }
 
-    async openModal(serviceid,base64Image) {
+    async openModal(serviceid, base64Image) {
+        this.showLoading();
+        console.log('In Modal');
         const modal = await this.modalCtrl.create({
             component: ImageModalPage,
             componentProps: {
@@ -294,14 +297,16 @@ export class DetailPage implements OnInit {
                 "serviceid" : serviceid,
             }
         });
-
+        
+        this.hideLoading(1000);
+        
         modal.onDidDismiss().then((dataReturned) => {
             if (dataReturned !== null) {
                 this.dataReturned = dataReturned.data;
                 //alert('Modal Sent Data :'+ dataReturned);
             }
         });
-
+        
         return await modal.present();
     }
 
@@ -425,9 +430,9 @@ export class DetailPage implements OnInit {
 
     contact(supportname) {
         console.log('opening action sheet for contact', supportname);
-        var contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Chat: ' + supportname, 'Email: ' + this.servicedetail.support_email];
+        const contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Chat: ' + supportname, 'Email: ' + this.servicedetail.support_email];
 
-        var contactOptions: ActionSheetOptions = {
+        const contactOptions: ActionSheetOptions = {
             title: 'Which would you like to do?',
             buttonLabels: contactLabels,
             addCancelButtonWithLabel: 'Cancel',
@@ -439,7 +444,7 @@ export class DetailPage implements OnInit {
                 this.call(this.servicedetail.support_ph);
             }
             else if (buttonIndex == 2) {
-                this.chat(this.serviceid);
+                this.chat(this.servicedetail.salesorderid);
             }
             else if (buttonIndex == 3) {
                 this.email(this.servicedetail.support_email);
@@ -464,11 +469,11 @@ export class DetailPage implements OnInit {
         return await this.loading.present();
     }
 
-    async hideLoading() {
+    async hideLoading(time: any = 3000) {
         setTimeout(() => {
             if (this.loading != undefined) {
                 this.loading.dismiss();
             }
-        }, 3000);
+        }, time);
     }
 }

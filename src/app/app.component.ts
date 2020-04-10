@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-
-import {Platform} from '@ionic/angular';
+import {NavController, Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {FCM} from '@ionic-native/fcm/ngx';
@@ -14,13 +13,16 @@ import { Firebase } from '@ionic-native/firebase/ngx';
     styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-    constructor(private platform: Platform,
-                private splashScreen: SplashScreen,
-                private statusBar: StatusBar,
-                private fcm: FCM,
-                private firebase: Firebase,
-                public appConst: AppConfig,
-                private router: Router) {
+    constructor(
+        private platform: Platform,
+        private splashScreen: SplashScreen,
+        private statusBar: StatusBar,
+        private fcm: FCM,
+        public appConst: AppConfig,
+        private router: Router,
+        public navCtrl: NavController,
+        private firebase: Firebase,
+    ) {
         this.initializeApp();
     }
 
@@ -36,6 +38,8 @@ export class AppComponent {
                 console.log(data);
                 if (data.wasTapped) {
                     console.log('Received in background');
+                    //this.router.navigate(['/tabs/notifications', {fragment: ''}]);
+                    this.navCtrl.navigateRoot('tabs/notifications');
                 } else {
                     console.log('Received in foreground');
                 }
@@ -64,5 +68,4 @@ export class AppComponent {
         console.log(token);
         this.appConst.setFCMToken(token);
     }
-
 }
