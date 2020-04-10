@@ -42,6 +42,8 @@ export class AppComponent {
                     this.navCtrl.navigateRoot('tabs/notifications');
                 } else {
                     console.log('Received in foreground');
+                    //this.router.navigate(['/tabs/notifications', {fragment: ''}]);
+                    this.navCtrl.navigateRoot('tabs/notifications');
                 }
             });
 
