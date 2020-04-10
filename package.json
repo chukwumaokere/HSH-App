@@ -1,6 +1,6 @@
 {
   "name": "hshjobs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Boru Apps",
   "homepage": "https://boruapps.com/",
   "scripts": {
@@ -26,6 +26,7 @@
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/email-composer": "^5.18.0",
     "@ionic-native/fcm": "^5.23.0",
+    "@ionic-native/firebase": "^5.23.0",
     "@ionic-native/in-app-browser": "^5.18.0",
     "@ionic-native/photo-library": "^5.15.0",
     "@ionic-native/splash-screen": "^5.0.0",
@@ -115,13 +116,7 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "call-number": {},
-      "cordova-plugin-fcm-with-dependecy-updated": {
-        "FCM_VERSION": "19.0.0",
-        "GRADLE_TOOLS_VERSION": "3.5.3",
-        "GOOGLE_SERVICES_VERSION": "4.3.3",
-        "SUPPORT_LIBRARY_VERSION": "28.0.0",
-        "ANDROID_DEFAULT_NOTIFICATION_ICON": "@mipmap/ic_launcher"
-      },
+      "cordova-plugin-fcm-with-dependecy-updated": {},
       "cordova-plugin-firebase-messaging": {
         "FIREBASE_MESSAGING_VERSION": "20.1.+",
         "ANDROIDX_CORE_VERSION": "1.0.+"

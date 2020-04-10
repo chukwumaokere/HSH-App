@@ -20,6 +20,7 @@ import {AppConfig} from './AppConfig';
 import {HttpClientModule} from '@angular/common/http';
 
 import { FCM } from '@ionic-native/fcm/ngx';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -37,7 +38,8 @@ import { FCM } from '@ionic-native/fcm/ngx';
         InAppBrowser,
         CommentsModalPageModule,
         AppConfig,
-        FCM
+        FCM,
+        Firebase
     ],
     bootstrap: [AppComponent]
 })
