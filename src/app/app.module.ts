@@ -23,12 +23,28 @@ import { ImageModalPage } from './services/image-modal/image-modal.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FCM } from '@ionic-native/fcm/ngx';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { Firebase } from '@ionic-native/firebase/ngx';
+
+const config = {
+    apiKey: "AIzaSyAO3nLfA8wLPsz7ZxKi1qXv-bc2_iDiwek",
+    authDomain: "hsh-app-push-notification.firebaseapp.com",
+    databaseURL: "https://hsh-app-push-notification.firebaseio.com",
+    projectId: "hsh-app-push-notification",
+    storageBucket: "hsh-app-push-notification.appspot.com",
+    messagingSenderId: "707211142117",
+    appId: "1:707211142117:web:43f0f27ee16df6bdb6050c",
+    measurementId: "G-55L1K0V51S"
+};
 
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
-    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, IonicStorageModule.forRoot()],
+    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule,
+        ReactiveFormsModule, IonicStorageModule.forRoot(),
+        AngularFireModule.initializeApp(config),
+        AngularFirestoreModule],
     providers: [
         StatusBar,
         SplashScreen,
