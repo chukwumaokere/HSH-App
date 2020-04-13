@@ -428,6 +428,9 @@ export class DashboardPage implements OnInit {
                         } else if (item.title == 'Active Jobs'){
                             this.dashboardData.active_jobs.total = item.count;
                         }
+                        else if (item.title == 'Requests') {
+                            this.dashboardData.request.total = item.count;
+                        }
                     });
                 } else {
                     console.log('failed to fetch records');
