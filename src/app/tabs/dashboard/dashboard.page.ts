@@ -427,9 +427,10 @@ export class DashboardPage implements OnInit {
                             this.dashboardData.new_jobs.total = item.count;
                         } else if (item.title == 'Active Jobs'){
                             this.dashboardData.active_jobs.total = item.count;
-                        }
-                        else if (item.title == 'Requests') {
+                        } else if (item.title == 'Requests') {
                             this.dashboardData.request.total = item.count;
+                        } else if (item.title == 'Responses') {
+                            this.dashboardData.response.total = item.count;
                         }
                     });
                 } else {
