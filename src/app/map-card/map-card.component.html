@@ -1,7 +1,7 @@
 <ion-card *ngFor="let property of properties" >
   <img (click)="detailView(property)" src="../../assets/img/advance-card-map-madison.png">
   <ion-fab vertical="top" horizontal="end">
-    <ion-fab-button href="https://maps.apple.com/?address={{property.street}}, {{property.city}}, {{property.state}} {{property.zip}}">
+    <ion-fab-button href="https://maps.apple.com/?address={{property.street}}">
       <ion-icon name="pin"></ion-icon>
     </ion-fab-button>
   </ion-fab>
