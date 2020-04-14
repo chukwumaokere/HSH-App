@@ -65,8 +65,8 @@
       <ion-button target="_blank" color="primary" (click)="contact(servicedetail.assigned_to)" size="default" slot="end" type="button"><ion-icon name="contact" size="large" ></ion-icon></ion-button>
     </ion-item>
     <ion-item lines="none">
-      <ion-label position="stacked">Job Description</ion-label>
-      <ion-text>{{servicedetail.description}}</ion-text>
+      <ion-label position="stacked">Job Details for Organizer</ion-label>
+      <ion-text>{{servicedetail.cf_job_detail_org}}</ion-text>
     </ion-item>
     <br>
       <div *ngIf="isCompleteJob == 0">
