@@ -18,7 +18,7 @@
     <span item-start>{{property.travel_time_m}} min&nbsp;</span>
     <span item-start>({{property.miles}} mi)</span>
     <ion-fab horizontal="end">
-      <ion-button href="https://maps.apple.com/?daddr={{property.street}}" ion-button icon-start clear item-end>
+      <ion-button href="https://maps.apple.com/?daddr={{property.street}}, {{property.city}}, {{property.state}} {{property.zip}}" ion-button icon-start clear item-end>
         <ion-icon name="navigate"></ion-icon>
         Start
       </ion-button>

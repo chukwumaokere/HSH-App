@@ -60,24 +60,27 @@
     </ion-list>
 
     <ion-item-divider sticky="true" #responses_ref id="responses_ref">
-      <ion-label>
-        Responses ({{count_notifications}})
+      <ion-label *ngIf="notifications != undefined">
+        Responses ({{notifications.length}})
       </ion-label>
+        <ion-label *ngIf="notifications == undefined">
+            Responses (0)
+        </ion-label>
     </ion-item-divider>
 
     <ion-list lines="full">
         <div *ngIf="count_notifications > 0">
-        <ion-item (click)="markRead(notification.id, notification.recordid)" *ngFor="let notification of notifications">
+        <ion-item (click)="markRead(notification.modcommentsid, notification.related_to)" *ngFor="let notification of notifications">
             <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
             <ion-label>
-              <h2>{{notification.title}}</h2>
-              <p class="main-color">{{notification.date}}</p>
+              <h2>{{notification.commentcontent}}</h2>
+              <p class="main-color">{{notification.createdtime}}</p>
               <div class="invite-details-div">
-                  <p>{{notification.comment}}</p>
+                  <p>{{notification.subject}}</p>
               </div>
             </ion-label>
           </ion-item>
         </div>
-          <p class="ion-padding" *ngIf="count_notifications == 0">No new notifications</p>
+          <p class="ion-padding" *ngIf="count_notifications == 0 ||  notifications == undefined">No new notifications</p>
     </ion-list>
 </ion-content>

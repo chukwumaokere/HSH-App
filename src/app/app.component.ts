@@ -57,7 +57,6 @@ export class AppComponent {
             // this.fcm.unsubscribeFromTopic('offers');
         });
     }
-
     async getToken() {
         let token;
         if (this.platform.is('android')) {

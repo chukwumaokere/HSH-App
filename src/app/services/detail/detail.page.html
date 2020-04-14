@@ -55,7 +55,7 @@
     <ion-item lines="none">
       <ion-label position="stacked">Address Details</ion-label>
       <ion-text>{{servicedetail.bill_street}}, {{servicedetail.bill_city}} , {{servicedetail.bill_state}} {{servicedetail.bill_code}}</ion-text>
-      <ion-button target="_blank" color="primary" href="https://maps.apple.com/?daddr={{servicedetail.bill_street}}" size="default" slot="end" type="button"><ion-icon name="navigate" size="large" ></ion-icon></ion-button>
+      <ion-button target="_blank" color="primary" href="https://maps.apple.com/?daddr={{servicedetail.bill_street}}, {{servicedetail.bill_city}} , {{servicedetail.bill_state}} {{servicedetail.bill_code}}" size="default" slot="end" type="button"><ion-icon name="navigate" size="large" ></ion-icon></ion-button>
     </ion-item>
 
     <!-- Coordinator info -->
@@ -65,8 +65,8 @@
       <ion-button target="_blank" color="primary" (click)="contact(servicedetail.assigned_to)" size="default" slot="end" type="button"><ion-icon name="contact" size="large" ></ion-icon></ion-button>
     </ion-item>
     <ion-item lines="none">
-      <ion-label position="stacked">Job Description</ion-label>
-      <ion-text>{{servicedetail.description}}</ion-text>
+      <ion-label position="stacked">Job Details for Organizer</ion-label>
+      <ion-text>{{servicedetail.cf_job_detail_org}}</ion-text>
     </ion-item>
     <br>
       <div *ngIf="isCompleteJob == 0">
@@ -101,13 +101,6 @@
       </div>
     <br>
   </ion-list>
-<div class="button-grouping ion-padding">
-  <ion-button size="large" expand="block" color="success" [disabled]="isCompleteJob==0 ? null : 'disabled'" (click) = "completeJob(servicedetail.salesorderid)">
-    <ion-text color="dark">
-      {{(isCompleteJob==0) ? 'Completed' : 'Complete' }}
-    </ion-text>
-  </ion-button>
-</div>
 <br><br><br><br><br>
 <div *ngIf="isCompleteJob == 0" class="button-grouping ion-padding anchor-bottom" >
   <ion-grid class="ion-no-padding">

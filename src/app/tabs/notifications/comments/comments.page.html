@@ -1,11 +1,11 @@
 <ion-header>
     <ion-toolbar text-center>
         <ion-buttons *ngIf="show_button == true" slot="secondary">
-            <ion-button type="button" (click)="goToJob(servicedetail.id)" text="Open Job">
+            <ion-button type="button" (click)="goToJob(recordid)" text="Open Job">
                 <ion-text>Open Job</ion-text>
             </ion-button>
         </ion-buttons>
-        <ion-title>Comments for {{servicedetail.service_type}}</ion-title>
+        <ion-title>Comments for {{servicedetail.subject}}</ion-title>
         <ion-icon name="close" (click)="closeModal()" size="large"></ion-icon>
     </ion-toolbar>
 </ion-header>

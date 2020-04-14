@@ -1,6 +1,6 @@
 {
   "name": "hshjobs",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "author": "Boru Apps",
   "homepage": "https://boruapps.com/",
   "scripts": {
@@ -130,7 +130,8 @@
         "ANDROIDX_CORE_VERSION": "1.0.+"
       },
       "cordova-plugin-androidx": {},
-      "cordova-plugin-androidx-adapter": {}
+      "cordova-plugin-androidx-adapter": {},
+      "cordova-plugin-firebase": {}
     },
     "platforms": [
       "ios",
