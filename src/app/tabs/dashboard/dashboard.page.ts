@@ -230,7 +230,7 @@ export class DashboardPage implements OnInit {
             if (this.loading != undefined) {
                 this.loading.dismiss();
             }
-        }, 3000);
+        }, 500);
     }
 
     fetchDashboard() {
