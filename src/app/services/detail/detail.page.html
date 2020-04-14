@@ -101,13 +101,6 @@
       </div>
     <br>
   </ion-list>
-<div class="button-grouping ion-padding">
-  <ion-button size="large" expand="block" color="success" [disabled]="isCompleteJob==0 ? null : 'disabled'" (click) = "completeJob(servicedetail.salesorderid)">
-    <ion-text color="dark">
-      {{(isCompleteJob==0) ? 'Completed' : 'Complete' }}
-    </ion-text>
-  </ion-button>
-</div>
 <br><br><br><br><br>
 <div *ngIf="isCompleteJob == 0" class="button-grouping ion-padding anchor-bottom" >
   <ion-grid class="ion-no-padding">
