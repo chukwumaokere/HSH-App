@@ -16,7 +16,7 @@
         <ion-item *ngFor="let invite of invites">
             <ion-avatar><ion-icon color="warning" size="large" name="mail-unread"></ion-icon></ion-avatar>
             <ion-label>
-              <h2>{{invite.service_title}}</h2>
+              <h2>{{invite.type_of_service}}</h2>
               <p class="main-color">{{invite.service_date}}</p>
                 <div *ngIf="invite.job_desc !== ''" style="white-space: pre-wrap;" class="main-color" [innerHTML]="invite.job_desc"></div>
               <div class="invite-details-div">

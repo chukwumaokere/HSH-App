@@ -42,8 +42,11 @@ export class TabsPage {
                         if (!(result == false)) {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
-                            this.loadTheme(result.theme.toLowerCase());
-                            this.loadData();
+                            this.loadData(this.userinfo.contractorsid);
+                            setInterval(() => {
+                                console.log('refreshing under review count');
+                                this.loadData(this.userinfo.contractorsid);
+                            }, 5000);
                         } else {
                             console.log('nothing in storage, going back to login');
                             this.logout();
@@ -54,8 +57,7 @@ export class TabsPage {
         });
     }
 
-    loadData() {
-     var contractorid = this.userinfo.contractorsid;
+    loadData(contractorid) {
         const reqData = {
             contractorid
         };
@@ -63,34 +65,18 @@ export class TabsPage {
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         headers.append('Access-Control-Allow-Origin', '*');
-        this.httpClient.post(this.apiurl + 'getInvites.php', reqData, {headers, observe: 'response'})
+        this.httpClient.post(this.apiurl + 'getCountResponse.php', reqData, {headers, observe: 'response'})
             .subscribe(data => {
-                console.log('Get Invites Success');
                 const responseData = data.body;
                 const success = responseData['success'];
                 if (success == true) {
-                    const getInvites = responseData['data'];
-                    this.notifications = getInvites.length;
+                    this.notifications = responseData['count'];
                 } else {
                     console.log('failed to fetch Invites');
                 }
             }, error => {
                 console.log('failed to fetch Invites');
             });
-    }
-
-    refreshBadge() {
-        setInterval(() => {
-            this.loadData();
-        }, 60000);
-        return this.notifications;
-    }
-
-    ionViewWillEnter() {
-      this.loadData();
-    }
-    ionViewWillLoad() {
-        this.loadData();
     }
 
     async isLogged() {
