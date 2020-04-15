@@ -14,10 +14,20 @@ import {AppConfig} from '../../AppConfig';
 })
 export class NotificationsPage implements OnInit {
     @ViewChild('responses_ref', <any>[]) public responses_ref: ElementRef;
+    @ViewChild('updates_needed', <any>[]) public updates_needed: ElementRef;
+    @ViewChild('request_made', <any>[]) public request_made: ElementRef;
     @ViewChild('invites_ref', <any>[]) public invites_ref: ElementRef;
     userinfo: any;
     invites: any = [];
     notifications: any = [];
+    updatesNeeded: {
+        count: 0,
+        data: {}
+    };
+    requestMade: {
+        count: 0,
+        data: {}
+    };
     count_invites: any = 0;
     count_notifications: any = 0;
     servicedetail: any = {}
@@ -116,12 +126,20 @@ export class NotificationsPage implements OnInit {
 
     ngOnInit() {
         this.hideLoading();
+        this.updatesNeeded = {
+            count: 0,
+            data: {}
+        };
+        this.requestMade = {
+            count: 0,
+            data: {}
+        };
         this.activatedRoute.params.subscribe((userData) => {
             if (userData.length !== 0) {
                 this.userinfo = userData;
                 console.log('param user data:', userData);
                 if (userData.fragment) {
-                    console.log(userData.fragment)
+                    console.log(userData.fragment);
                     try {
                         var element = document.getElementById(userData.fragment);
                         this.sectionScroll = element;
@@ -142,6 +160,8 @@ export class NotificationsPage implements OnInit {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
                             this.fetchInvites();
+                            this.fetchUpdateNeeded();
+                            this.fetchRequestMade();
                             this.loadTheme(result.theme.toLowerCase());
                             try {
                                 console.log('scrolling to', this.sectionScroll);
@@ -241,6 +261,59 @@ export class NotificationsPage implements OnInit {
                 }
             }, error => {
                 this.hideLoading();
+            });
+    }
+    
+    fetchUpdateNeeded() {
+        const contractorid = this.userinfo.contractorsid;
+        const reqData = {
+            contractorid
+        };
+        const headers = new HttpHeaders();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.httpClient.post(this.apiurl + 'getUpdateNeeded.php', reqData, {headers, observe: 'response'})
+            .subscribe(data => {
+                const responseData = data.body;
+                console.log('Update Needed Response Data: ');
+                console.log(responseData);
+                const success = responseData['success'];
+                if (success == true) {
+                    this.updatesNeeded.count = responseData['count'];
+                    this.updatesNeeded.data = responseData['data'];
+                } else {
+                    console.log('failed to fetch Update Needed');
+                }
+            }, error => {
+                console.log('failed to fetch Update Needed');
+            });
+    }
+    
+    fetchRequestMade() {
+        const contractorid = this.userinfo.contractorsid;
+        const reqData = {
+            contractorid,
+            request_type: 'requests_made'
+        };
+        const headers = new HttpHeaders();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.httpClient.post(this.apiurl + 'getUpdateNeeded.php', reqData, {headers, observe: 'response'})
+            .subscribe(data => {
+                const responseData = data.body;
+                console.log('Update Request Made Response Data: ');
+                console.log(responseData);
+                const success = responseData['success'];
+                if (success == true) {
+                    this.requestMade.count = responseData['count'];
+                    this.requestMade.data = responseData['data'];
+                } else {
+                    console.log('failed to fetch Request Made');
+                }
+            }, error => {
+                console.log('failed to fetch Request Made');
             });
     }
 

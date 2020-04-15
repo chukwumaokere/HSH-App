@@ -26,7 +26,7 @@ export class DetailPage implements OnInit {
     apiurl: any;
     isCompleteJob: number = 0;
     updatefields: any = {};
-    status_picklist: any = ['Released', 'Following Up', 'Mtg Scheduled', 'Waiting for a Reply'];
+    status_picklist: any = ['Following Up', 'Waiting for a Reply', 'Mtg Scheduled', 'Complete'];
     secondaryInfo: any = {
         open: false,
     };
@@ -94,6 +94,11 @@ export class DetailPage implements OnInit {
                    // var workorder = data['body']['data'];
                     var allfields = data['body']['allfields'];
                     console.log('allfields are', allfields);
+                    var status_picklist = data['body']['status_picklist'];
+                    console.log(status_picklist);
+                    if(status_picklist){
+                        this.status_picklist = status_picklist;
+                    }
                     this.servicedetail = allfields;
                     if (allfields.job_status == 'Released') {
                         this.isCompleteJob = 1;
