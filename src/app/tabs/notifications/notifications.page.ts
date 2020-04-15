@@ -282,6 +282,11 @@ export class NotificationsPage implements OnInit {
                 if (success == true) {
                     this.updatesNeeded.count = responseData['count'];
                     this.updatesNeeded.data = responseData['data'];
+                    if(responseData['data'].length && responseData['data'].length > 0){
+                        responseData['data'].forEach(bit => {
+                            bit.commentcontent = this.escapeHtml(bit.commentcontent);
+                        });
+                    }
                 } else {
                     console.log('failed to fetch Update Needed');
                 }
@@ -289,6 +294,12 @@ export class NotificationsPage implements OnInit {
                 console.log('failed to fetch Update Needed');
             });
     }
+
+    escapeHtml(text) {
+        return text
+            //.replace(/&/g, "&amp;")
+            .replace("&#039;", "'");
+      }
     
     fetchRequestMade() {
         const contractorid = this.userinfo.contractorsid;

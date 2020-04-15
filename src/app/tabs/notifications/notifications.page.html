@@ -81,7 +81,7 @@
             </ion-label>
           </ion-item>
         </div>
-          <p class="ion-padding" *ngIf="count_notifications == 0 ||  notifications == undefined">No new notifications</p>
+          <p class="ion-padding" *ngIf="count_notifications == 0 ||  notifications == undefined">No new Responses</p>
     </ion-list>
 
     <ion-item-divider sticky="true" #updates_needed id="updates_needed">
@@ -95,7 +95,7 @@
 
     <ion-list lines="full">
         <div *ngIf="updatesNeeded.count > 0">
-        <ion-item *ngFor="let item of updatesNeeded.data">
+        <ion-item (click)="markRead(item.modcommentsid, item.serviceid)" *ngFor="let item of updatesNeeded.data">
             <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
             <ion-label>
               <h2>{{item.commentcontent}}</h2>
@@ -106,21 +106,21 @@
             </ion-label>
           </ion-item>
         </div>
-          <p class="ion-padding" *ngIf="updatesNeeded == 0 ||  updatesNeeded == undefined">No new Update Needed</p>
+          <p class="ion-padding" *ngIf="updatesNeeded == 0 ||  updatesNeeded == undefined">No new Updates Needed</p>
     </ion-list>
 
     <ion-item-divider sticky="true" #request_made id="request_made">
       <ion-label *ngIf="requestMade.count > 0">
-        Request Made ({{requestMade.count}})
+        Requests Made ({{requestMade.count}})
       </ion-label>
         <ion-label *ngIf="requestMade.count == undefined || requestMade.count == 0">
-            Request Made (0)
+            Requests Made (0)
         </ion-label>
     </ion-item-divider>
 
     <ion-list lines="full">
         <div *ngIf="requestMade.count > 0">
-        <ion-item *ngFor="let item of requestMade.data">
+        <ion-item (click)="markRead(item.modcommentsid, item.serviceid)" *ngFor="let item of requestMade.data">
             <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
             <ion-label>
               <h2>{{item.commentcontent}}</h2>
@@ -131,7 +131,7 @@
             </ion-label>
           </ion-item>
         </div>
-          <p class="ion-padding" *ngIf="requestMade == 0 ||  requestMade == undefined">No new Request Made</p>
+          <p class="ion-padding" *ngIf="requestMade == 0 ||  requestMade == undefined">No new Requests Made</p>
     </ion-list>
 
 </ion-content>
