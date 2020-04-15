@@ -14,10 +14,15 @@ import {AppConfig} from '../../AppConfig';
 })
 export class NotificationsPage implements OnInit {
     @ViewChild('responses_ref', <any>[]) public responses_ref: ElementRef;
+    @ViewChild('updates_needed_ref', <any>[]) public updates_needed_ref: ElementRef;
     @ViewChild('invites_ref', <any>[]) public invites_ref: ElementRef;
     userinfo: any;
     invites: any = [];
     notifications: any = [];
+    updatesNeeded: {
+        count: 0,
+        data: {}
+    };
     count_invites: any = 0;
     count_notifications: any = 0;
     servicedetail: any = {}
@@ -142,6 +147,7 @@ export class NotificationsPage implements OnInit {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
                             this.fetchInvites();
+                            this.fetchUpdateNeeded();
                             this.loadTheme(result.theme.toLowerCase());
                             try {
                                 console.log('scrolling to', this.sectionScroll);
@@ -158,6 +164,10 @@ export class NotificationsPage implements OnInit {
                 }
             }
         });
+        this.updatesNeeded = {
+            count: 0,
+            data: {}
+        };
         //this.responses_ref.nativeElement.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'start'});
     }
 
@@ -241,6 +251,32 @@ export class NotificationsPage implements OnInit {
                 }
             }, error => {
                 this.hideLoading();
+            });
+    }
+    
+    fetchUpdateNeeded() {
+        const contractorid = this.userinfo.contractorsid;
+        const reqData = {
+            contractor_id: contractorid
+        };
+        const headers = new HttpHeaders();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.httpClient.post(this.apiurl + 'getUpdateNeeded.php', reqData, {headers, observe: 'response'})
+            .subscribe(data => {
+                const responseData = data.body;
+                console.log('Update Needed Response Data: ');
+                console.log(responseData);
+                const success = responseData['success'];
+                if (success == true) {
+                    this.updatesNeeded.count = responseData['count'];
+                    this.updatesNeeded.data = responseData['data'];
+                } else {
+                    console.log('failed to fetch Update Needed');
+                }
+            }, error => {
+                console.log('failed to fetch Update Needed');
             });
     }
 

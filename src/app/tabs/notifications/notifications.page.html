@@ -83,4 +83,30 @@
         </div>
           <p class="ion-padding" *ngIf="count_notifications == 0 ||  notifications == undefined">No new notifications</p>
     </ion-list>
+
+    <ion-item-divider sticky="true" #updates_needed_ref id="updates_needed">
+      <ion-label *ngIf="updatesNeeded.count > 0">
+        Update Needed ({{updatesNeeded.count}})
+      </ion-label>
+        <ion-label *ngIf="updatesNeeded.count == undefined || updatesNeeded.count == 0">
+            Update Needed (0)
+        </ion-label>
+    </ion-item-divider>
+
+    <ion-list lines="full">
+        <div *ngIf="updatesNeeded.count > 0">
+        <ion-item *ngFor="let item of updatesNeeded.data">
+            <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
+            <ion-label>
+              <h2>{{item.commentcontent}}</h2>
+              <p class="main-color">{{item.createdtime}}</p>
+              <div class="invite-details-div">
+                  <p>{{item.servicetitle}}</p>
+              </div>
+            </ion-label>
+          </ion-item>
+        </div>
+          <p class="ion-padding" *ngIf="updatesNeeded == 0 ||  updatesNeeded == undefined">No new Update Needed</p>
+    </ion-list>
+
 </ion-content>
