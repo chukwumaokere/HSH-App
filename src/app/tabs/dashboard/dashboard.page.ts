@@ -230,7 +230,7 @@ export class DashboardPage implements OnInit {
             if (this.loading != undefined) {
                 this.loading.dismiss();
             }
-        }, 3000);
+        }, 500);
     }
 
     fetchDashboard() {
@@ -417,16 +417,23 @@ export class DashboardPage implements OnInit {
                 this.hideLoading();
                 const responseData = data.body;
                 const success = responseData['success'];
-
+                console.log(data);
                 if (success == true) {
                     const items = responseData['data'];
                     items.forEach(item => {
+                        console.log(item);
                         if(item.title == 'New Invites'){
                             this.dashboardData.new_invites.total = item.count;
                         } else if (item.title == 'New Jobs'){
                             this.dashboardData.new_jobs.total = item.count;
                         } else if (item.title == 'Active Jobs'){
                             this.dashboardData.active_jobs.total = item.count;
+                        } else if (item.title == 'Requests') {
+                            this.dashboardData.request.total = item.count;
+                        } else if (item.title == 'Responses') {
+                            this.dashboardData.response.total = item.count;
+                        } else if (item.title == 'UpdateNeeded') {
+                            this.dashboardData.update_needed.total = item.count;
                         }
                     });
                 } else {

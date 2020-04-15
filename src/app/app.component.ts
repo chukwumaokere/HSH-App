@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-
 import {NavController, Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
@@ -7,7 +6,6 @@ import {FCM} from '@ionic-native/fcm/ngx';
 import {AppConfig} from './AppConfig';
 import {Router} from '@angular/router';
 import { Firebase } from '@ionic-native/firebase/ngx';
-
 
 @Component({
     selector: 'app-root',

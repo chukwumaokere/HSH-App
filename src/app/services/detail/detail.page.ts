@@ -26,7 +26,7 @@ export class DetailPage implements OnInit {
     apiurl: any;
     isCompleteJob: number = 0;
     updatefields: any = {};
-    status_picklist: any = ['Released', 'Following Up', 'Mtg Scheduled', 'Waiting for a Reply'];
+    status_picklist: any = ['Following Up', 'Waiting for a Reply', 'Mtg Scheduled', 'Complete'];
     secondaryInfo: any = {
         open: false,
     };

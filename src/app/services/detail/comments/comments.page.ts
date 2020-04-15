@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { ModalController, NavParams, ToastController, PickerController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 //import {Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -7,119 +7,129 @@ import {AppConfig} from '../../../AppConfig';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import {LoadingController} from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.page.html',
   styleUrls: ['./comments.page.scss'],
 })
-export class CommentsModalPage implements OnInit {
-user_id: any = 1;
-userinfo: any = {
-  first_name: "Chuck",
-  user_name: "admin",
-  last_name: "Okere",
-  email1: "cokere@boruapps.com",
-  contractorsid: 2925705,
-  //theme: "Dark",
-};
-imageData: any;
-modalTitle:string;
-modelId:number;
-serviceid: any;
-apiurl:any;
-updatefields: any;
-profile_picture: any;
-has_profile_picture: boolean = false;
-recordid: any;
-servicedetail: any;
-message: any;
-show_button: any;
-reqData: any;
-request: any;
-request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
-// comments: any = [
-//   {
-//     user_id: 1,
-//     author: "Chuck Okere",
-//     message: "Hi, I was wondering when the start time for this service was?",
-//     date_sent: "2019-12-12 01:22:30 PM",
-//     read: true,
-//   },
-//   {
-//     user_id: 14,
-//     author: "Lesley Mullen",
-//     message: "According to my records its for 1:30PM on December 14th; are you seeing something different?",
-//     date_sent: "2019-12-12 01:30:22 PM",
-//     read: true,
-//   },
-// ];
-comments: any = [];
-contractorsid: any;
-contractorInfo: any = [];
-dataReturned: any;
-requestPicklistVal: any = '';
+export class CommentsModalPage implements OnInit, AfterViewChecked {
+  @ViewChild(IonContent, {static: false}) content: IonContent;
+  user_id: any = 1;
+  userinfo: any = {
+    first_name: "Chuck",
+    user_name: "admin",
+    last_name: "Okere",
+    email1: "cokere@boruapps.com",
+    contractorsid: 2925705,
+    //theme: "Dark",
+  };
+  imageData: any;
+  modalTitle:string;
+  modelId:number;
+  serviceid: any;
+  apiurl:any;
+  updatefields: any;
+  profile_picture: any;
+  has_profile_picture: boolean = false;
+  recordid: any;
+  servicedetail: any;
+  message: any;
+  show_button: any;
+  reqData: any;
+  request: any;
+  request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
+  // comments: any = [
+  //   {
+  //     user_id: 1,
+  //     author: "Chuck Okere",
+  //     message: "Hi, I was wondering when the start time for this service was?",
+  //     date_sent: "2019-12-12 01:22:30 PM",
+  //     read: true,
+  //   },
+  //   {
+  //     user_id: 14,
+  //     author: "Lesley Mullen",
+  //     message: "According to my records its for 1:30PM on December 14th; are you seeing something different?",
+  //     date_sent: "2019-12-12 01:30:22 PM",
+  //     read: true,
+  //   },
+  // ];
+  comments: any = [];
+  contractorsid: any;
+  contractorInfo: any = [];
+  dataReturned: any;
+  requestPicklistVal: any = '';
+  
+  constructor(
+      private modalController: ModalController,
+      public storage: Storage,
+      private  router: Router,
+      private navParams: NavParams,
+      public httpClient: HttpClient,
+      private pickerCtrl: PickerController,
+      //private formBuilder: FormBuilder,
+      public toastController: ToastController,
+      //public imgpov: ImageProvider,
+      public AppConfig: AppConfig,
+      public loadingController: LoadingController,
+      private activatedRoute: ActivatedRoute
+  ) {
+      //this.imageData = this.imgpov.getImage();
+      this.apiurl = this.AppConfig.apiurl;
+  }
+  
+  ngOnInit() {
+      this.userinfo.first_name = this.userinfo.firstname;
+      this.userinfo.last_name = this.userinfo.lastname;
+      this.userinfo.email1 = "cokere@boruapps.com";
+      this.userinfo.user_name = "Chuck";
+      this.userinfo.profile_picture = this.userinfo.pic;
+      this.contractorsid = this.userinfo.contractorsid;
+      this.has_profile_picture = true;
+      this.recordid = this.navParams.data.id;
+      this.servicedetail = this.navParams.data.service_record_details;
+      this.show_button = this.navParams.data.show_button;
+      this.contractorInfo = this.navParams.data.contractorInfo;
+      /* this.user_id = this.navParams.data.user_id;
+      this.userinfo = this.navParams.data.userinfo;
+      this.profile_picture = this.navParams.data.userinfo.profile_picture;
+      if(this.navParams.data.userinfo.imagename !== ""){
+        this.has_profile_picture = true
+      }else{
+        this.has_profile_picture = false;
+      }
+      console.log('nav params', this.navParams.data.userinfo); */
+  
+      this.activatedRoute.params.subscribe((userData) => {
+          if (userData.length !== 0) {
+              this.userinfo = userData;
+              console.log('param user data length:', userData.length);
+              if (userData.length == undefined) {
+                  console.log('nothing in params, so loading from storage');
+                  this.isLogged().then(result => {
+                      if (!(result == false)) {
+                          console.log('loading storage data (within param route function)', result);
+                          this.userinfo = result;
+                          this.fetchComments();
+                      } else {
+                          console.log('nothing in storage, going back to login');
+                          this.logout();
+                      }
+                  });
+              }
+          }
+      });
+  }
 
-constructor(
-    private modalController: ModalController,
-    public storage: Storage,
-    private  router: Router,
-    private navParams: NavParams,
-    public httpClient: HttpClient,
-    private pickerCtrl: PickerController,
-    //private formBuilder: FormBuilder,
-    public toastController: ToastController,
-    //public imgpov: ImageProvider,
-    public AppConfig: AppConfig,
-    public loadingController: LoadingController,
-    private activatedRoute: ActivatedRoute
-) {
-    //this.imageData = this.imgpov.getImage();
-    this.apiurl = this.AppConfig.apiurl;
-}
+  ngAfterViewChecked() {
+      this.ScrollToBottom();
+  }
 
-ngOnInit() {
-    this.userinfo.first_name = this.userinfo.firstname;
-    this.userinfo.last_name = this.userinfo.lastname;
-    this.userinfo.email1 = "cokere@boruapps.com";
-    this.userinfo.user_name = "Chuck";
-    this.userinfo.profile_picture = this.userinfo.pic;
-    this.contractorsid = this.userinfo.contractorsid;
-    this.has_profile_picture = true;
-    this.recordid = this.navParams.data.id;
-    this.servicedetail = this.navParams.data.service_record_details;
-    this.show_button = this.navParams.data.show_button;
-    this.contractorInfo = this.navParams.data.contractorInfo;
-    /* this.user_id = this.navParams.data.user_id;
-    this.userinfo = this.navParams.data.userinfo;
-    this.profile_picture = this.navParams.data.userinfo.profile_picture;
-    if(this.navParams.data.userinfo.imagename !== ""){
-      this.has_profile_picture = true
-    }else{
-      this.has_profile_picture = false;
-    }
-    console.log('nav params', this.navParams.data.userinfo); */
-
-    this.activatedRoute.params.subscribe((userData) => {
-        if (userData.length !== 0) {
-            this.userinfo = userData;
-            console.log('param user data length:', userData.length);
-            if (userData.length == undefined) {
-                console.log('nothing in params, so loading from storage');
-                this.isLogged().then(result => {
-                    if (!(result == false)) {
-                        console.log('loading storage data (within param route function)', result);
-                        this.userinfo = result;
-                        this.fetchComments();
-                    } else {
-                        console.log('nothing in storage, going back to login');
-                        this.logout();
-                    }
-                });
-            }
-        }
-    });
-}
+  async ScrollToBottom(){
+    this.content.scrollToBottom();
+  }
 
   loading: any;
 

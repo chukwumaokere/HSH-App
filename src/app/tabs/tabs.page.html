@@ -1,35 +1,34 @@
 <ion-tabs>
 
-  <ion-tab-bar slot="bottom">
-<!--     <ion-tab-button tab="tab1">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>Home</ion-label>
-    </ion-tab-button> -->
-    <ion-tab-button tab="dashboard">
-      <ion-icon name="analytics"></ion-icon>
-      <ion-label>Dashboard</ion-label>
-    </ion-tab-button>
-    
-    <ion-tab-button tab="services">
-      <ion-icon name="hammer"></ion-icon>
-      <ion-label>Jobs</ion-label>
-    </ion-tab-button>
+    <ion-tab-bar slot="bottom">
+        <!--     <ion-tab-button tab="tab1">
+              <ion-icon name="home"></ion-icon>
+              <ion-label>Home</ion-label>
+            </ion-tab-button> -->
+        <ion-tab-button tab="dashboard">
+            <ion-icon name="analytics"></ion-icon>
+            <ion-label>Dashboard</ion-label>
+        </ion-tab-button>
 
-    <ion-tab-button tab="notifications">
-      <ion-icon name="alert"></ion-icon>
-      <ion-label>Notifications</ion-label>
-      <ion-badge color="danger">{{notifications}}</ion-badge>
-    </ion-tab-button>
+        <ion-tab-button tab="services">
+            <ion-icon name="hammer"></ion-icon>
+            <ion-label>Jobs</ion-label>
+        </ion-tab-button>
 
-    <ion-tab-button tab="tab2">
-      <ion-icon name="calendar"></ion-icon>
-      <ion-label>Calendar</ion-label>
-    </ion-tab-button>
+        <ion-tab-button tab="notifications">
+            <ion-icon name="alert"></ion-icon>
+            <ion-label>Notifications</ion-label>
+            <ion-badge *ngIf="notifications > 0" color="danger">{{notifications}}</ion-badge>
+        </ion-tab-button>
 
-    <!-- <ion-tab-button tab="ratings">
-      <ion-icon name="star"></ion-icon>
-      <ion-label>Ratings</ion-label>
-    </ion-tab-button> -->
-  </ion-tab-bar>
+        <ion-tab-button tab="tab2">
+            <ion-icon name="calendar"></ion-icon>
+            <ion-label>Calendar</ion-label>
+        </ion-tab-button>
+        <!-- <ion-tab-button tab="ratings">
+          <ion-icon name="star"></ion-icon>
+          <ion-label>Ratings</ion-label>
+        </ion-tab-button> -->
+    </ion-tab-bar>
 
 </ion-tabs>
