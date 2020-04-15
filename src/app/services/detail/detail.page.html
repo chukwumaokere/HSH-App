@@ -76,7 +76,8 @@
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Sevice Date</ion-label>
-            <ion-input (ionInput)="addUpdate($event)" type="text" name="cf_738"  value="{{servicedetail.cf_738}}"></ion-input>
+           <!-- <ion-input (ionInput)="addUpdate($event)" type="text" name="cf_738"  value="{{servicedetail.cf_738}}"></ion-input>-->
+            <ion-datetime name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY hh:mm A" [(ngModel)]="servicedetail.cf_738"></ion-datetime>
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Status</ion-label>
