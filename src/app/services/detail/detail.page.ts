@@ -6,7 +6,6 @@ import {Storage} from '@ionic/storage';
 import {ActionSheet, ActionSheetOptions} from '@ionic-native/action-sheet/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {CommentsModalPage} from './comments/comments.page';
-//import {CallNumber} from '@ionic-native/call-number/ngx';
 import {EmailComposer} from '@ionic-native/email-composer/ngx';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {HttpHeaders, HttpClient} from '@angular/common/http';
@@ -81,12 +80,14 @@ export class DetailPage implements OnInit {
         var params = {
             record_id: serviceid
         }
+        this.showLoading();
         var headers = new HttpHeaders();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         headers.append('Access-Control-Allow-Origin', '*');
         this.httpClient.post(this.apiurl + 'getJobDetail.php', params, {headers: headers, observe: 'response'})
             .subscribe(data => {
+                this.hideLoading();
                 console.log(data['body']);
                 var success = data['body']['success'];
                 console.log('getJobDetail response was', success);
@@ -109,6 +110,7 @@ export class DetailPage implements OnInit {
                 }
 
             }, error => {
+                this.hideLoading();
                 console.log('failed to fetch record');
             });
     }
@@ -474,7 +476,7 @@ export class DetailPage implements OnInit {
         return await this.loading.present();
     }
 
-    async hideLoading(time: any = 3000) {
+    async hideLoading(time: any = 500) {
         setTimeout(() => {
             if (this.loading != undefined) {
                 this.loading.dismiss();

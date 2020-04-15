@@ -65,7 +65,7 @@ export class TabsPage {
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         headers.append('Access-Control-Allow-Origin', '*');
-        this.httpClient.post(this.apiurl + 'getCountResponse.php', reqData, {headers, observe: 'response'})
+        this.httpClient.post(this.apiurl + 'getCountNotification.php', reqData, {headers, observe: 'response'})
             .subscribe(data => {
                 const responseData = data.body;
                 const success = responseData['success'];
