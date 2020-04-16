@@ -78,7 +78,9 @@ export class DetailPage implements OnInit {
     loadDetails(serviceid) {
         console.log('loading details for service id:', serviceid)
         var params = {
-            record_id: serviceid
+            record_id: serviceid,
+            contractorsid: this.userinfo.contractorsid,
+
         }
         this.showLoading();
         var headers = new HttpHeaders();
