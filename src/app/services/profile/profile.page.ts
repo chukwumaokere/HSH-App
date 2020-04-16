@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import {AppConfig} from '../../AppConfig';
+import {AppVersion} from '@ionic-native/app-version/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,7 @@ userinfo: any = {};
 apiurl: any;
 updatefields: any = {};
 has_profile_picture: boolean = false;
+version: any;
 
 constructor(
 private modalController: ModalController,
@@ -26,11 +28,20 @@ private pickerCtrl: PickerController,
 public toastController: ToastController,
 private httpClient: HttpClient,
 public appConst: AppConfig,
+private appVersion: AppVersion,
 ) {
    this.apiurl = this.appConst.apiurl;
 }
 
   ngOnInit() {
+    this.appVersion.getVersionNumber().then(
+      (versionNumber) => {
+                  this.version = versionNumber;
+                  console.log('App Version: ', versionNumber);
+      },
+      (error) => {
+        console.log(error);
+      });
       this.isLogged().then(result => {
           if (!(result == false)) {
               console.log('loading storage data (within param route function)', result);
@@ -43,6 +54,8 @@ public appConst: AppConfig,
       });
       this.has_profile_picture = false;
   }
+
+
 
   async closeModal() {
     const onClosedData: string = "Wrapped Up!";
