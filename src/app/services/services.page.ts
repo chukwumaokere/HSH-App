@@ -192,9 +192,10 @@ export class ServicesPage implements OnInit {
     }
 
     async getListJobs(contractor_id) {
+        this.showLoading();
         var x = await this.resolveAfter2Seconds(10);
         console.log(x);
-        //this.showLoading();
+        
         console.log('fetching records for', contractor_id);
         var headers = new HttpHeaders();
         headers.append("Accept", 'application/json');
@@ -202,7 +203,7 @@ export class ServicesPage implements OnInit {
         headers.append('Access-Control-Allow-Origin', '*');
         this.httpClient.post(this.apiurl + "getListJobs.php", {crmid: contractor_id}, { headers: headers, observe: 'response' })
             .subscribe(data => {
-                //this.hideLoading();
+                this.hideLoading();
                 console.log(data['body']);
                 var success = data['body']['success'];
                 console.log('login response was', success);
@@ -222,7 +223,7 @@ export class ServicesPage implements OnInit {
                 //console.log(error);
                 //console.log(error.message);
                 //console.error(error.message);
-               // this.hideLoading();
+                this.hideLoading();
                 console.log('failed to fetch records');
             });
 
@@ -232,7 +233,7 @@ export class ServicesPage implements OnInit {
         return new Promise(resolve => {
           setTimeout(() => {
             resolve(x);
-          }, 500);
+          }, 450);
         });
       }
 

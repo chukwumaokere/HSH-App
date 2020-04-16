@@ -29,6 +29,8 @@ export class DetailPage implements OnInit {
     secondaryInfo: any = {
         open: false,
     };
+    date_sent: string;
+    cf_738: string;
 
     servicedetail: any = {};
     buttonLabels = ['Take Photo', 'Upload from Library'];
@@ -103,10 +105,13 @@ export class DetailPage implements OnInit {
                         this.status_picklist = status_picklist;
                     }
                     this.servicedetail = allfields;
-                    if (allfields.job_status == 'Released') {
+                    if (allfields.job_status == 'Released' || allfields.job_status == "Complete") {
                         this.isCompleteJob = 1;
                     }
+                    this.date_sent = new Date(this.servicedetail.date_sent).toISOString();
+                    this.cf_738 = new Date(this.servicedetail.cf_738).toISOString()
                     console.log('servicedetail', this.servicedetail);
+                    console.log('modded dates', this.date_sent, this.cf_738)
                 } else {
                     console.log('failed to fetch record');
                 }
