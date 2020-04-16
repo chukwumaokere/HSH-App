@@ -160,7 +160,7 @@ export class DetailPage implements OnInit {
             });
     }
 
-    saveJob(salesorderid) {
+    async saveJob(salesorderid) {
         var data = this.updatefields;
         var data_stringified = JSON.stringify(data);
         console.log('attempting to submitting data to vtiger', salesorderid, data);
@@ -183,17 +183,18 @@ export class DetailPage implements OnInit {
                     console.log(data['body']);
                     if(success == true){
                         console.log("Saved and updated data for jobs");
+                        //this.router.navigateByUrl('/tabs/services');
                     }else{
                         this.presentToast('Failed to save due to an error');
                         console.log('failed to save record, response was false');
                     }
-                    this.router.navigateByUrl('/services');
                 }, error => {
                     this.hideLoading();
                     this.presentToast('Failed to save due to an error \n' + error.message);
                     console.log('failed to save record', error.message);
                 });
         } else {
+            this.hideLoading();
             console.log('no data modified for record', salesorderid);
         }
 
