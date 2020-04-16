@@ -26,7 +26,7 @@
     <ion-item lines="none">
         <ion-label position="stacked">EMAIL</ion-label>
         <ion-text value="">{{userinfo?.cf_756}}</ion-text>
-    </ion-item><br>
+    </ion-item>
     <ion-item lines="none">
         <ion-label position="stacked">DAYS/TIMES UNAVAILABLE</ion-label>
         <ion-textarea name="cf_unavailable" placeholder="Put any unavailable dates here" value="{{userinfo?.cf_unavailable}}" (ionBlur)="addUpdate($event)">
@@ -42,9 +42,16 @@
         <ion-button id="themecolor" *ngIf="userinfo?.theme=='Light'" type="button" size="default" color="dark" (click)="switchTheme()"><ion-icon name="color-palette"></ion-icon>&nbsp; {{userinfo.theme}}</ion-button>
         <br>
     </ion-item>
-    <br><br><br><br>
-    
-    <ion-button (click)="logout()" color="danger" routerDirection="root" size="default"><ion-icon name="log-out"></ion-icon> &nbsp; Logout</ion-button>
+    <ion-item lines="none">
+        <ion-label position="stacked">RECEIVE SMS NOTIFICATIONS</ion-label>
+        <ion-toggle color="success"></ion-toggle>
+        <ion-label position="stacked">RECEIVE PUSH NOTIFICATIONS</ion-label>
+        <ion-toggle color="success"></ion-toggle>
+    </ion-item>
+    <ion-item lines="none">
+        <div style="padding-top:100px;"></div>
+        <ion-button (click)="logout()" color="danger" routerDirection="root" size="default"><ion-icon name="log-out"></ion-icon> &nbsp; Logout</ion-button>
+    </ion-item>
     <ion-item lines="none">
         <ion-text value="">App Version: {{version}}</ion-text>
     </ion-item>
