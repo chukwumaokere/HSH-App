@@ -173,10 +173,10 @@ export class DetailPage implements OnInit {
             headers.append("Accept", 'application/json');
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
             headers.append('Access-Control-Allow-Origin', '*');
-            //this.showLoading();
+            this.showLoading();
             this.httpClient.post(this.apiurl + 'postSOInfo.php', params, { headers: headers, observe: 'response' })
                 .subscribe(data=> {
-                    //this.hideLoading();
+                    this.hideLoading();
                     var success = data['body']['success'];
                     console.log(data['body']);
                     if(success == true){
@@ -185,8 +185,9 @@ export class DetailPage implements OnInit {
                         this.presentToast('Failed to save due to an error');
                         console.log('failed to save record, response was false');
                     }
+                    this.router.navigateByUrl('/services');
                 }, error => {
-                    //this.hideLoading();
+                    this.hideLoading();
                     this.presentToast('Failed to save due to an error \n' + error.message);
                     console.log('failed to save record', error.message);
                 });
