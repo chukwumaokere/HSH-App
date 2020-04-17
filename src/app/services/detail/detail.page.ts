@@ -11,6 +11,7 @@ import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {HttpHeaders, HttpClient} from '@angular/common/http';
 import {AppConfig} from '../../AppConfig';
 import { ImageModalPage } from '../image-modal/image-modal.page';
+import { DatePicker } from '@ionic-native/date-picker/ngx';
 
 @Component({
     selector: 'app-detail',
@@ -31,6 +32,8 @@ export class DetailPage implements OnInit {
     };
     date_sent: string;
     cf_738: string;
+    service_time: string;
+    serviceDateTime: string;
 
     servicedetail: any = {};
     buttonLabels = ['Take Photo', 'Upload from Library'];
@@ -72,6 +75,7 @@ export class DetailPage implements OnInit {
                 public AppConfig: AppConfig,
                 public loadingController: LoadingController,
                 private iab: InAppBrowser,
+                private datePicker: DatePicker,
                 @Inject(LOCALE_ID) private locale: string) {
         this.secondaryInfo.open = false;
         this.apiurl = this.AppConfig.apiurl;
@@ -108,10 +112,14 @@ export class DetailPage implements OnInit {
                     if (allfields.job_status == 'Released' || allfields.job_status == "Complete") {
                         this.isCompleteJob = 1;
                     }
-                    this.date_sent = new Date(allfields.date_sent).toISOString();
-                    this.cf_738 = new Date(allfields.cf_738).toISOString();
+                    /*this.date_sent = new Date(allfields.date_sent).toISOString();
+                    this.cf_738 = new Date(allfields.cf_738).toISOString();*/
+                    this.date_sent = allfields.date_sent;
+                    this.cf_738 = allfields.cf_738;
+                    this.service_time = allfields.service_time;
+                    this.serviceDateTime = allfields.service_date;
                     console.log('servicedetail', this.servicedetail);
-                    console.log('modded dates', this.date_sent, this.cf_738)
+                    console.log('modded dates', this.date_sent, this.cf_738);
                 } else {
                     console.log('failed to fetch record');
                 }
@@ -120,6 +128,86 @@ export class DetailPage implements OnInit {
                 this.hideLoading();
                 console.log('failed to fetch record');
             });
+    }
+
+    showTimePicker(fieldName) {
+        var dateValue = new Date();
+        if(fieldName == 'service_time') {
+            dateValue = new Date(this.serviceDateTime);
+        }
+        this.datePicker.show({
+            date: dateValue,
+            mode: 'time',
+            androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+        }).then(
+            date => {
+                if(fieldName == 'service_time') {
+                    this.service_time = this.formatTime(date);
+                }
+                this.updatefields[fieldName] = this.formatTime(date, 1);
+            },
+            err => console.log('Error occurred while getting date: ', err)
+
+        );
+    }
+
+    showDatePicker(fieldName) {
+        console.log('aaa');
+        var dateValue = new Date();
+        if(fieldName == 'date_sent') {
+            dateValue = new Date(this.date_sent);
+        }
+        else if(fieldName == 'cf_738') {
+            dateValue = new Date(this.serviceDateTime);
+        }
+        this.datePicker.show({
+            date: dateValue,
+            mode: 'date',
+            androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+        }).then(
+            date => {
+                if(fieldName == 'date_sent') {
+                    this.date_sent = this.formatDate(date);
+                }
+                else if(fieldName == 'cf_738') {
+                    this.cf_738 = this.formatDate(date);
+                }
+                this.updatefields[fieldName] = this.formatDate(date, 1);
+            },
+            err => console.log('Error occurred while getting date: ', err)
+
+        );
+    }
+
+    formatDate(objDate, toDB=0) {
+        var month = ('0' + (objDate.getMonth() + 1)).slice(-2);
+        // make date 2 digits
+        var date = ('0' + objDate.getDate()).slice(-2);
+        // get 4 digit year
+        var year = objDate.getFullYear();
+        // concatenate into desired arrangement
+        var shortDate = month + '-' + date + '-' + year;
+        if(toDB == 1){
+            var shortDate = year + '-' + month + '-' + date;
+        }
+        return shortDate;
+    }
+    formatTime(objDate, toDB=0) {
+        var hours = objDate.getHours();
+        var minutes = objDate.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = ('0' + minutes).slice(-2);
+        hours = ('0' + hours).slice(-2);
+        var timewithampm = hours + ':' + minutes + ' ' + ampm;
+        if(toDB == 1){
+            minutes = ('0' + objDate.getMinutes()).slice(-2);
+            hours = ('0' + objDate.getHours()).slice(-2);
+            var seconds = ('0' + objDate.getSeconds()).slice(-2);
+            timewithampm = hours + ':' + minutes + ':' + seconds;
+        }
+        return timewithampm;
     }
 
     async addUpdate(event) {
