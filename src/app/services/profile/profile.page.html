@@ -42,6 +42,12 @@
         <ion-button id="themecolor" *ngIf="userinfo?.theme=='Light'" type="button" size="default" color="dark" (click)="switchTheme()"><ion-icon name="color-palette"></ion-icon>&nbsp; {{userinfo.theme}}</ion-button>
         <br>
     </ion-item>
+    <ion-item lines="none">
+        <ion-label position="stacked">RECEIVE SMS NOTIFICATIONS</ion-label>
+        <ion-toggle color="primary" [(ngModel)]="cf_sms_noti" (ionChange)="updateNotification('sms', $event);"></ion-toggle>
+        <ion-label position="stacked">RECEIVE PUSH NOTIFICATIONS</ion-label>
+        <ion-toggle color="primary" [(ngModel)]="cf_push_noti" (ionChange)="updateNotification('push', $event);"></ion-toggle>
+    </ion-item>
     <br><br><br><br>
     
     <ion-button (click)="logout()" color="danger" routerDirection="root" size="default"><ion-icon name="log-out"></ion-icon> &nbsp; Logout</ion-button>
