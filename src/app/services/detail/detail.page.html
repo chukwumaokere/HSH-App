@@ -72,12 +72,12 @@
       <div *ngIf="isCompleteJob == 0">
         <ion-item lines="none">
           <ion-label position="stacked">Follow Up Date</ion-label>
-          <ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" [(ngModel)]="servicedetail.date_sent" value="{{servicedetail.date_sent}}"></ion-datetime>
+          <ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" [(ngModel)]="date_sent" value="{{date_sent}}"></ion-datetime>
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Sevice Date</ion-label>
            <!-- <ion-input (ionInput)="addUpdate($event)" type="text" name="cf_738"  value="{{servicedetail.cf_738}}"></ion-input>-->
-            <ion-datetime name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY hh:mm A" [(ngModel)]="servicedetail.cf_738" value="{{servicedetail.cf_738}}"></ion-datetime>
+            <ion-datetime name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY hh:mm A" [(ngModel)]="cf_738" value="{{cf_738}}"></ion-datetime>
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Status</ion-label>

@@ -108,8 +108,8 @@ export class DetailPage implements OnInit {
                     if (allfields.job_status == 'Released' || allfields.job_status == "Complete") {
                         this.isCompleteJob = 1;
                     }
-                    this.date_sent = new Date(this.servicedetail.date_sent).toISOString();
-                    this.cf_738 = new Date(this.servicedetail.cf_738).toISOString()
+                    this.date_sent = new Date(allfields.date_sent).toISOString();
+                    this.cf_738 = new Date(allfields.cf_738).toISOString();
                     console.log('servicedetail', this.servicedetail);
                     console.log('modded dates', this.date_sent, this.cf_738)
                 } else {
@@ -122,7 +122,7 @@ export class DetailPage implements OnInit {
             });
     }
 
-    async  addUpdate(event) {
+    async addUpdate(event) {
         console.log(this.updatefields);
         //console.log(event);
         var fieldname = event.target.name;
