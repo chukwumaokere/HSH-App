@@ -26,6 +26,7 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { Firebase } from '@ionic-native/firebase/ngx';
+import { DatePicker } from '@ionic-native/date-picker/ngx';
 
 const config = {
     apiKey: "AIzaSyAO3nLfA8wLPsz7ZxKi1qXv-bc2_iDiwek",
@@ -59,7 +60,8 @@ const config = {
         ImageModalPage,
         AppConfig,
         FCM,
-        Firebase
+        Firebase,
+        DatePicker
     ],
     bootstrap: [AppComponent]
 })
