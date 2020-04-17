@@ -43,7 +43,7 @@ export class AppComponent {
                 } else {
                     console.log('Received in foreground');
                     //this.router.navigate(['/tabs/notifications', {fragment: ''}]);
-                    this.navCtrl.navigateRoot('tabs/notifications');
+                    //this.navCtrl.navigateRoot('tabs/notifications');
                 }
             });
 

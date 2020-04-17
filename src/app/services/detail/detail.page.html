@@ -54,8 +54,8 @@
     <!-- Secondary Info -->
     <ion-item lines="none">
       <ion-label position="stacked">Address Details</ion-label>
-      <ion-text>{{servicedetail.bill_street}}, {{servicedetail.bill_city}} , {{servicedetail.bill_state}} {{servicedetail.bill_code}}</ion-text>
-      <ion-button target="_blank" color="primary" href="https://maps.apple.com/?daddr={{servicedetail.bill_street}}, {{servicedetail.bill_city}} , {{servicedetail.bill_state}} {{servicedetail.bill_code}}" size="default" slot="end" type="button"><ion-icon name="navigate" size="large" ></ion-icon></ion-button>
+      <ion-text>{{servicedetail.bill_street}}, {{servicedetail.bill_city}}, {{servicedetail.bill_state}} {{servicedetail.bill_code}}</ion-text>
+      <ion-button target="_blank" color="primary" href="https://maps.apple.com/?daddr={{servicedetail.bill_street}}, {{servicedetail.bill_city}}, {{servicedetail.bill_state}} {{servicedetail.bill_code}}" size="default" slot="end" type="button"><ion-icon name="navigate" size="large" ></ion-icon></ion-button>
     </ion-item>
 
     <!-- Coordinator info -->
@@ -72,11 +72,12 @@
       <div *ngIf="isCompleteJob == 0">
         <ion-item lines="none">
           <ion-label position="stacked">Follow Up Date</ion-label>
-          <ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" [(ngModel)]="servicedetail.date_sent"></ion-datetime>
+          <ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" value="{{date_sent}}"></ion-datetime>
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Sevice Date</ion-label>
-            <ion-input (ionInput)="addUpdate($event)" type="text" name="cf_738"  value="{{servicedetail.cf_738}}"></ion-input>
+           <!-- <ion-input (ionInput)="addUpdate($event)" type="text" name="cf_738"  value="{{servicedetail.cf_738}}"></ion-input>-->
+            <ion-datetime name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY hh:mm A" value="{{cf_738}}"></ion-datetime>
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Status</ion-label>

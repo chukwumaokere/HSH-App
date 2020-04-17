@@ -6,7 +6,7 @@ import {Storage} from '@ionic/storage';
 import {ProfileModalPage} from './profile/profile.page';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import {AppConfig} from '../AppConfig';
-
+import {LoadingController} from '@ionic/angular';
 
 @Component({
     selector: 'app-services',
@@ -19,6 +19,7 @@ export class ServicesPage implements OnInit {
     activeJobs: object;
     user_id: any;
     apiurl: any;
+    loading: any;
     service = {
         id: '',
         title: '', //Will be the Transferee + type of service
@@ -45,6 +46,7 @@ export class ServicesPage implements OnInit {
         public storage: Storage,
         private httpClient: HttpClient,
         public AppConfig: AppConfig,
+        public loadingController: LoadingController,
         private activatedRoute: ActivatedRoute,
         @Inject(LOCALE_ID) private locale: string
     ) {
@@ -189,7 +191,11 @@ export class ServicesPage implements OnInit {
         console.log('turning off previous theme', theme_switcher[theme]);
     }
 
-    getListJobs(contractor_id) {
+    async getListJobs(contractor_id) {
+        this.showLoading();
+        var x = await this.resolveAfter2Seconds(10);
+        console.log(x);
+        
         console.log('fetching records for', contractor_id);
         var headers = new HttpHeaders();
         headers.append("Accept", 'application/json');
@@ -197,6 +203,7 @@ export class ServicesPage implements OnInit {
         headers.append('Access-Control-Allow-Origin', '*');
         this.httpClient.post(this.apiurl + "getListJobs.php", {crmid: contractor_id}, { headers: headers, observe: 'response' })
             .subscribe(data => {
+                this.hideLoading();
                 console.log(data['body']);
                 var success = data['body']['success'];
                 console.log('login response was', success);
@@ -216,10 +223,19 @@ export class ServicesPage implements OnInit {
                 //console.log(error);
                 //console.log(error.message);
                 //console.error(error.message);
+                this.hideLoading();
                 console.log('failed to fetch records');
             });
 
     }
+
+    resolveAfter2Seconds(x) { 
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(x);
+          }, 450);
+        });
+      }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((userData) => {
@@ -236,8 +252,8 @@ export class ServicesPage implements OnInit {
                     }
                 }
                 try {
-                    this.loadTheme(userData.theme.toLowerCase());
-                    this.getListJobs(userData.contractorsid);
+                    /*this.loadTheme(userData.theme.toLowerCase());
+                    this.getListJobs(userData.contractorsid);*/
                 } catch {
                     console.log('couldnt load theme');
                 }
@@ -264,6 +280,20 @@ export class ServicesPage implements OnInit {
                 }
             }
         });
+    }
+    async showLoading() {
+        this.loading = await this.loadingController.create({
+            message: 'Loading ...'
+        });
+        return await this.loading.present();
+    }
+
+    async hideLoading() {
+        setTimeout(() => {
+            if (this.loading != undefined) {
+                this.loading.dismiss();
+            }
+        }, 500);
     }
 
 }
