@@ -34,6 +34,7 @@ export class AppComponent {
             this.getToken();
 
             // ionic push notification example
+            /*
             this.fcm.onNotification().subscribe(data => {
                 console.log(data);
                 if (data.wasTapped) {
@@ -52,16 +53,23 @@ export class AppComponent {
                 console.log(token);
                 this.appConst.setFCMToken(token);
             });
-
+            */
             // unsubscribe from a topic
             // this.fcm.unsubscribeFromTopic('offers');
+            this.firebase.onMessageReceived().subscribe(data => { 
+                console.log('Push notification received: ', data);
+            })
         });
     }
     async getToken() {
         let token;
         if (this.platform.is('android')) {
-            token = await this.fcm.getToken();
-            this.appConst.setFCMToken(token);
+            //token = await this.fcm.getToken();
+            this.firebase.getToken().then(token => { 
+                console.log(`The token is ${token}`)
+                this.appConst.setFCMToken(token);
+            });
+            //this.appConst.setFCMToken(token);
         }
         if (this.platform.is('ios')) {
             await this.firebase.grantPermission();
