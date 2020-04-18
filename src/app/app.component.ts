@@ -5,7 +5,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {FCM} from '@ionic-native/fcm/ngx';
 import {AppConfig} from './AppConfig';
 import {Router} from '@angular/router';
-import { Firebase } from '@ionic-native/firebase/ngx';
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 
 @Component({
     selector: 'app-root',
@@ -21,7 +21,7 @@ export class AppComponent {
         public appConst: AppConfig,
         private router: Router,
         public navCtrl: NavController,
-        private firebase: Firebase,
+        private firebase: FirebaseX,
     ) {
         this.initializeApp();
     }
@@ -66,7 +66,7 @@ export class AppComponent {
             token = await this.firebase.getToken();
             await this.firebase.grantPermission();
         }
-        console.log(token);
+        console.log('token is: ', token);
         this.appConst.setFCMToken(token);
     }
 }
