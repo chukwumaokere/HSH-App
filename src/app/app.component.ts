@@ -61,12 +61,17 @@ export class AppComponent {
         let token;
         if (this.platform.is('android')) {
             token = await this.fcm.getToken();
+            this.appConst.setFCMToken(token);
         }
         if (this.platform.is('ios')) {
-            token = await this.firebase.getToken();
             await this.firebase.grantPermission();
+            //token = await this.firebase.getToken();
+            this.firebase.getToken().then(token => { 
+                console.log(`The token is ${token}`)
+                this.appConst.setFCMToken(token);
+            });
         }
         console.log('token is: ', token);
-        this.appConst.setFCMToken(token);
+        //this.appConst.setFCMToken(token);
     }
 }
