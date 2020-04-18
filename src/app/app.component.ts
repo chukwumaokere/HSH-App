@@ -58,6 +58,9 @@ export class AppComponent {
             // this.fcm.unsubscribeFromTopic('offers');
             this.firebase.onMessageReceived().subscribe(data => { 
                 console.log('Push notification received: ', data);
+                if(data.tap){
+                    this.navCtrl.navigateRoot('tabs/notifications');
+                }
             })
         });
     }
