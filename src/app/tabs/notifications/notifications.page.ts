@@ -176,7 +176,7 @@ export class NotificationsPage implements OnInit {
                             try {
                                 //console.log('scrolling to', this.sectionScroll);
                                 //this.sectionScroll.scrollIntoView();
-                                this.scrollTo('request_made');
+                                //this.scrollTo('request_made');
                             } catch (err) {
                                 console.warn('ERROR SCROLLING', err);
                             }
