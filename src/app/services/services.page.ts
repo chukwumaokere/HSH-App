@@ -20,6 +20,8 @@ export class ServicesPage implements OnInit {
     user_id: any;
     apiurl: any;
     loading: any;
+    activeJobsLength: any = "0";
+    newJobsLength: any = "0";
     service = {
         id: '',
         title: '', //Will be the Transferee + type of service
@@ -213,7 +215,9 @@ export class ServicesPage implements OnInit {
                     console.log('jobs', jobs);
                     if(data['body']['count'] > 0){
                         this.newJobs = jobs['new_jobs'];
+                        this.newJobsLength = jobs['new_jobs'].length;
                         this.activeJobs = jobs['active_jobs'];
+                        this.activeJobsLength = jobs['active_jobs'].length;
                     }
                 }else{
                     console.log('failed to fetch records');
@@ -233,7 +237,7 @@ export class ServicesPage implements OnInit {
         return new Promise(resolve => {
           setTimeout(() => {
             resolve(x);
-          }, 450);
+          }, 500);
         });
       }
 

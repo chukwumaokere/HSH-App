@@ -73,6 +73,8 @@
         <ion-item lines="none">
           <ion-label position="stacked">Follow Up Date</ion-label>
           <!--<ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" value="{{date_sent}}" [(ngModel)]="date_sent" ></ion-datetime>-->
+          <ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" placeholder={{date_sent}}></ion-datetime>
+         <!--
             <ion-buttons text-center>
                 {{date_sent}}
                 <button clear style="background-color:#f6f7f8" icon-left (click)="showDatePicker('date_sent')">
@@ -80,23 +82,27 @@
                     </ion-icon>
                 </button>
             </ion-buttons>
+            -->
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Sevice Date</ion-label>
            <!-- <ion-input (ionInput)="addUpdate($event)" type="text" name="cf_738"  value="{{servicedetail.cf_738}}"></ion-input>-->
             <!--<ion-datetime name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY hh:mm A" value="{{cf_738}}" [(ngModel)]="cf_738"></ion-datetime>-->
-          <ion-buttons text-center>
+            <ion-datetime name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" placeholder="{{cf_738}}"></ion-datetime>
+          <!-- <ion-buttons text-center>
             {{cf_738}}
             <button clear style="background-color:#f6f7f8" icon-left (click)="showDatePicker('cf_738')">
               <ion-icon name="calendar" size="large">
               </ion-icon>
             </button>
-          </ion-buttons>
+          </ion-buttons> -->
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Sevice Time</ion-label>
           <!-- <ion-input (ionInput)="addUpdate($event)" type="text" name="cf_738"  value="{{servicedetail.cf_738}}"></ion-input>-->
           <!--<ion-datetime name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY hh:mm A" value="{{cf_738}}" [(ngModel)]="cf_738"></ion-datetime>-->
+          <ion-datetime name="service_time" (ionChange)="addUpdate($event)" displayFormat="hh:mm A" placeholder="{{service_time}}"></ion-datetime>
+          <!--
           <ion-buttons text-center>
             {{service_time}}
             <button clear style="background-color:#f6f7f8" icon-left (click)="showTimePicker('service_time')">
@@ -104,10 +110,11 @@
               </ion-icon>
             </button>
           </ion-buttons>
+          -->
         </ion-item>
         <ion-item lines="none">
           <ion-label position="stacked">Status</ion-label>
-          <ion-select (ionChange)="addUpdate($event)"  name="job_status"  value="{{servicedetail.job_status}}">
+          <ion-select (ionChange)="addUpdate($event)"  name="job_status"  placeholder="{{servicedetail.job_status}}">
             <ion-select-option *ngFor="let picklist of status_picklist">{{picklist}}</ion-select-option>
           </ion-select>
         </ion-item>

@@ -221,6 +221,7 @@ export class DetailPage implements OnInit {
         this.updatefields[fieldname] = fieldvalue;
         console.log('adding update to queue: ', fieldname, fieldvalue);
         console.log(this.updatefields);
+        this.updateJob(this.servicedetail.salesorderid);
     }
 
     async completeJob(salesorderid) {
@@ -288,6 +289,47 @@ export class DetailPage implements OnInit {
                 });
         } else {
             this.hideLoading();
+            console.log('no data modified for record', salesorderid);
+        }
+
+    }
+
+    async updateJob(salesorderid) {
+        var data = this.updatefields;
+        var data_stringified = JSON.stringify(data);
+        console.log('attempting to submitting data to vtiger', salesorderid, data);
+        var params = {
+            recordid: salesorderid,
+            contractorsid: this.userinfo.contractorsid,
+            updates: data_stringified
+        }
+        if (Object.keys(data).length > 0) {
+            console.log('Some data was changed, pushing ' + Object.keys(data).length + ' changes');
+            var headers = new HttpHeaders();
+            headers.append("Accept", 'application/json');
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            headers.append('Access-Control-Allow-Origin', '*');
+            //this.showLoading();
+            this.httpClient.post(this.apiurl + 'postSOInfo.php', params, { headers: headers, observe: 'response' })
+                .subscribe(data=> {
+                    //this.hideLoading();
+                    var success = data['body']['success'];
+                    console.log(data['body']);
+                    if(success == true){
+                        console.log("Saved and updated data for jobs");
+                        this.presentToast( 'Update saved');
+                        //this.router.navigateByUrl('/tabs/services');
+                    }else{
+                        this.presentToast('Failed to save due to an error, please try again');
+                        console.log('failed to save record, response was false');
+                    }
+                }, error => {
+                    //this.hideLoading();
+                    this.presentToast('Failed to save due to an error \n' + error.message);
+                    console.log('failed to save record', error.message);
+                });
+        } else {
+            //this.hideLoading();
             console.log('no data modified for record', salesorderid);
         }
 
