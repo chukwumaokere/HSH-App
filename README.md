@@ -10,6 +10,7 @@ Change colors on notifications
 Fixed Android build erors
 Updated detail view time fields
 Updated push notification body for replies and update needed
+Update invite comment title
 
 TODO:
 1) scroll to view on chiclet

@@ -21,19 +21,21 @@
                 <div *ngIf="invite.job_desc !== ''" style="white-space: pre-wrap;" class="main-color" [innerHTML]="invite.job_desc"></div>
               <div class="invite-details-div">
                   <ion-grid class="invite-details-grid">
-                    <ion-row>
-                      <ion-col><p class="st">Coordinator</p></ion-col>
-                      <ion-col><p class="st">City</p></ion-col>
-                      <ion-col><p class="st">State</p></ion-col>
-                      <ion-col><p class="st">ZIP</p></ion-col>
+                    <ion-row class="inline">
+                      <ion-col><p class="st">Coordinator</p><p class="truncate">{{invite.coordinator}}</p></ion-col>
+                      <ion-col><p class="st">City</p><p>{{invite.city}}</p></ion-col>
+                      <ion-col><p class="st">State</p><p>{{invite.state}}</p></ion-col>
+                      <ion-col><p class="st">ZIP</p><p>{{invite.zip}}</p></ion-col>
                     </ion-row>
+                    <!--
                     <ion-row>
                       <ion-col><p>{{invite.coordinator}}</p></ion-col>
                       <ion-col><p>{{invite.city}}</p></ion-col>
                       <ion-col><p>{{invite.state}}</p></ion-col>
                       <ion-col><p>{{invite.zip}}</p></ion-col>
                     </ion-row>
-                    <ion-row>
+                    -->
+                    <ion-row class="buttons-inline">
                       <ion-col>
                         <ion-button size="default" color="success" type="button" text="Accept" (click)="modifyInvite('accept', invite.id)" [disabled]="invite.status != 'Accepted' ? null : 'disabled'">
                           <ion-text *ngIf="invite.status != 'Accepted'">Accept</ion-text>

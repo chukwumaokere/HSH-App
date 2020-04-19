@@ -16,3 +16,17 @@ ion-button > ion-text{
 p.main-color{
     color: var(--ion-color-dark);
 }
+ion-row.inline{
+    min-inline-size: -webkit-max-content;
+}
+
+p.truncate {
+    width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ion-row.buttons-inline{
+    min-inline-size: -webkit-max-content;
+}
