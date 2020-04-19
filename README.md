@@ -1,4 +1,4 @@
-# v0.7.7 
+# v0.7.8
 Updated list view loading time
 Fixed List view active jobs count bug
 Added saving on update
@@ -15,4 +15,5 @@ Update invite comment title
 TODO:
 1) scroll to view on chiclet
 2) scroll to view on push notification click
-3) Update email for replies and update needed. 
+3) Update email subject for replies and update needed. 
+4) Fix date format saving from detail view
