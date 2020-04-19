@@ -265,7 +265,7 @@ export class DashboardPage implements OnInit {
     }
 
     goToPage(page, dst = '') {
-        this.router.navigate(['tabs/' + page], {fragment: dst}); //commented out fragments are not working
+        this.router.navigate(['tabs/' + page], {fragment: dst}); 
         //this.router.navigateByUrl('tabs/' + page, {fragment: dst}); //also doesnt work
         //this.router.navigateByUrl('tabs/' + page);
     }
