@@ -39,6 +39,7 @@ export class NotificationsPage implements OnInit {
     dataReturned: any;
     apiurl: any;
     contractorid: any;
+    isLoading: boolean;
 
     constructor(public modalCtrl: ModalController,
                 public navCtrl: NavController,
@@ -149,7 +150,7 @@ export class NotificationsPage implements OnInit {
                 this.userinfo = userData;
                 console.log('param user data:', userData);
                 if (userData.fragment) {
-                    console.log(userData.fragment);
+                    console.log('fragment testing:', userData.fragment);
                     try {
                         var element = document.getElementById(userData.fragment);
                         this.sectionScroll = element;
@@ -189,7 +190,19 @@ export class NotificationsPage implements OnInit {
                 }
             }
         });
-        //this.responses_ref.nativeElement.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'start'});
+    }
+
+    ionViewDidEnter(){
+    /*
+    this.loading.onDidDismiss().then((dis) => {
+        console.log('Loading dismissed, ', dis);
+    })
+    */
+       this.activatedRoute.fragment.subscribe((fragment: string) => {
+           console.warn('Trying to navigate to', fragment);
+           this.scrollTo(fragment);
+       });    
+       
     }
 
     async goToComments(id, notification = false) {
@@ -343,9 +356,28 @@ export class NotificationsPage implements OnInit {
 
     async showLoading() {
         this.loading = await this.loadingController.create({
-            message: 'Loading ...'
+            message: 'Loading ...',
+            duration: 500
+        }).then((res) => {
+            this.isLoading = true;
+            console.log('Loading turning on');
+            res.present();
+
+            res.onDidDismiss().then((dis) =>{
+                console.warn('Loading dismissing', dis);
+                this.isLoading = false;
+                this.activatedRoute.fragment.subscribe((fragment: string) => {
+                    if(fragment && fragment != ''){
+                        this.ionViewDidEnter();
+                        //console.warn('Trying to navigate to', fragment);
+                        //this.scrollTo(fragment);
+                    }
+                });    
+            })
         });
-        return await this.loading.present();
+        
+        
+        //return await this.loading.present();
     }
 
     async hideLoading() {
@@ -353,6 +385,8 @@ export class NotificationsPage implements OnInit {
             if (this.loading != undefined) {
                 this.loading.dismiss();
             }
+            this.isLoading = false;
+            console.log('Loading turning off');
         }, 500);
     }
 
