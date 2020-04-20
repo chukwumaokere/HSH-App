@@ -129,15 +129,10 @@ export class NotificationsPage implements OnInit {
         console.log('turning off previous theme', theme_switcher[theme]);
     }
 
-    scrollTo() {
-        this.activatedRoute.fragment.subscribe(async (fragment: string) => {
-            if (fragment.length !== 0) {
-                await this.content.scrollToTop();
-                const y = document.getElementById(fragment).offsetTop;
-                console.log('Trying to navigate to', fragment);
-                await this.content.scrollToPoint(0, y);
-            }
-       });
+    scrollTo(elementId: string) {
+        console.log('scrolling to ', elementId);
+        let y = document.getElementById(elementId).offsetTop;
+        this.content.scrollToPoint(0, y);
     }
 
     ngOnInit() {
@@ -154,6 +149,15 @@ export class NotificationsPage implements OnInit {
             if (userData.length !== 0) {
                 this.userinfo = userData;
                 console.log('param user data:', userData);
+                // if (userData.fragment) {
+                //     console.log('fragment testing:', userData.fragment);
+                //     try {
+                //         var element = document.getElementById(userData.fragment);
+                //         this.sectionScroll = element;
+                //     } catch (err) {
+                //         console.log(err);
+                //     }
+                // }
                 try {
                     this.loadTheme(userData.theme.toLowerCase());
                 } catch {
@@ -170,7 +174,14 @@ export class NotificationsPage implements OnInit {
                             this.fetchUpdateNeeded();
                             this.fetchRequestMade();
                             this.loadTheme(result.theme.toLowerCase());
-                            this.scrollTo();
+                            // try {
+                            //     //console.log('scrolling to', this.sectionScroll);
+                            //     //this.sectionScroll.scrollIntoView();
+                            //     //this.scrollTo('request_made');
+                            // } catch (err) {
+                            //     console.warn('ERROR SCROLLING', err);
+                            // }
+
                         } else {
                             console.log('nothing in storage, going back to login');
                             this.logout();
@@ -180,19 +191,13 @@ export class NotificationsPage implements OnInit {
             }
         });
     }
-
-    ionViewDidEnter(){
-    /*
-    this.loading.onDidDismiss().then((dis) => {
-        console.log('Loading dismissed, ', dis);
-    })
-    */
-       // this.activatedRoute.fragment.subscribe(async (fragment: string) => {
-       //     await this.content.scrollToTop();
-       //     console.warn('Trying to navigate to', fragment);
-       //     await this.scrollTo(fragment);
-       // });
-       
+    
+    ionViewDidEnter() {
+        this.activatedRoute.fragment.subscribe(async (fragment: string) => {
+            await this.content.scrollToTop();
+            console.warn('Trying to navigate to', fragment);
+            await this.scrollTo(fragment);
+        });
     }
 
     async goToComments(id, notification = false) {
@@ -355,14 +360,14 @@ export class NotificationsPage implements OnInit {
 
             res.onDidDismiss().then((dis) =>{
                 console.warn('Loading dismissing', dis);
-                // this.isLoading = false;
-                // this.activatedRoute.fragment.subscribe((fragment: string) => {
-                //     if(fragment && fragment != ''){
-                //         this.ionViewDidEnter();
-                //         //console.warn('Trying to navigate to', fragment);
-                //         //this.scrollTo(fragment);
-                //     }
-                // });
+                this.isLoading = false;
+                this.activatedRoute.fragment.subscribe((fragment: string) => {
+                    if(fragment && fragment != ''){
+                        this.ionViewDidEnter();
+                        //console.warn('Trying to navigate to', fragment);
+                        //this.scrollTo(fragment);
+                    }
+                });
             })
         });
         
