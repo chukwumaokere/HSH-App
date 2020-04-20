@@ -25,7 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { Firebase } from '@ionic-native/firebase/ngx';
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
+import {AppVersion} from '@ionic-native/app-version/ngx';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 
 const config = {
@@ -60,7 +61,8 @@ const config = {
         ImageModalPage,
         AppConfig,
         FCM,
-        Firebase,
+        FirebaseX,
+        AppVersion,
         DatePicker
     ],
     bootstrap: [AppComponent]

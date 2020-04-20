@@ -1,94 +1,108 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, NavParams, ToastController, PickerController } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { Storage } from '@ionic/storage';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {ModalController, NavParams, ToastController, PickerController} from '@ionic/angular';
+import {Router} from '@angular/router';
+import {Storage} from '@ionic/storage';
+import {HttpHeaders, HttpClient} from '@angular/common/http';
 import {AppConfig} from '../../AppConfig';
+import {AppVersion} from '@ionic-native/app-version/ngx';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+    selector: 'app-profile',
+    templateUrl: './profile.page.html',
+    styleUrls: ['./profile.page.scss'],
 })
 export class ProfileModalPage implements OnInit {
-user_id: any;
-userinfo: any = {};
-apiurl: any;
-updatefields: any = {};
-has_profile_picture: boolean = false;
+    user_id: any;
+    userinfo: any = {};
+    apiurl: any;
+    updatefields: any = {};
+    has_profile_picture: boolean = false;
+    version: any;
 
-constructor(
-private modalController: ModalController,
-public storage: Storage,
-private  router: Router,
-private navParams: NavParams,
-private pickerCtrl: PickerController,
-public toastController: ToastController,
-private httpClient: HttpClient,
-public appConst: AppConfig,
-) {
-   this.apiurl = this.appConst.apiurl;
-}
+    constructor(
+        private modalController: ModalController,
+        public storage: Storage,
+        private  router: Router,
+        private navParams: NavParams,
+        private pickerCtrl: PickerController,
+        public toastController: ToastController,
+        private httpClient: HttpClient,
+        public appConst: AppConfig,
+        private appVersion: AppVersion,
+    ) {
+        this.apiurl = this.appConst.apiurl;
+    }
 
-  ngOnInit() {
-      this.isLogged().then(result => {
-          if (!(result == false)) {
-              console.log('loading storage data (within param route function)', result);
-              this.userinfo = result;
-              this.loadTheme(result.theme.toLowerCase());
-          } else {
-              console.log('nothing in storage, going back to login');
-              this.logout();
-          }
-      });
-      this.has_profile_picture = false;
-  }
+    ngOnInit() {
+        this.appVersion.getVersionNumber().then(
+            (versionNumber) => {
+                this.version = versionNumber;
+                console.log('App Version: ', versionNumber);
+            },
+            (error) => {
+                console.log(error);
+            });
+        this.isLogged().then(result => {
+            if (!(result == false)) {
+                console.log('loading storage data (within param route function)', result);
+                this.userinfo = result;
+                this.cf_push_noti = (result['cf_push_noti'] == 1);
+                this.cf_sms_noti = (result['cf_sms_noti'] == 1);
+                this.loadTheme(result.theme.toLowerCase());
+            } else {
+                console.log('nothing in storage, going back to login');
+                this.logout();
+            }
+        });
+        this.has_profile_picture = false;
+    }
 
-  async closeModal() {
-    const onClosedData: string = "Wrapped Up!";
-    await this.modalController.dismiss(onClosedData);
-  }
 
-  async  addUpdate(event) {
-    //console.log(event);
-      var fieldvalue = event.target.textContent;
-      var fieldname = event.target.name;
-      this.updatefields[fieldname] = fieldvalue;
-      console.log(this.updatefields);
-      var params = {
-          contractorsid: this.userinfo.contractorsid,
-          updates: JSON.stringify(this.updatefields)
-      }
-      var headers = new HttpHeaders();
-      headers.append("Accept", 'application/json');
-      headers.append('Content-Type', 'application/json');
-      headers.append('Access-Control-Allow-Origin', '*');
-      this.httpClient.post(this.apiurl + "updateProfile.php", params, { headers:headers, observe: 'response' })
-          .subscribe(data => {
-              if ( data['body']['success'] == true) {
-                this.presentToastPrimary('Profile updated \n');
-                  this.storage.ready().then(() => {
-                      var theme = this.userinfo.theme;
-                      this.userinfo = data['body']['data'];
-                      this.userinfo.theme = theme;
-                      this.storage.set('userdata', this.userinfo);
-                  });
-                this.closeModal();
-              } else {
-                  console.log('update failed');
-                  this.presentToast('Profile update failed! Please try again \n');
-              }
-          }, error => {
-              this.presentToast("Profile update failed! Please try again \n" + error.message);
-          });
-  }
+    async closeModal() {
+        const onClosedData: string = 'Wrapped Up!';
+        await this.modalController.dismiss(onClosedData);
+    }
+
+    async addUpdate(event) {
+        //console.log(event);
+        var fieldvalue = event.target.textContent;
+        var fieldname = event.target.name;
+        this.updatefields[fieldname] = fieldvalue;
+        console.log(this.updatefields);
+        var params = {
+            contractorsid: this.userinfo.contractorsid,
+            updates: JSON.stringify(this.updatefields)
+        };
+        var headers = new HttpHeaders();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.httpClient.post(this.apiurl + 'updateProfile.php', params, {headers: headers, observe: 'response'})
+            .subscribe(data => {
+                if (data['body']['success'] == true) {
+                    this.presentToastPrimary('Profile updated \n');
+                    this.storage.ready().then(() => {
+                        var theme = this.userinfo.theme;
+                        this.userinfo = data['body']['data'];
+                        this.userinfo.theme = theme;
+                        this.storage.set('userdata', this.userinfo);
+                    });
+                    this.closeModal();
+                } else {
+                    console.log('update failed');
+                    this.presentToast('Profile update failed! Please try again \n');
+                }
+            }, error => {
+                this.presentToast('Profile update failed! Please try again \n' + error.message);
+            });
+    }
 
     async presentToast(message: string) {
         var toast = await this.toastController.create({
             message: message,
             duration: 3500,
-            position: "bottom",
-            color: "danger"
+            position: 'bottom',
+            color: 'danger'
         });
         toast.present();
     }
@@ -97,54 +111,57 @@ public appConst: AppConfig,
         var toast = await this.toastController.create({
             message: message,
             duration: 2000,
-            position: "bottom",
-            color: "primary"
+            position: 'bottom',
+            color: 'primary'
         });
         toast.present();
     }
 
     logout() {
         console.log('logout clicked');
-        this.storage.set("userdata", null);
+        this.storage.set('userdata', null);
         this.closeModal();
         this.router.navigateByUrl('/login');
     }
+
     async getCurrentTheme() {
         var current_theme = this.storage.get('userdata').then((userdata) => {
-          if(userdata && userdata.length !== 0){
-            //current_theme = userdata.theme.toLowerCase();
-            return userdata.theme.toLowerCase();
-          }else{
-            return false;
-          }
-        })
-       return current_theme;
+            if (userdata && userdata.length !== 0) {
+                //current_theme = userdata.theme.toLowerCase();
+                return userdata.theme.toLowerCase();
+            } else {
+                return false;
+            }
+        });
+        return current_theme;
     }
-    async updateCurrentTheme(theme: string){
+
+    async updateCurrentTheme(theme: string) {
         var userjson: object;
         await this.isLogged().then(result => {
-          if (!(result == false)){
-            userjson = result;
-          }
-        })
+            if (!(result == false)) {
+                userjson = result;
+            }
+        });
         //console.log('from set current theme', userjson.theme);
         userjson['theme'] = theme.charAt(0).toUpperCase() + theme.slice(1);
         //console.log('from set current theme', userjson);
         this.storage.set('userdata', userjson);
-        this.userinfo.theme= theme.charAt(0).toUpperCase() + theme.slice(1);
+        this.userinfo.theme = theme.charAt(0).toUpperCase() + theme.slice(1);
         console.log('updated theme on storage memory');
-      }
-      async switchTheme(){
+    }
+
+    async switchTheme() {
         var current_theme;
         await this.getCurrentTheme().then((theme) => {
-          console.log("the current theme is", theme);
-          current_theme = theme;
+            console.log('the current theme is', theme);
+            current_theme = theme;
         });
         var theme_switcher = {
-                              "dark": "light", 
-                              "light": "dark"
+            'dark': 'light',
+            'light': 'dark'
         };
-        var destination_theme = theme_switcher[current_theme]
+        var destination_theme = theme_switcher[current_theme];
         console.log('switching theme from:', current_theme);
         console.log('switching theme to:', destination_theme);
         document.body.classList.toggle(destination_theme, true);
@@ -152,25 +169,66 @@ public appConst: AppConfig,
         this.updateCurrentTheme(destination_theme);
         console.log('theme switched');
     }
+
     async isLogged() {
         var log_status = this.storage.get('userdata').then((userdata) => {
-            if(userdata && userdata.length !== 0){
+            if (userdata && userdata.length !== 0) {
                 return userdata;
-            }else{
+            } else {
                 return false;
             }
-        })
+        });
         return log_status;
     }
+
     loadTheme(theme) {
         console.log('loading theme', theme);
         document.body.classList.toggle(theme, true);
         var theme_switcher = {
-            "dark": "light",
-            "light": "dark"
+            'dark': 'light',
+            'light': 'dark'
         };
         document.body.classList.toggle(theme_switcher[theme], false); //switch off previous theme if there was one and prefer the loaded theme.
         console.log('turning off previous theme', theme_switcher[theme]);
     }
 
+    cf_sms_noti: any;
+    cf_push_noti: any;
+
+    updateNotification(type, e) {
+        if((this.cf_sms_noti == this.userinfo['cf_sms_noti'])
+            && (this.cf_push_noti == this.userinfo['cf_push_noti'])) {
+            return;
+        }
+        let updates = {
+            cf_sms_noti: this.cf_sms_noti,
+            cf_push_noti: this.cf_push_noti
+        };
+        let params = {
+            contractorsid: this.userinfo.contractorsid,
+            updates: JSON.stringify(updates),
+        };
+        let headers = new HttpHeaders();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.httpClient.post(this.apiurl + 'updateProfile.php', params, {headers: headers, observe: 'response'})
+            .subscribe(data => {
+                if (data['body']['success'] == true) {
+                    this.presentToastPrimary('Profile updated \n');
+                    this.storage.ready().then(() => {
+                        var theme = this.userinfo.theme;
+                        this.userinfo = data['body']['data'];
+                        this.userinfo.theme = theme;
+                        this.storage.set('userdata', this.userinfo);
+                    });
+                    //this.closeModal();
+                } else {
+                    console.log('update failed');
+                    this.presentToast('Profile update failed! Please try again \n');
+                }
+            }, error => {
+                this.presentToast('Profile update failed! Please try again \n' + error.message);
+            });
+    }
 }

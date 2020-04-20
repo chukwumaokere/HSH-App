@@ -6,6 +6,8 @@ import {CommentsModalPage} from './comments/comments.page';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoadingController} from '@ionic/angular';
 import {AppConfig} from '../../AppConfig';
+import { IonContent } from '@ionic/angular';
+
 
 @Component({
     selector: 'app-notifications',
@@ -17,6 +19,8 @@ export class NotificationsPage implements OnInit {
     @ViewChild('updates_needed', <any>[]) public updates_needed: ElementRef;
     @ViewChild('request_made', <any>[]) public request_made: ElementRef;
     @ViewChild('invites_ref', <any>[]) public invites_ref: ElementRef;
+    @ViewChild(IonContent, {static: false}) content: IonContent;
+
     userinfo: any;
     invites: any = [];
     notifications: any = [];
@@ -35,6 +39,7 @@ export class NotificationsPage implements OnInit {
     dataReturned: any;
     apiurl: any;
     contractorid: any;
+    isLoading: boolean;
 
     constructor(public modalCtrl: ModalController,
                 public navCtrl: NavController,
@@ -124,6 +129,12 @@ export class NotificationsPage implements OnInit {
         console.log('turning off previous theme', theme_switcher[theme]);
     }
 
+    scrollTo(elementId: string) {
+        console.log('scrolling to ', elementId);
+        let y = document.getElementById(elementId).offsetTop;
+        this.content.scrollToPoint(0, y);
+    }
+
     ngOnInit() {
         this.hideLoading();
         this.updatesNeeded = {
@@ -139,7 +150,7 @@ export class NotificationsPage implements OnInit {
                 this.userinfo = userData;
                 console.log('param user data:', userData);
                 if (userData.fragment) {
-                    console.log(userData.fragment);
+                    console.log('fragment testing:', userData.fragment);
                     try {
                         var element = document.getElementById(userData.fragment);
                         this.sectionScroll = element;
@@ -164,10 +175,11 @@ export class NotificationsPage implements OnInit {
                             this.fetchRequestMade();
                             this.loadTheme(result.theme.toLowerCase());
                             try {
-                                console.log('scrolling to', this.sectionScroll);
-                                this.sectionScroll.scrollIntoView();
+                                //console.log('scrolling to', this.sectionScroll);
+                                //this.sectionScroll.scrollIntoView();
+                                //this.scrollTo('request_made');
                             } catch (err) {
-                                //console.log(err);
+                                console.warn('ERROR SCROLLING', err);
                             }
 
                         } else {
@@ -178,7 +190,19 @@ export class NotificationsPage implements OnInit {
                 }
             }
         });
-        //this.responses_ref.nativeElement.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'start'});
+    }
+
+    ionViewDidEnter(){
+    /*
+    this.loading.onDidDismiss().then((dis) => {
+        console.log('Loading dismissed, ', dis);
+    })
+    */
+       this.activatedRoute.fragment.subscribe((fragment: string) => {
+           console.warn('Trying to navigate to', fragment);
+           this.scrollTo(fragment);
+       });    
+       
     }
 
     async goToComments(id, notification = false) {
@@ -198,7 +222,7 @@ export class NotificationsPage implements OnInit {
                 component: CommentsModalPage,
                 componentProps: {
                     'id': id,
-                    'service_record_details': this.servicedetail,
+                    'service_record_details': this.invites.find(invite => invite.id == id),
                     'contractorInfo': this.userinfo
                 }
             });
@@ -332,9 +356,28 @@ export class NotificationsPage implements OnInit {
 
     async showLoading() {
         this.loading = await this.loadingController.create({
-            message: 'Loading ...'
+            message: 'Loading ...',
+            duration: 500
+        }).then((res) => {
+            this.isLoading = true;
+            console.log('Loading turning on');
+            res.present();
+
+            res.onDidDismiss().then((dis) =>{
+                console.warn('Loading dismissing', dis);
+                this.isLoading = false;
+                this.activatedRoute.fragment.subscribe((fragment: string) => {
+                    if(fragment && fragment != ''){
+                        this.ionViewDidEnter();
+                        //console.warn('Trying to navigate to', fragment);
+                        //this.scrollTo(fragment);
+                    }
+                });    
+            })
         });
-        return await this.loading.present();
+        
+        
+        //return await this.loading.present();
     }
 
     async hideLoading() {
@@ -342,6 +385,8 @@ export class NotificationsPage implements OnInit {
             if (this.loading != undefined) {
                 this.loading.dismiss();
             }
+            this.isLoading = false;
+            console.log('Loading turning off');
         }, 500);
     }
 

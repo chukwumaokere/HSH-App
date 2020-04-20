@@ -230,7 +230,7 @@ export class DashboardPage implements OnInit {
             if (this.loading != undefined) {
                 this.loading.dismiss();
             }
-        }, 500);
+        }, 250);
     }
 
     fetchDashboard() {
@@ -265,7 +265,9 @@ export class DashboardPage implements OnInit {
     }
 
     goToPage(page, dst = '') {
-        this.router.navigate(['tabs/' + page, {fragment: dst}]);
+        this.router.navigate(['tabs/' + page], {fragment: dst}); 
+        //this.router.navigateByUrl('tabs/' + page, {fragment: dst}); //also doesnt work
+        //this.router.navigateByUrl('tabs/' + page);
     }
 
     ngOnInit() {

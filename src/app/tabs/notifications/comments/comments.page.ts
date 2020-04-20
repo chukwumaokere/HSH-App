@@ -90,6 +90,7 @@ export class CommentsModalPage implements OnInit, AfterViewChecked {
       this.has_profile_picture = true;
       this.recordid = this.navParams.data.id;
       this.servicedetail = this.navParams.data.service_record_details;
+      console.log('service detail', this.servicedetail);
       this.show_button = this.navParams.data.show_button;
       this.contractorInfo = this.navParams.data.contractorInfo;
       /* this.user_id = this.navParams.data.user_id;

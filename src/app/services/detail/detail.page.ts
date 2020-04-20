@@ -30,6 +30,10 @@ export class DetailPage implements OnInit {
     secondaryInfo: any = {
         open: false,
     };
+    date_sent: string;
+    cf_738: string;
+    service_time: string;
+    serviceDateTime: string;
 
     date_sent: string;
     cf_738: string;
@@ -110,14 +114,17 @@ export class DetailPage implements OnInit {
                         this.status_picklist = status_picklist;
                     }
                     this.servicedetail = allfields;
-                    if (allfields.job_status == 'Released') {
+                    if (allfields.job_status == 'Released' || allfields.job_status == "Complete") {
                         this.isCompleteJob = 1;
                     }
+                    /*this.date_sent = new Date(allfields.date_sent).toISOString();
+                    this.cf_738 = new Date(allfields.cf_738).toISOString();*/
                     this.date_sent = allfields.date_sent;
                     this.cf_738 = allfields.cf_738;
                     this.service_time = allfields.service_time;
                     this.serviceDateTime = allfields.service_date;
                     console.log('servicedetail', this.servicedetail);
+                    console.log('modded dates', this.date_sent, this.cf_738);
                 } else {
                     console.log('failed to fetch record');
                 }
@@ -208,7 +215,7 @@ export class DetailPage implements OnInit {
         return timewithampm;
     }
 
-    async  addUpdate(event) {
+    async addUpdate(event) {
         console.log(this.updatefields);
         //console.log(event);
         var fieldname = event.target.name;
@@ -219,6 +226,7 @@ export class DetailPage implements OnInit {
         this.updatefields[fieldname] = fieldvalue;
         console.log('adding update to queue: ', fieldname, fieldvalue);
         console.log(this.updatefields);
+        this.updateJob(this.servicedetail.salesorderid);
     }
 
     async completeJob(salesorderid) {
@@ -251,7 +259,7 @@ export class DetailPage implements OnInit {
             });
     }
 
-    saveJob(salesorderid) {
+    async saveJob(salesorderid) {
         var data = this.updatefields;
         var data_stringified = JSON.stringify(data);
         console.log('attempting to submitting data to vtiger', salesorderid, data);
@@ -274,17 +282,59 @@ export class DetailPage implements OnInit {
                     console.log(data['body']);
                     if(success == true){
                         console.log("Saved and updated data for jobs");
+                        //this.router.navigateByUrl('/tabs/services');
                     }else{
                         this.presentToast('Failed to save due to an error');
                         console.log('failed to save record, response was false');
                     }
-                    this.router.navigateByUrl('/services');
                 }, error => {
                     this.hideLoading();
                     this.presentToast('Failed to save due to an error \n' + error.message);
                     console.log('failed to save record', error.message);
                 });
         } else {
+            this.hideLoading();
+            console.log('no data modified for record', salesorderid);
+        }
+
+    }
+
+    async updateJob(salesorderid) {
+        var data = this.updatefields;
+        var data_stringified = JSON.stringify(data);
+        console.log('attempting to submitting data to vtiger', salesorderid, data);
+        var params = {
+            recordid: salesorderid,
+            contractorsid: this.userinfo.contractorsid,
+            updates: data_stringified
+        }
+        if (Object.keys(data).length > 0) {
+            console.log('Some data was changed, pushing ' + Object.keys(data).length + ' changes');
+            var headers = new HttpHeaders();
+            headers.append("Accept", 'application/json');
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            headers.append('Access-Control-Allow-Origin', '*');
+            //this.showLoading();
+            this.httpClient.post(this.apiurl + 'postSOInfo.php', params, { headers: headers, observe: 'response' })
+                .subscribe(data=> {
+                    //this.hideLoading();
+                    var success = data['body']['success'];
+                    console.log(data['body']);
+                    if(success == true){
+                        console.log("Saved and updated data for jobs");
+                        this.presentToast( 'Update saved');
+                        //this.router.navigateByUrl('/tabs/services');
+                    }else{
+                        this.presentToast('Failed to save due to an error, please try again');
+                        console.log('failed to save record, response was false');
+                    }
+                }, error => {
+                    //this.hideLoading();
+                    this.presentToast('Failed to save due to an error \n' + error.message);
+                    console.log('failed to save record', error.message);
+                });
+        } else {
+            //this.hideLoading();
             console.log('no data modified for record', salesorderid);
         }
 

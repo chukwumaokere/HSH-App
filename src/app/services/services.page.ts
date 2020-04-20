@@ -20,6 +20,8 @@ export class ServicesPage implements OnInit {
     user_id: any;
     apiurl: any;
     loading: any;
+    activeJobsLength: any = "0";
+    newJobsLength: any = "0";
     service = {
         id: '',
         title: '', //Will be the Transferee + type of service
@@ -191,8 +193,11 @@ export class ServicesPage implements OnInit {
         console.log('turning off previous theme', theme_switcher[theme]);
     }
 
-    getListJobs(contractor_id) {
+    async getListJobs(contractor_id) {
         this.showLoading();
+        var x = await this.resolveAfter2Seconds(10);
+        console.log(x);
+        
         console.log('fetching records for', contractor_id);
         var headers = new HttpHeaders();
         headers.append("Accept", 'application/json');
@@ -210,7 +215,9 @@ export class ServicesPage implements OnInit {
                     console.log('jobs', jobs);
                     if(data['body']['count'] > 0){
                         this.newJobs = jobs['new_jobs'];
+                        this.newJobsLength = jobs['new_jobs'].length;
                         this.activeJobs = jobs['active_jobs'];
+                        this.activeJobsLength = jobs['active_jobs'].length;
                     }
                 }else{
                     console.log('failed to fetch records');
@@ -225,6 +232,14 @@ export class ServicesPage implements OnInit {
             });
 
     }
+
+    resolveAfter2Seconds(x) { 
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(x);
+          }, 500);
+        });
+      }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((userData) => {

@@ -5,7 +5,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {FCM} from '@ionic-native/fcm/ngx';
 import {AppConfig} from './AppConfig';
 import {Router} from '@angular/router';
-import { Firebase } from '@ionic-native/firebase/ngx';
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 
 @Component({
     selector: 'app-root',
@@ -21,7 +21,7 @@ export class AppComponent {
         public appConst: AppConfig,
         private router: Router,
         public navCtrl: NavController,
-        private firebase: Firebase,
+        private firebase: FirebaseX,
     ) {
         this.initializeApp();
     }
@@ -34,6 +34,7 @@ export class AppComponent {
             this.getToken();
 
             // ionic push notification example
+            /*
             this.fcm.onNotification().subscribe(data => {
                 console.log(data);
                 if (data.wasTapped) {
@@ -43,7 +44,7 @@ export class AppComponent {
                 } else {
                     console.log('Received in foreground');
                     //this.router.navigate(['/tabs/notifications', {fragment: ''}]);
-                    this.navCtrl.navigateRoot('tabs/notifications');
+                    //this.navCtrl.navigateRoot('tabs/notifications');
                 }
             });
 
@@ -52,21 +53,36 @@ export class AppComponent {
                 console.log(token);
                 this.appConst.setFCMToken(token);
             });
-
+            */
             // unsubscribe from a topic
             // this.fcm.unsubscribeFromTopic('offers');
+            this.firebase.onMessageReceived().subscribe(data => { 
+                console.log('Push notification received: ', data);
+                if(data.tap){
+                    this.navCtrl.navigateRoot('tabs/notifications');
+                }
+            })
         });
     }
     async getToken() {
         let token;
         if (this.platform.is('android')) {
-            token = await this.fcm.getToken();
+            //token = await this.fcm.getToken();
+            this.firebase.getToken().then(token => { 
+                console.log(`The token is ${token}`)
+                this.appConst.setFCMToken(token);
+            });
+            //this.appConst.setFCMToken(token);
         }
         if (this.platform.is('ios')) {
-            token = await this.firebase.getToken();
             await this.firebase.grantPermission();
+            //token = await this.firebase.getToken();
+            this.firebase.getToken().then(token => { 
+                console.log(`The token is ${token}`)
+                this.appConst.setFCMToken(token);
+            });
         }
-        console.log(token);
-        this.appConst.setFCMToken(token);
+        console.log('token is: ', token);
+        //this.appConst.setFCMToken(token);
     }
 }
