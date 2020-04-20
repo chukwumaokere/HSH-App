@@ -1,4 +1,4 @@
-# v0.7.8
+# v0.8.3
 Updated list view loading time
 Fixed List view active jobs count bug
 Added saving on update
@@ -11,9 +11,10 @@ Fixed Android build erors
 Updated detail view time fields
 Updated push notification body for replies and update needed
 Update invite comment title
+@ViewChild(IonContent, {static: false}) content: IonContent;
+Scroll to view and fragment on chiclet press
+Email updated
+Fixed date format on detail view
 
 TODO:
-1) scroll to view on chiclet
 2) scroll to view on push notification click
-3) Update email subject for replies and update needed. 
-4) Fix date format saving from detail view

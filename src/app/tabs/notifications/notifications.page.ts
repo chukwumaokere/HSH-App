@@ -64,7 +64,6 @@ export class NotificationsPage implements OnInit {
     async getCurrentTheme() {
         var current_theme = this.storage.get('userdata').then((userdata) => {
             if (userdata && userdata.length !== 0) {
-                //current_theme = userdata.theme.toLowerCase();
                 return userdata.theme.toLowerCase();
             } else {
                 return false;
@@ -80,9 +79,7 @@ export class NotificationsPage implements OnInit {
                 userjson = result;
             }
         })
-        //console.log('from set current theme', userjson.theme);
         userjson['theme'] = theme.charAt(0).toUpperCase() + theme.slice(1);
-        //console.log('from set current theme', userjson);
         this.storage.set('userdata', userjson);
         this.userinfo.theme = theme.charAt(0).toUpperCase() + theme.slice(1);
         console.log('updated theme on storage memory');
@@ -149,15 +146,6 @@ export class NotificationsPage implements OnInit {
             if (userData.length !== 0) {
                 this.userinfo = userData;
                 console.log('param user data:', userData);
-                // if (userData.fragment) {
-                //     console.log('fragment testing:', userData.fragment);
-                //     try {
-                //         var element = document.getElementById(userData.fragment);
-                //         this.sectionScroll = element;
-                //     } catch (err) {
-                //         console.log(err);
-                //     }
-                // }
                 try {
                     this.loadTheme(userData.theme.toLowerCase());
                 } catch {
@@ -174,14 +162,6 @@ export class NotificationsPage implements OnInit {
                             this.fetchUpdateNeeded();
                             this.fetchRequestMade();
                             this.loadTheme(result.theme.toLowerCase());
-                            // try {
-                            //     //console.log('scrolling to', this.sectionScroll);
-                            //     //this.sectionScroll.scrollIntoView();
-                            //     //this.scrollTo('request_made');
-                            // } catch (err) {
-                            //     console.warn('ERROR SCROLLING', err);
-                            // }
-
                         } else {
                             console.log('nothing in storage, going back to login');
                             this.logout();
@@ -316,7 +296,6 @@ export class NotificationsPage implements OnInit {
 
     escapeHtml(text) {
         return text
-            //.replace(/&/g, "&amp;")
             .replace("&#039;", "'");
       }
     
@@ -364,15 +343,10 @@ export class NotificationsPage implements OnInit {
                 this.activatedRoute.fragment.subscribe((fragment: string) => {
                     if(fragment && fragment != ''){
                         this.ionViewDidEnter();
-                        //console.warn('Trying to navigate to', fragment);
-                        //this.scrollTo(fragment);
                     }
                 });
             })
         });
-        
-        
-        //return await this.loading.present();
     }
 
     async hideLoading() {
@@ -446,7 +420,7 @@ export class NotificationsPage implements OnInit {
     }
 
     async postInviteStatus(status: any, id: any) {
-        this.showLoading();
+        //this.showLoading();
         const invite_status = status;
         const contractorid = this.userinfo.contractorsid;
         const salesorderid = id;
@@ -467,14 +441,16 @@ export class NotificationsPage implements OnInit {
                 const success = responseData['success'];
                 if (success == true) {
                     console.log('Push Invite Success!');
+                    this.presentToastPrimary('Invite updated!');
                     this.hideLoading();
                 } else {
                     this.hideLoading();
                     console.log('failed to Push Invite');
+                    this.presentToast('Failed to update Invite, please try again');
                 }
             }, error => {
                 this.hideLoading();
-                this.presentToast('failed to Push Invite \n' + error.message);
+                this.presentToast('Failed to update Invite \n' + error.message);
             });
     }
 
