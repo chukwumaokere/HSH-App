@@ -35,11 +35,6 @@ export class DetailPage implements OnInit {
     service_time: string;
     serviceDateTime: string;
 
-    date_sent: string;
-    cf_738: string;
-    service_time: string;
-    serviceDateTime: string;
-
     servicedetail: any = {};
     buttonLabels = ['Take Photo', 'Upload from Library'];
 
