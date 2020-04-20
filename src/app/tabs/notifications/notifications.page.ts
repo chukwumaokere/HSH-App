@@ -149,15 +149,15 @@ export class NotificationsPage implements OnInit {
             if (userData.length !== 0) {
                 this.userinfo = userData;
                 console.log('param user data:', userData);
-                if (userData.fragment) {
-                    console.log('fragment testing:', userData.fragment);
-                    try {
-                        var element = document.getElementById(userData.fragment);
-                        this.sectionScroll = element;
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
+                // if (userData.fragment) {
+                //     console.log('fragment testing:', userData.fragment);
+                //     try {
+                //         var element = document.getElementById(userData.fragment);
+                //         this.sectionScroll = element;
+                //     } catch (err) {
+                //         console.log(err);
+                //     }
+                // }
                 try {
                     this.loadTheme(userData.theme.toLowerCase());
                 } catch {
@@ -174,13 +174,13 @@ export class NotificationsPage implements OnInit {
                             this.fetchUpdateNeeded();
                             this.fetchRequestMade();
                             this.loadTheme(result.theme.toLowerCase());
-                            try {
-                                //console.log('scrolling to', this.sectionScroll);
-                                //this.sectionScroll.scrollIntoView();
-                                //this.scrollTo('request_made');
-                            } catch (err) {
-                                console.warn('ERROR SCROLLING', err);
-                            }
+                            // try {
+                            //     //console.log('scrolling to', this.sectionScroll);
+                            //     //this.sectionScroll.scrollIntoView();
+                            //     //this.scrollTo('request_made');
+                            // } catch (err) {
+                            //     console.warn('ERROR SCROLLING', err);
+                            // }
 
                         } else {
                             console.log('nothing in storage, going back to login');
@@ -191,18 +191,13 @@ export class NotificationsPage implements OnInit {
             }
         });
     }
-
-    ionViewDidEnter(){
-    /*
-    this.loading.onDidDismiss().then((dis) => {
-        console.log('Loading dismissed, ', dis);
-    })
-    */
-       this.activatedRoute.fragment.subscribe((fragment: string) => {
-           console.warn('Trying to navigate to', fragment);
-           this.scrollTo(fragment);
-       });    
-       
+    
+    ionViewDidEnter() {
+        this.activatedRoute.fragment.subscribe(async (fragment: string) => {
+            await this.content.scrollToTop();
+            console.warn('Trying to navigate to', fragment);
+            await this.scrollTo(fragment);
+        });
     }
 
     async goToComments(id, notification = false) {
@@ -372,7 +367,7 @@ export class NotificationsPage implements OnInit {
                         //console.warn('Trying to navigate to', fragment);
                         //this.scrollTo(fragment);
                     }
-                });    
+                });
             })
         });
         
