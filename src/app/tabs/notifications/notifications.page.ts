@@ -363,7 +363,7 @@ export class NotificationsPage implements OnInit {
         var toast = await this.toastController.create({
             message: message,
             duration: 3500,
-            position: 'bottom',
+            position: 'top',
             color: 'danger'
         });
         toast.present();
@@ -373,7 +373,7 @@ export class NotificationsPage implements OnInit {
         var toast = await this.toastController.create({
             message: message,
             duration: 2000,
-            position: 'bottom',
+            position: 'top',
             color: 'primary'
         });
         toast.present();
