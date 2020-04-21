@@ -19,11 +19,13 @@ export class ServicesPage implements OnInit {
     userinfo: any;
     newJobs: object;
     activeJobs: object;
+    completedJobs: object;
     user_id: any;
     apiurl: any;
     loading: any;
     activeJobsLength: any = "0";
     newJobsLength: any = "0";
+    completedJobsLength: any = "0";
     isLoading: boolean;
     service = {
         id: '',
@@ -219,6 +221,8 @@ export class ServicesPage implements OnInit {
                         this.newJobsLength = jobs['new_jobs'].length;
                         this.activeJobs = jobs['active_jobs'];
                         this.activeJobsLength = jobs['active_jobs'].length;
+                        this.completedJobs = jobs['completed_jobs'];
+                        this.completedJobsLength = jobs['completed_jobs'].length;
                     }
                 }else{
                     console.log('failed to fetch records');

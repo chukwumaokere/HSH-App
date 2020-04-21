@@ -226,7 +226,7 @@ export class DetailPage implements OnInit {
 
     async completeJob(salesorderid) {
         var field = {
-            job_status: 'Released'
+            job_status: 'Complete'
         };
         var params = {
             recordid: salesorderid,
