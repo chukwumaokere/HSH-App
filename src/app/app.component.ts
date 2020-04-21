@@ -63,9 +63,14 @@ export class AppComponent {
                 console.log('------------PUSH DATA-------------');
                 console.log(JSON.stringify(data));
                 console.log('------------PUSH DATA END-------------');
-                if(data.tap){
+                if (data.tap) {
                     console.log('Tab from Notification');
-                    this.navCtrl.navigateRoot('tabs/notifications');
+                    if (data.fragment) {
+                        console.log('fragment: ', data.fragment);
+                        this.router.navigate(['tabs/notifications'], {fragment: data.fragment});
+                    } else {
+                        this.navCtrl.navigateRoot('tabs/notifications');
+                    }
                 }
             })
             
