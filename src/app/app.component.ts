@@ -32,6 +32,8 @@ export class AppComponent {
             this.splashScreen.hide();
             // get FCM token
             this.getToken();
+            
+            console.log('The app running in the background - TOP');
 
             // ionic push notification example
             /*
@@ -58,10 +60,17 @@ export class AppComponent {
             // this.fcm.unsubscribeFromTopic('offers');
             this.firebase.onMessageReceived().subscribe(data => { 
                 console.log('Push notification received: ', data);
+                console.log('------------PUSH DATA-------------');
+                console.log(data);
+                console.log('------------PUSH DATA END-------------');
                 if(data.tap){
+                    console.log('Tab from Notification');
                     this.navCtrl.navigateRoot('tabs/notifications');
                 }
             })
+            
+            console.log('The app running in the background - BOTTOM');
+            
         });
     }
     async getToken() {
