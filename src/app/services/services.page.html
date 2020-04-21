@@ -74,5 +74,33 @@
          
           
       </ion-item>
+
+    <ion-item-divider sticky="true" id="completed_jobs">
+      <ion-label>
+        Completed Jobs ({{completedJobsLength}})
+      </ion-label>
+    </ion-item-divider>
+    <ion-item (click)="goToDetail(service.salesorderid)" detail *ngFor="let service of completedJobs">
+      <ion-avatar><ion-icon size="large" name="document"></ion-icon></ion-avatar>
+      <ion-label>
+        <h2>{{service.subject}}</h2>
+        <ion-row class="inline">
+          <ion-col><p class="st">Follow up</p><p>{{service.date_sent}}</p></ion-col>
+          <ion-col><p class="st">Service Date</p><p>{{service.cf_738}}</p></ion-col>
+        </ion-row>
+        <ion-badge slot="end" class="status" color="white"
+                   [ngStyle]="{'background-color': service?.status == 'Complete' ? 'var(--ion-color-success)' : 'var(--ion-color-warning)'}">
+          <ion-text class="status-text">{{service.status}}</ion-text>
+        </ion-badge>
+        <div class="service-details-div">
+          <ion-grid class="service-details-grid">
+            <ion-row class="inline">
+              <ion-col><p class="st">Coordinator</p><p class="truncate">{{service.assigned_to}}</p></ion-col>
+              <ion-col><p class="st">City</p><p>{{service.bill_city}}</p></ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-label>
+    </ion-item>
   </ion-list>
 </ion-content>
