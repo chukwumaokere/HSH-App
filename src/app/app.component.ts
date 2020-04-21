@@ -65,10 +65,12 @@ export class AppComponent {
                 console.log('------------PUSH DATA END-------------');
                 if (data.tap) {
                     console.log('Tab from Notification');
-                    console.log('Fragment: ', data['fragment']);
-                    if (data.fragment) {
-                        console.log('fragment: ', data.fragment);
-                        this.router.navigate(['tabs/notifications'], {fragment: data.fragment});
+                    console.log('Fragment: ' + data['fragment']);
+                    console.log('Fragment: ' + data.fragment);
+                    const fragment = 'responses_ref';
+                    if (fragment) {
+                        console.log('fragment: ', fragment);
+                        this.router.navigate(['tabs/notifications'], {fragment});
                     } else {
                         this.navCtrl.navigateRoot('tabs/notifications');
                     }
