@@ -65,6 +65,7 @@ export class AppComponent {
                 console.log('------------PUSH DATA END-------------');
                 if (data.tap) {
                     console.log('Tab from Notification');
+                    console.log('Fragment: ', data['fragment']);
                     if (data.fragment) {
                         console.log('fragment: ', data.fragment);
                         this.router.navigate(['tabs/notifications'], {fragment: data.fragment});
