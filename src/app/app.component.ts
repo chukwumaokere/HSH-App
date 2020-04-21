@@ -61,7 +61,7 @@ export class AppComponent {
             this.firebase.onMessageReceived().subscribe(data => { 
                 console.log('Push notification received: ', data);
                 console.log('------------PUSH DATA-------------');
-                console.log(data);
+                console.log(JSON.stringify(data));
                 console.log('------------PUSH DATA END-------------');
                 if(data.tap){
                     console.log('Tab from Notification');
