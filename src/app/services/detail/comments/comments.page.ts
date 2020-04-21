@@ -14,7 +14,7 @@ import { IonContent } from '@ionic/angular';
   templateUrl: './comments.page.html',
   styleUrls: ['./comments.page.scss'],
 })
-export class CommentsModalPage implements OnInit, AfterViewChecked {
+export class CommentsModalPage implements OnInit {
   @ViewChild(IonContent, {static: false}) content: IonContent;
   user_id: any = 1;
   userinfo: any = {
@@ -123,7 +123,7 @@ export class CommentsModalPage implements OnInit, AfterViewChecked {
       });
   }
 
-  ngAfterViewChecked() {
+  ionViewDidEnter() {
       this.ScrollToBottom();
   }
 

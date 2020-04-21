@@ -19,6 +19,4 @@ Email updated
 Fixed date format on detail view
 Profile page view has app version and how to handle communications
 Push notifications on ios works
-
-TODO:
-1) scroll to view on push notification click
+scroll to view on push notification click
