@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content class="ion-padding" *ngIf="comments.length > 0">
-    <div [attr.data-position]="(user_id == comment['userid']) ? 'right': 'left'" *ngFor="let comment of comments">
+    <div [attr.data-position]="(user_id == comment['userid']) ? 'right': 'left'" *ngFor="let comment of comments; last as isLast">
         <div class="message-container">
            <!--  <ion-avatar [slot]="(user_id == comment.user_id) ? 'end': 'start'">
                 <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
@@ -24,6 +24,7 @@
             <ion-label color="dark" position="stacked" class="comment-sent">{{comment['createdtime']}} <br> {{comment['contractorname']}}</ion-label>
             <ion-icon color="dark" class="read-check" size="large" *ngIf="comment.read == true" name="checkmark"></ion-icon>
         </div>
+        <input type="hidden" *ngIf="isLast" id="last_message" name="last_message" value="{{comment['modcommentsid']}}">
     </div>
 </ion-content>
 
