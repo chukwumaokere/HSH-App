@@ -20,3 +20,5 @@ Fixed date format on detail view
 Profile page view has app version and how to handle communications
 Push notifications on ios works
 scroll to view on push notification click
+Adding comment threading 
+Adding more to "New" column
