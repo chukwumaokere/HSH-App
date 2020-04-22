@@ -22,3 +22,4 @@ Push notifications on ios works
 scroll to view on push notification click
 Adding comment threading 
 Adding more to "New" column
+Fixed update needed notification 
