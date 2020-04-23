@@ -204,7 +204,13 @@ export class CommentsModalPage implements OnInit{
     const message = this.message;
     const contractorid = this.userinfo.contractorsid;
     const contractorname = this.userinfo.contractorname;
-    const parent_comments = (<HTMLInputElement>document.getElementById('last_message')).value;
+    var parent_comments;
+    try{
+      parent_comments = (<HTMLInputElement>document.getElementById('last_message')).value;
+    }catch(err){
+      console.log(err);
+      parent_comments = '';
+    }
     const updatefields = {
       crmid: this.recordid,
       userid: 1,
