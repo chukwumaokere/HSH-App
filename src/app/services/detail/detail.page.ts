@@ -114,7 +114,7 @@ export class DetailPage implements OnInit {
                     }
                     /*this.date_sent = new Date(allfields.date_sent).toISOString();
                     this.cf_738 = new Date(allfields.cf_738).toISOString();*/
-                    this.date_sent = allfields.date_sent;
+                    this.date_sent = allfields.cf_followupdate;
                     this.cf_738 = allfields.cf_738;
                     this.service_time = allfields.service_time;
                     this.serviceDateTime = allfields.service_date;
