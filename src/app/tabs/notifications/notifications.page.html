@@ -49,7 +49,8 @@
                       </ion-col>
                       <ion-col>
                         <ion-button size="default" type="button" text="Question" (click)="modifyInvite('question', invite.id)">
-                          <ion-text>Question</ion-text>
+                          <ion-text *ngIf="invite.status != 'Accepted'">Question</ion-text>
+                          <ion-text *ngIf="invite.status == 'Accepted'">Comment</ion-text>
                         </ion-button>
                       </ion-col>
                     </ion-row>
