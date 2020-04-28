@@ -44,6 +44,16 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
+  async presentToastPrimary(message: string) {
+    var toast = await this.toastController.create({
+      message: message,
+      duration: 3500,
+      position: "top",
+      color: "primary"
+    });
+    toast.present();
+  }
+
   login(form: any, origin: any){
     //TODO: Wrap storage setting and data setting to API call return
      console.log('login function accessed');
@@ -68,13 +78,13 @@ export class LoginPage implements OnInit {
                         if (verified == true) {
                             var data_ = data['body']['data'];
                             if (data_ == 'auth_created' || formvalue.method == 'check') {
-                                this.presentToast('Please enter Auth Code.');
+                                this.presentToastPrimary('You were just emailed an auth code, please check your email and enter it below.');
                                 form.controls['method'].setValue('login');
                                 this.loginfields['method'] = 'login';
                                 form.controls['auth_code'].remove('ng-hide');
                             }
                             else if (data_ == 'missing_auth_code') {
-                                this.presentToast('Please enter Auth Code.');
+                                this.presentToastPrimary('Please enter the auth code you were emailed.');
                             } else {
                                 var contractors = data['body']['contractors'];
                                 console.log('usersdata', contractors[0]);

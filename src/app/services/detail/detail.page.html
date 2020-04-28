@@ -7,7 +7,6 @@
     <ion-buttons slot="primary">
       <ion-button type="button" (click)="goToComments(servicedetail.salesorderid)" text="Comments">
         <ion-text>Chat</ion-text>
-          <!-- <ion-badge color="danger">1</ion-badge> -->
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -62,7 +61,7 @@
     <ion-item lines="none">
       <ion-label position="stacked" class="coordinator">Coordinator - Update Me!</ion-label>
       <ion-text>{{servicedetail.assigned_to}}</ion-text>
-      <ion-button target="_blank" color="primary" (click)="contact(servicedetail.assigned_to)" size="default" slot="end" type="button"><ion-icon name="chatbubbles" size="large" ></ion-icon></ion-button>
+      <ion-button target="_blank" color="primary" (click)="contact(servicedetail.assigned_to)" size="default" slot="end" type="button"><ion-icon name="contact" size="large" ></ion-icon></ion-button>
     </ion-item>
     <ion-item lines="none">
       <ion-label position="stacked" class="detail-header">Job Details for Organizer</ion-label>
@@ -108,27 +107,35 @@
             <ion-text>{{servicedetail.cf_738}}</ion-text>
         </ion-item>
       </div>
+      <ion-grid class="">
+        <ion-row class="ion-align-items-center ion-justify-content-center" >
+          <ion-col class="padding-left-none" size="9">
+            <ion-button expand="full" size="default" expand="block" color="tertiary" (click)="openCamera(servicedetail?.salesorderid)">
+              <ion-icon name="camera"></ion-icon>
+              <ion-text class="add-photo-button">
+                Take Photos
+              </ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col size="3">
+            <ion-button size="default" expand="block" color="tertiary"  (click)="openLibrary(servicedetail?.salesorderid)">
+              <ion-icon name="folder-open"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     <br>
   </ion-list>
-<br><br><br><br><br>
-<div *ngIf="isCompleteJob == 0" class="button-grouping ion-padding anchor-bottom" >
-  <ion-grid class="ion-no-padding">
-    <ion-row class="ion-align-items-center ion-justify-content-center" >
-      <ion-col class="padding-left-none" size="9">
-        <ion-button expand="full" size="large" expand="block" color="tertiary" (click)="openCamera(servicedetail?.salesorderid)">
-          <ion-icon name="camera"></ion-icon>
-          <ion-text class="add-photo-button">
-            Take Photos
-          </ion-text>
-        </ion-button>
-      </ion-col>
-      <ion-col size="3">
-        <ion-button size="large" expand="block" color="tertiary"  (click)="openLibrary(servicedetail?.salesorderid)">
-          <ion-icon name="folder-open"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+
+  <br><br><br><br><br>
+
+  <div class="button-grouping ion-padding anchor-bottom" >
+    <ion-button expand="full" size="large" expand="block" color="tertiary" fill="solid" (click)="goToComments(servicedetail.salesorderid)">
+      <ion-icon name="chatbubbles"></ion-icon>
+      <ion-text class="add-photo-button">
+        Tap to chat with {{servicedetail.assigned_to}}!
+      </ion-text>
+    </ion-button>
+  </div>
   </form>
 </ion-content>
