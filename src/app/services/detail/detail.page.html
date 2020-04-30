@@ -56,16 +56,16 @@
       <ion-text>{{servicedetail.bill_street}}, {{servicedetail.bill_city}}, {{servicedetail.bill_state}} {{servicedetail.bill_code}}</ion-text>
       <ion-button target="_blank" color="primary" href="https://maps.apple.com/?daddr={{servicedetail.bill_street}}, {{servicedetail.bill_city}}, {{servicedetail.bill_state}} {{servicedetail.bill_code}}" size="default" slot="end" type="button"><ion-icon name="navigate" size="large" ></ion-icon></ion-button>
     </ion-item>
+    <ion-item lines="none">
+      <ion-label position="stacked" class="">Job Details for Organizer</ion-label>
+      <ion-text>{{servicedetail.cf_job_detail_org}}</ion-text>
+    </ion-item>
 
     <!-- Coordinator info -->
     <ion-item lines="none">
       <ion-label position="stacked" class="coordinator">Coordinator - Update Me!</ion-label>
       <ion-text>{{servicedetail.assigned_to}}</ion-text>
       <ion-button target="_blank" color="primary" (click)="contact(servicedetail.assigned_to)" size="default" slot="end" type="button"><ion-icon name="contact" size="large" ></ion-icon></ion-button>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-label position="stacked" class="detail-header">Job Details for Organizer</ion-label>
-      <ion-text>{{servicedetail.cf_job_detail_org}}</ion-text>
     </ion-item>
     <br>
       <div *ngIf="isCompleteJob == 0">
@@ -133,7 +133,7 @@
     <ion-button expand="full" size="large" expand="block" color="tertiary" fill="solid" (click)="goToComments(servicedetail.salesorderid)">
       <ion-icon name="chatbubbles"></ion-icon>
       <ion-text class="add-photo-button">
-        Tap to chat with {{servicedetail.assigned_to}}!
+        &nbsp; Tap to contact {{csc_firstname}}
       </ion-text>
     </ion-button>
   </div>
