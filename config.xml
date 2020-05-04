@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.boruapps.hsh" version="0.8.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.boruapps.hsh" version="1.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Home Sweet Home</name>
     <description>App to make your Jobs easier</description>
     <author email="appdev@boruapps.com" href="https://boruapps.com/">Boru Apps</author>
@@ -11,6 +11,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="target-device" value="handset" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
@@ -111,4 +112,13 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <platform name="windows">
+        <icon src="resources/windows/icon/Square44x44Logo.png" target="Square44x44Logo" />
+        <icon src="resources/windows/icon/SmallTile.png" target="Square71x71Logo" />
+        <icon src="resources/windows/icon/Square150x150Logo.png" target="Square150x150Logo" />
+        <icon src="resources/windows/icon/Square310x310Logo.png" target="Square310x310Logo" />
+        <icon src="resources/windows/icon/Wide310x150Logo.png" target="Wide310x150Logo" />
+        <icon src="resources/windows/icon/StoreLogo.png" target="StoreLogo" />
+        <splash src="resources/windows/splash/Splash.png" target="SplashScreen" />
+    </platform>
 </widget>

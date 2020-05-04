@@ -36,20 +36,22 @@
                     </ion-row>
                     -->
                     <ion-row class="buttons-inline">
-                      <ion-col>
+                      <ion-col *ngIf="invite.status != 'Declined'" >
                         <ion-button size="default" color="success" type="button" text="Accept" (click)="modifyInvite('accept', invite.id)" [disabled]="invite.status != 'Accepted' ? null : 'disabled'">
                           <ion-text *ngIf="invite.status != 'Accepted'">Accept</ion-text>
                           <ion-text *ngIf="invite.status == 'Accepted'">Accepted</ion-text>
                         </ion-button>
                       </ion-col>
                       <ion-col *ngIf="invite.status != 'Accepted'" >
-                        <ion-button size="default"  type="button" text="Decline" (click)="modifyInvite('decline', invite.id)">
-                          <ion-text>Decline</ion-text>
+                        <ion-button size="default"  type="button" text="Decline" (click)="modifyInvite('decline', invite.id)"  [disabled]="invite.status != 'Declined' ? null : 'disabled'">
+                          <ion-text *ngIf="invite.status != 'Declined'">Decline</ion-text>
+                          <ion-text *ngIf="invite.status == 'Declined'">Declined</ion-text>
                         </ion-button>
                       </ion-col>
                       <ion-col>
                         <ion-button size="default" type="button" text="Question" (click)="modifyInvite('question', invite.id)">
-                          <ion-text>Question</ion-text>
+                          <ion-text *ngIf="invite.status != ('Accepted') && invite.status != ('Declined')">Question</ion-text>
+                          <ion-text *ngIf="invite.status == ('Accepted') || invite.status == ('Declined')">Comment</ion-text>
                         </ion-button>
                       </ion-col>
                     </ion-row>

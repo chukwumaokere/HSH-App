@@ -229,7 +229,7 @@ export class NotificationsPage implements OnInit {
             var invite = this.invites.find(invite => invite.id == id);
             console.log(invite);
             var index = this.invites.indexOf(invite);
-            this.invites.splice(index, 1);
+            //this.invites.splice(index, 1);
             invite.status = 'Declined';
             this.postInviteStatus(invite.status, id);
             this.count_invites--;

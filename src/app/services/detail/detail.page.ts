@@ -34,6 +34,7 @@ export class DetailPage implements OnInit {
     cf_738: string;
     service_time: string;
     serviceDateTime: string;
+    csc_firstname: any;
 
     servicedetail: any = {};
     buttonLabels = ['Take Photo', 'Upload from Library'];
@@ -109,12 +110,14 @@ export class DetailPage implements OnInit {
                         this.status_picklist = status_picklist;
                     }
                     this.servicedetail = allfields;
+                    var csc_name = this.servicedetail.assigned_to;
+                    this.csc_firstname = csc_name.split(" ")[0];
                     if (allfields.job_status == 'Released' || allfields.job_status == "Complete") {
                         this.isCompleteJob = 1;
                     }
                     /*this.date_sent = new Date(allfields.date_sent).toISOString();
                     this.cf_738 = new Date(allfields.cf_738).toISOString();*/
-                    this.date_sent = allfields.date_sent;
+                    this.date_sent = allfields.cf_followupdate;
                     this.cf_738 = allfields.cf_738;
                     this.service_time = allfields.service_time;
                     this.serviceDateTime = allfields.service_date;

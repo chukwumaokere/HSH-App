@@ -14,7 +14,7 @@ import { IonContent } from '@ionic/angular';
   templateUrl: './comments.page.html',
   styleUrls: ['./comments.page.scss'],
 })
-export class CommentsModalPage implements OnInit, AfterViewChecked {
+export class CommentsModalPage implements OnInit {
   @ViewChild(IonContent, {static: false}) content: IonContent;
   user_id: any = 1;
   userinfo: any = {
@@ -123,7 +123,7 @@ export class CommentsModalPage implements OnInit, AfterViewChecked {
       });
   }
 
-  ngAfterViewChecked() {
+  ionViewDidEnter() {
       this.ScrollToBottom();
   }
 
@@ -199,22 +199,26 @@ export class CommentsModalPage implements OnInit, AfterViewChecked {
           this.requestPicklistVal = fieldvalue;
       }
   }
-  
+
   async sendMessage() {
     this.showLoading();
     const message = this.message;
     let commentContent = message;
+    let parent_comments = '';
     const req_picklist = this.requestPicklistVal;
     const contractorid = this.userinfo.contractorsid;
     const contractorname = this.userinfo.contractorname;
+
     if(typeof req_picklist != "undefined" && req_picklist != ''){
       commentContent = message + ' - Request: ' + req_picklist;
+    }else {
+        parent_comments = (<HTMLInputElement>document.getElementById('last_message')).value;
     }
     const updatefields = {
       crmid: this.recordid,
       userid: 1,
       commentcontent: commentContent,
-      parent_comments: '',
+      parent_comments: parent_comments,
       contractorid: contractorid,
       contractorname: contractorname,
       requestpicklist: req_picklist

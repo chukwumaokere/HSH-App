@@ -15,7 +15,7 @@ import { IonContent } from '@ionic/angular';
   templateUrl: './comments.page.html',
   styleUrls: ['./comments.page.scss'],
 })
-export class CommentsModalPage implements OnInit, AfterViewChecked {
+export class CommentsModalPage implements OnInit{
   @ViewChild(IonContent, {static: false}) content: IonContent;
   user_id: any = 1;
   userinfo: any = {
@@ -40,6 +40,7 @@ export class CommentsModalPage implements OnInit, AfterViewChecked {
   show_button: any;
   reqData: any;
   request: any;
+  service_title: any;
   request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
   // comments: any = [
   //   {
@@ -91,6 +92,11 @@ export class CommentsModalPage implements OnInit, AfterViewChecked {
       this.recordid = this.navParams.data.id;
       this.servicedetail = this.navParams.data.service_record_details;
       console.log('service detail', this.servicedetail);
+      if(this.servicedetail.type_of_service){
+        this.service_title = this.servicedetail.type_of_service;
+      }else{
+        this.service_title = this.servicedetail.subject;
+      }
       this.show_button = this.navParams.data.show_button;
       this.contractorInfo = this.navParams.data.contractorInfo;
       /* this.user_id = this.navParams.data.user_id;
@@ -124,7 +130,7 @@ export class CommentsModalPage implements OnInit, AfterViewChecked {
       });
   }
   
-  ngAfterViewChecked() {
+  ionViewDidEnter() {
       this.ScrollToBottom();
   }
 
@@ -198,11 +204,18 @@ export class CommentsModalPage implements OnInit, AfterViewChecked {
     const message = this.message;
     const contractorid = this.userinfo.contractorsid;
     const contractorname = this.userinfo.contractorname;
+    var parent_comments;
+    try{
+      parent_comments = (<HTMLInputElement>document.getElementById('last_message')).value;
+    }catch(err){
+      console.log(err);
+      parent_comments = '';
+    }
     const updatefields = {
       crmid: this.recordid,
       userid: 1,
       commentcontent: message,
-      parent_comments: '',
+      parent_comments: parent_comments,
       contractorid: contractorid,
       contractorname: contractorname
     };

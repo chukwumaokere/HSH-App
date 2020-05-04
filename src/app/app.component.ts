@@ -32,7 +32,7 @@ export class AppComponent {
             this.splashScreen.hide();
             // get FCM token
             this.getToken();
-
+            
             // ionic push notification example
             /*
             this.fcm.onNotification().subscribe(data => {
@@ -56,12 +56,19 @@ export class AppComponent {
             */
             // unsubscribe from a topic
             // this.fcm.unsubscribeFromTopic('offers');
-            this.firebase.onMessageReceived().subscribe(data => { 
-                console.log('Push notification received: ', data);
-                if(data.tap){
-                    this.navCtrl.navigateRoot('tabs/notifications');
+            this.firebase.onMessageReceived().subscribe(data => {
+                if (data.tap) {
+                    console.log('Tab from Notification');
+                    console.log('Push Data: ' + JSON.stringify(data));
+                    if (data.fragment) {
+                        const fragment = data.fragment;
+                        console.log('Get Fragment: ' + fragment);
+                        this.router.navigate(['tabs/notifications'], {fragment});
+                    } else {
+                        this.navCtrl.navigateRoot('tabs/notifications');
+                    }
                 }
-            })
+            });
         });
     }
     async getToken() {
