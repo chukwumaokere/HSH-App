@@ -92,11 +92,7 @@ export class CommentsModalPage implements OnInit{
       this.recordid = this.navParams.data.id;
       this.servicedetail = this.navParams.data.service_record_details;
       console.log('service detail', this.servicedetail);
-      if(this.servicedetail.type_of_service){
-        this.service_title = this.servicedetail.type_of_service;
-      }else{
-        this.service_title = this.servicedetail.subject;
-      }
+      this.service_title = this.servicedetail.subject;
       this.show_button = this.navParams.data.show_button;
       this.contractorInfo = this.navParams.data.contractorInfo;
       /* this.user_id = this.navParams.data.user_id;
