@@ -99,7 +99,7 @@
 
     <ion-list lines="full">
         <div *ngIf="updatesNeeded.count > 0">
-        <ion-item (click)="markRead(item.modcommentsid, item.serviceid,'update_needed')" *ngFor="let item of updatesNeeded.data">
+        <ion-item (click)="markRead(item.modcommentsid, item.serviceid)" *ngFor="let item of updatesNeeded.data">
             <ion-avatar><ion-icon color="danger" size="large" name="alert"></ion-icon></ion-avatar>
             <ion-label>
               <h2>{{item.commentcontent}}</h2>
@@ -124,7 +124,7 @@
 
     <ion-list lines="full">
         <div *ngIf="requestMade.count > 0">
-        <ion-item (click)="markRead(item.modcommentsid, item.serviceid,'request_made')" *ngFor="let item of requestMade.data">
+        <ion-item (click)="markRead(item.modcommentsid, item.serviceid)" *ngFor="let item of requestMade.data">
             <ion-avatar><ion-icon color="tertiary" size="large" name="build"></ion-icon></ion-avatar>
             <ion-label>
               <h2>{{item.commentcontent}}</h2>
