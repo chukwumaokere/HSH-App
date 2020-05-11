@@ -194,11 +194,44 @@ export class CommentsModalPage implements OnInit{
     //console.log(e);
     this.message = e.detail.value;
   }
-  goToJob(serviceid){
-    this.router.navigateByUrl(`/services/detail/${serviceid}`, {state: {}});
-    this.closeModal();
+  async goToJob(serviceid){
+      var res = [];
+      console.log('loading details for service id:', serviceid)
+      var params = {
+          record_id: serviceid,
+          contractorsid: this.userinfo.contractorsid,
+      }
+      //this.showLoading();
+      var headers = new HttpHeaders();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      headers.append('Access-Control-Allow-Origin', '*');
+      this.httpClient.post(this.apiurl + 'getJobDetail.php', params, {headers: headers, observe: 'response'})
+          .subscribe(data => {
+              //this.hideLoading();
+              console.log(data['body']);
+              var success = data['body']['success'];
+              console.log('getJobDetail response was', success);
+              if (success == true) {
+                res['success'] = success;
+                this.router.navigateByUrl(`/services/detail/${serviceid}`, {state: {}});
+                this.closeModal();
+              } else if (success == false && data['body']['shortcode']) {
+                console.log('Failed and caught error');
+                var shortcode =  data['body']['shortcode'];  
+                var message = data['body']['message'];
+                this.presentToastTop(message);
+              } else {
+                res['success'] = success;
+                this.presentToastTop('Internal Server Error, please try again');
+              }
+          }, error => {
+             //this.hideLoading();
+              console.log('failed to fetch record');
+          });
   }
-  
+
+
   async sendMessage() {
     this.showLoading();
     const message = this.message;
@@ -272,6 +305,16 @@ export class CommentsModalPage implements OnInit{
         });
         toast.present();
     }
+
+    async presentToastTop(message: string) {
+      var toast = await this.toastController.create({
+          message: message,
+          duration: 3500,
+          position: "top",
+          color: "danger"
+      });
+      toast.present();
+  }
 
     async presentToastPrimary(message: string) {
         var toast = await this.toastController.create({
