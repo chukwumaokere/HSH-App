@@ -236,12 +236,13 @@ export class NotificationsPage implements OnInit {
         }
     }
 
-    markRead(id, recordid) {
+    markRead(id, recordid,fieldname) {
         console.log('Going to record and marking notification as read', id);
         const reqData = {
             modcommentsid: id,
-            fieldname : 'response_made',
-            fieldValue : 0
+            fieldname : fieldname,
+            fieldValue : 0,
+            contractorid : this.userinfo.contractorsid
         };
         const headers = new HttpHeaders();
         headers.append('Accept', 'application/json');
