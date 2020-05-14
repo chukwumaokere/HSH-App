@@ -38,7 +38,7 @@
                         <ion-col class="padding-left-none" size="12">
                             <ion-item lines="none">
                                 <ion-label position="stacked">Request</ion-label>
-                                <ion-select name="status"  value="{{request}}">
+                                <ion-select (ionChange)="updateRequestPickList($event)" ng-model="data.model" name="status"  value="{{request}}">
                                     <ion-select-option *ngFor="let picklist of request_picklist">{{picklist}}</ion-select-option>
                                 </ion-select>
                             </ion-item>
