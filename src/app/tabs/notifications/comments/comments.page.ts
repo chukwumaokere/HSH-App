@@ -227,7 +227,13 @@ export class CommentsModalPage implements OnInit{
               console.log('failed to fetch record');
           });
   }
-
+    async updateRequestPickList(event) {
+        let fieldvalue = '';
+        if (event.target.tagName == 'ION-SELECT') {
+            fieldvalue = event.target.value;
+            this.requestPicklistVal = fieldvalue;
+        }
+    }
 
   async sendMessage() {
     this.showLoading();
