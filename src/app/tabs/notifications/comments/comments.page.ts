@@ -41,6 +41,7 @@ export class CommentsModalPage implements OnInit{
   reqData: any;
   request: any;
   service_title: any;
+    requestPicklistVal: any = '';
   request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
   // comments: any = [
   //   {
@@ -233,6 +234,7 @@ export class CommentsModalPage implements OnInit{
     const message = this.message;
     const contractorid = this.userinfo.contractorsid;
     const contractorname = this.userinfo.contractorname;
+      const req_picklist = this.requestPicklistVal;
     var parent_comments;
     try{
       parent_comments = (<HTMLInputElement>document.getElementById('last_message')).value;
@@ -246,7 +248,8 @@ export class CommentsModalPage implements OnInit{
       commentcontent: message,
       parent_comments: parent_comments,
       contractorid: contractorid,
-      contractorname: contractorname
+      contractorname: contractorname,
+        requestpicklist: req_picklist
     };
     const headers = new HttpHeaders();
     headers.append("Accept", 'application/json');
