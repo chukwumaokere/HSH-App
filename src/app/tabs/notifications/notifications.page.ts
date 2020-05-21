@@ -401,13 +401,20 @@ export class NotificationsPage implements OnInit {
                     const getInvites = responseData['data'];
                     this.invites = getInvites;
                     console.log(this.invites);
-                    this.count_invites = getInvites.length;
+                    if(getInvites != undefined){
+                        this.count_invites = getInvites.length;
+                    }else{
+                        this.count_invites = 0;
+                    }
+                    
 
                     const listResponses = responseData['responses'];
                     console.log(listResponses);
                     this.notifications = listResponses;
                     if (listResponses != undefined) {
                         this.count_notifications = listResponses.length;
+                    }else{
+                        this.count_notifications = 0;
                     }
 
                 } else {
