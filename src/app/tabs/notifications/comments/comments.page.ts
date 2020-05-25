@@ -160,7 +160,8 @@ export class CommentsModalPage implements OnInit{
   fetchComments() {
     this.showLoading();
     const reqData = {
-      crmid: this.recordid
+        crmid: this.recordid,
+        contractorsid: this.userinfo.contractorsid,
     };
     const headers = new HttpHeaders();
     headers.append('Accept', 'application/json');
