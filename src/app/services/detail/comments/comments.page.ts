@@ -213,7 +213,12 @@ export class CommentsModalPage implements OnInit {
     if(typeof req_picklist != "undefined" && req_picklist != ''){
       commentContent = message + ' - Request: ' + req_picklist;
     }else {
+      try{
         parent_comments = (<HTMLInputElement>document.getElementById('last_message')).value;
+      }catch(err){
+        console.log(err);
+        parent_comments = '';
+      }
     }
     const updatefields = {
       crmid: this.recordid,
