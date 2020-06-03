@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 
 export class AppConfig  {
-    apiurl : string = 'https://devl06.borugroup.com/hsh/api/';
-    vturl : string = 'https://devl06.borugroup.com/hsh/';
+    apiurl : string = 'https://hsh.borugroup.com/api/';
+    vturl : string = 'https://hsh.borugroup.com/';
     base64img: string = '';
     fcmtoken: string = '';
     
