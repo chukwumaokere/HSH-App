@@ -223,14 +223,15 @@ export class DetailPage implements OnInit {
             message: 'Do you want to clear the Service Date?',
             buttons: [
                 {
-                    text: 'Disagree',
+                    text: 'No',
                     role: 'cancel',
                     cssClass: 'secondary',
                     handler: (res) => {
                         //Disagree click
                     }
                 }, {
-                    text: 'Agree',
+                    text: 'Yes',
+                    cssClass: 'primary',
                     handler: (res) => {
                         //Agree click
                         console.log('attempting to submitting data to vtiger');
@@ -264,8 +265,8 @@ export class DetailPage implements OnInit {
                 console.log(data['body']);
                 if(success == true){
                     this.cf_738 = "";
-                    this.presentToastPrimary('Clear Service Date successfully.');
-                    console.log("Clear Service Date successfully.");
+                    this.presentToast('Service date cleared.');
+                    console.log("Service date cleared.");
                 }else{
                     this.presentToast('Failed to save due to an error');
                     console.log('failed to save record, response was false');
