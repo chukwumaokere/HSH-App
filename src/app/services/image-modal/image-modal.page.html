@@ -14,6 +14,7 @@
         </ion-card-header>
          <img src="{{base64Image}}" />
         <ion-input type="text"  ng-show="false" [(ngModel)]="photo.base64Image" name="base64Image" value="{{base64Image}}"></ion-input>
+        <!-- No more image title needed
         <ion-card-header>
             <ion-card-subtitle>
                 <ion-label position="stacked">Image Description</ion-label>
@@ -23,7 +24,7 @@
         <ion-card-content>
             <ion-input type="text" oninput="" size="100" required="" [(ngModel)]="photo.title" name="title" class="title-input" placeholder="Enter a description..."></ion-input>
         </ion-card-content>
-
+        -->
     </ion-card>
     <div class="button-grouping ion-padding">
         <ion-button size="large" expand="block" color="primary" type="submit">
