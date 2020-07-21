@@ -213,6 +213,12 @@ export class DetailPage implements OnInit {
         return timewithampm;
     }
 
+    async clearDate(recordid){
+        var recordid = recordid;
+        console.log('attempting to submitting data to vtiger');
+        this.cf_738 = "";
+    }
+
     async addUpdate(event) {
         console.log(this.updatefields);
         //console.log(event);
