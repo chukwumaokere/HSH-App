@@ -213,10 +213,69 @@ export class DetailPage implements OnInit {
         return timewithampm;
     }
 
-    async clearDate(recordid){
+    async clearDate(recordid) {
         var recordid = recordid;
-        console.log('attempting to submitting data to vtiger');
-        this.cf_738 = "";
+        //cf_738 = Service Date
+        const alert = await this.alertController.create({
+            cssClass: 'modal-confirl-create-date',
+            header: 'Clear Service Date?',
+            subHeader: '',
+            message: 'Do you want to clear the Service Date?',
+            buttons: [
+                {
+                    text: 'Disagree',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: (res) => {
+                        //Disagree click
+                    }
+                }, {
+                    text: 'Agree',
+                    handler: (res) => {
+                        //Agree click
+                        console.log('attempting to submitting data to vtiger');
+                        this.clearServiceDate(recordid);
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
+    async clearServiceDate(salesorderid) {
+        this.showLoading();
+        var field = {
+            cf_738: ''
+        };
+        var params = {
+            recordid: salesorderid,
+            contractorsid: this.userinfo.contractorsid,
+            updates: JSON.stringify(field)
+        }
+        var headers = new HttpHeaders();
+        headers.append("Accept", 'application/json');
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.httpClient.post(this.apiurl + 'postSOInfo.php', params, { headers: headers, observe: 'response' })
+            .subscribe(data=> {
+                this.hideLoading();
+                var success = data['body']['success'];
+                console.log(data['body']);
+                if(success == true){
+                    this.cf_738 = "";
+                    this.presentToastPrimary('Clear Service Date successfully.');
+                    console.log("Clear Service Date successfully.");
+                }else{
+                    this.presentToast('Failed to save due to an error');
+                    console.log('failed to save record, response was false');
+                }
+                //this.router.navigateByUrl('/services');
+            }, error => {
+                this.hideLoading();
+                this.presentToast('Failed to save due to an error \n' + error.message);
+                console.log('failed to save record', error.message);
+            });
     }
 
     async addUpdate(event) {
