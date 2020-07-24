@@ -50,7 +50,7 @@ export class DetailPage implements OnInit {
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.JPEG,
         mediaType: this.camera.MediaType.PICTURE,
-        saveToPhotoAlbum: false //true causes crash probably due to permissions to access library. //task_id=46050
+        saveToPhotoAlbum: true //true causes crash probably due to permissions to access library. //task_id=46050
     }
 
     libraryOptions: CameraOptions = {
