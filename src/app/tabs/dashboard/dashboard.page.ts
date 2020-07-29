@@ -230,7 +230,7 @@ export class DashboardPage implements OnInit {
             if (this.loading != undefined) {
                 this.loading.dismiss();
             }
-        }, 3000);
+        }, 250);
     }
 
     fetchDashboard() {
@@ -265,7 +265,9 @@ export class DashboardPage implements OnInit {
     }
 
     goToPage(page, dst = '') {
-        this.router.navigate(['tabs/' + page, {fragment: dst}]);
+        this.router.navigate(['tabs/' + page], {fragment: dst}); 
+        //this.router.navigateByUrl('tabs/' + page, {fragment: dst}); //also doesnt work
+        //this.router.navigateByUrl('tabs/' + page);
     }
 
     ngOnInit() {
@@ -312,6 +314,9 @@ export class DashboardPage implements OnInit {
                         if (!(result == false)) {
                             console.log('loading storage data (within param route function)', result);
                             this.userinfo = result;
+                            /*const contractorname = result.contractorname;
+                            const names = contractorname.split(' ');
+                            this.userinfo.firstname = names[0];*/
                             this.loadTheme(result.theme.toLowerCase());
                             this.loadDashboardData(this.userinfo.id, this.userinfo.contractorsid);
                         } else {
@@ -414,16 +419,23 @@ export class DashboardPage implements OnInit {
                 this.hideLoading();
                 const responseData = data.body;
                 const success = responseData['success'];
-
+                console.log(data);
                 if (success == true) {
                     const items = responseData['data'];
                     items.forEach(item => {
+                        console.log(item);
                         if(item.title == 'New Invites'){
                             this.dashboardData.new_invites.total = item.count;
                         } else if (item.title == 'New Jobs'){
                             this.dashboardData.new_jobs.total = item.count;
                         } else if (item.title == 'Active Jobs'){
                             this.dashboardData.active_jobs.total = item.count;
+                        } else if (item.title == 'Requests') {
+                            this.dashboardData.request.total = item.count;
+                        } else if (item.title == 'Responses') {
+                            this.dashboardData.response.total = item.count;
+                        } else if (item.title == 'UpdateNeeded') {
+                            this.dashboardData.update_needed.total = item.count;
                         }
                     });
                 } else {

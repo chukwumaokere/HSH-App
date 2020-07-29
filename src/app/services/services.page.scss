@@ -20,9 +20,11 @@ ion-note.status{
 ion-badge.status{
     padding: 10px;
     border-radius: 50px;
-    position: fixed;
+    position: absolute;
     right: 20px;
-    opacity: .8;
+    bottom: 30px;
+    //float: right;
+    opacity: 1;
 }
 
 ion-text.status-text{
@@ -31,4 +33,15 @@ ion-text.status-text{
 
 ion-row{
     width: 70%;
+}
+
+ion-row.inline{
+    min-inline-size: fit-content;
+}
+
+p.truncate {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

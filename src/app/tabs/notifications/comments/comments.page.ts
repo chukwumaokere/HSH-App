@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { ModalController, NavParams, ToastController, PickerController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 //import {Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -7,118 +7,133 @@ import {AppConfig} from '../../../AppConfig';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import {LoadingController} from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.page.html',
   styleUrls: ['./comments.page.scss'],
 })
-export class CommentsModalPage implements OnInit {
-user_id: any = 1;
-userinfo: any = {
-  first_name: "Chuck",
-  user_name: "admin",
-  last_name: "Okere",
-  email1: "cokere@boruapps.com",
-  contractorsid: 2925705,
-  //theme: "Dark",
-};
-imageData: any;
-modalTitle:string;
-modelId:number;
-serviceid: any;
-apiurl:any;
-updatefields: any;
-profile_picture: any;
-has_profile_picture: boolean = false;
-recordid: any;
-servicedetail: any;
-message: any;
-show_button: any;
-reqData: any;
-request: any;
-request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
-// comments: any = [
-//   {
-//     user_id: 1,
-//     author: "Chuck Okere",
-//     message: "Hi, I was wondering when the start time for this service was?",
-//     date_sent: "2019-12-12 01:22:30 PM",
-//     read: true,
-//   },
-//   {
-//     user_id: 14,
-//     author: "Lesley Mullen",
-//     message: "According to my records its for 1:30PM on December 14th; are you seeing something different?",
-//     date_sent: "2019-12-12 01:30:22 PM",
-//     read: true,
-//   },
-// ];
-comments: any = [];
-contractorsid: any;
-contractorInfo: any = [];
-dataReturned: any;
+export class CommentsModalPage implements OnInit{
+  @ViewChild(IonContent, {static: false}) content: IonContent;
+  user_id: any = 1;
+  userinfo: any = {
+    first_name: "Chuck",
+    user_name: "admin",
+    last_name: "Okere",
+    email1: "cokere@boruapps.com",
+    contractorsid: 2925705,
+    //theme: "Dark",
+  };
+  imageData: any;
+  modalTitle:string;
+  modelId:number;
+  serviceid: any;
+  apiurl:any;
+  updatefields: any;
+  profile_picture: any;
+  has_profile_picture: boolean = false;
+  recordid: any;
+  servicedetail: any;
+  message: any;
+  show_button: any;
+  reqData: any;
+  request: any;
+  service_title: any;
+    requestPicklistVal: any = '';
+  request_picklist: any = ['None', 'Hauler', 'Shredder', 'Helping Find Charity', 'More time', 'Damage occured', 'Other'];
+  // comments: any = [
+  //   {
+  //     user_id: 1,
+  //     author: "Chuck Okere",
+  //     message: "Hi, I was wondering when the start time for this service was?",
+  //     date_sent: "2019-12-12 01:22:30 PM",
+  //     read: true,
+  //   },
+  //   {
+  //     user_id: 14,
+  //     author: "Lesley Mullen",
+  //     message: "According to my records its for 1:30PM on December 14th; are you seeing something different?",
+  //     date_sent: "2019-12-12 01:30:22 PM",
+  //     read: true,
+  //   },
+  // ];
+  comments: any = [];
+  contractorsid: any;
+  contractorInfo: any = [];
+  dataReturned: any;
+  
+  constructor(
+      private modalController: ModalController,
+      public storage: Storage,
+      private  router: Router,
+      private navParams: NavParams,
+      public httpClient: HttpClient,
+      private pickerCtrl: PickerController,
+      //private formBuilder: FormBuilder,
+      public toastController: ToastController,
+      //public imgpov: ImageProvider,
+      public AppConfig: AppConfig,
+      public loadingController: LoadingController,
+      private activatedRoute: ActivatedRoute
+  ) {
+      //this.imageData = this.imgpov.getImage();
+      this.apiurl = this.AppConfig.apiurl;
+  }
 
-constructor(
-    private modalController: ModalController,
-    public storage: Storage,
-    private  router: Router,
-    private navParams: NavParams,
-    public httpClient: HttpClient,
-    private pickerCtrl: PickerController,
-    //private formBuilder: FormBuilder,
-    public toastController: ToastController,
-    //public imgpov: ImageProvider,
-    public AppConfig: AppConfig,
-    public loadingController: LoadingController,
-    private activatedRoute: ActivatedRoute
-) {
-    //this.imageData = this.imgpov.getImage();
-    this.apiurl = this.AppConfig.apiurl;
-}
+  ngOnInit() {
+      this.userinfo.first_name = this.userinfo.firstname;
+      this.userinfo.last_name = this.userinfo.lastname;
+      this.userinfo.email1 = "cokere@boruapps.com";
+      this.userinfo.user_name = "Chuck";
+      this.userinfo.profile_picture = this.userinfo.pic;
+      this.contractorsid = this.userinfo.contractorsid;
+      this.has_profile_picture = true;
+      this.recordid = this.navParams.data.id;
+      this.servicedetail = this.navParams.data.service_record_details;
+      console.log('service detail', this.servicedetail);
+      this.service_title = this.servicedetail.subject;
+      this.show_button = this.navParams.data.show_button;
+      this.contractorInfo = this.navParams.data.contractorInfo;
+      /* this.user_id = this.navParams.data.user_id;
+      this.userinfo = this.navParams.data.userinfo;
+      this.profile_picture = this.navParams.data.userinfo.profile_picture;
+      if(this.navParams.data.userinfo.imagename !== ""){
+        this.has_profile_picture = true
+      }else{
+        this.has_profile_picture = false;
+      }
+      console.log('nav params', this.navParams.data.userinfo); */
+  
+      this.activatedRoute.params.subscribe((userData) => {
+          if (userData.length !== 0) {
+              this.userinfo = userData;
+              console.log('param user data length:', userData.length);
+              if (userData.length == undefined) {
+                  console.log('nothing in params, so loading from storage');
+                  this.isLogged().then(result => {
+                      if (!(result == false)) {
+                          console.log('loading storage data (within param route function)', result);
+                          this.userinfo = result;
+                          this.fetchComments();
+                      } else {
+                          console.log('nothing in storage, going back to login');
+                          this.logout();
+                      }
+                  });
+              }
+          }
+      });
+  }
+  
+  ionViewDidEnter() {
+      this.ScrollToBottom();
+  }
 
-ngOnInit() {
-    this.userinfo.first_name = this.userinfo.firstname;
-    this.userinfo.last_name = this.userinfo.lastname;
-    this.userinfo.email1 = "cokere@boruapps.com";
-    this.userinfo.user_name = "Chuck";
-    this.userinfo.profile_picture = this.userinfo.pic;
-    this.contractorsid = this.userinfo.contractorsid;
-    this.has_profile_picture = true;
-    this.recordid = this.navParams.data.id;
-    this.servicedetail = this.navParams.data.service_record_details;
-    this.show_button = this.navParams.data.show_button;
-    this.contractorInfo = this.navParams.data.contractorInfo;
-    /* this.user_id = this.navParams.data.user_id;
-    this.userinfo = this.navParams.data.userinfo;
-    this.profile_picture = this.navParams.data.userinfo.profile_picture;
-    if(this.navParams.data.userinfo.imagename !== ""){
-      this.has_profile_picture = true
-    }else{
-      this.has_profile_picture = false;
-    }
-    console.log('nav params', this.navParams.data.userinfo); */
-
-    this.activatedRoute.params.subscribe((userData) => {
-        if (userData.length !== 0) {
-            this.userinfo = userData;
-            console.log('param user data length:', userData.length);
-            if (userData.length == undefined) {
-                console.log('nothing in params, so loading from storage');
-                this.isLogged().then(result => {
-                    if (!(result == false)) {
-                        console.log('loading storage data (within param route function)', result);
-                        this.userinfo = result;
-                        this.fetchComments();
-                    } else {
-                        console.log('nothing in storage, going back to login');
-                        this.logout();
-                    }
-                });
-            }
-        }
-    });
-}
+  async ScrollToBottom(){
+    this.content.scrollToBottom();
+  }
 
   loading: any;
 
@@ -145,7 +160,8 @@ ngOnInit() {
   fetchComments() {
     this.showLoading();
     const reqData = {
-      crmid: this.recordid
+        crmid: this.recordid,
+        contractorsid: this.userinfo.contractorsid,
     };
     const headers = new HttpHeaders();
     headers.append('Accept', 'application/json');
@@ -176,23 +192,71 @@ ngOnInit() {
     //console.log(e);
     this.message = e.detail.value;
   }
-  goToJob(serviceid){
-    this.router.navigateByUrl(`/services/detail/${serviceid}`, {state: {}});
-    this.closeModal();
+  async goToJob(serviceid){
+      var res = [];
+      console.log('loading details for service id:', serviceid)
+      var params = {
+          record_id: serviceid,
+          contractorsid: this.userinfo.contractorsid,
+      }
+      //this.showLoading();
+      var headers = new HttpHeaders();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      headers.append('Access-Control-Allow-Origin', '*');
+      this.httpClient.post(this.apiurl + 'getJobDetail.php', params, {headers: headers, observe: 'response'})
+          .subscribe(data => {
+              //this.hideLoading();
+              console.log(data['body']);
+              var success = data['body']['success'];
+              console.log('getJobDetail response was', success);
+              if (success == true) {
+                res['success'] = success;
+                this.router.navigateByUrl(`/services/detail/${serviceid}`, {state: {}});
+                this.closeModal();
+              } else if (success == false && data['body']['shortcode']) {
+                console.log('Failed and caught error');
+                var shortcode =  data['body']['shortcode'];  
+                var message = data['body']['message'];
+                this.presentToastTop(message);
+              } else {
+                res['success'] = success;
+                this.presentToastTop('Internal Server Error, please try again');
+              }
+          }, error => {
+             //this.hideLoading();
+              console.log('failed to fetch record');
+          });
   }
-  
+    async updateRequestPickList(event) {
+        let fieldvalue = '';
+        if (event.target.tagName == 'ION-SELECT') {
+            fieldvalue = event.target.value;
+            this.requestPicklistVal = fieldvalue;
+        }
+    }
+
   async sendMessage() {
     this.showLoading();
     const message = this.message;
     const contractorid = this.userinfo.contractorsid;
     const contractorname = this.userinfo.contractorname;
+      const req_picklist = this.requestPicklistVal;
+    var parent_comments;
+    try{
+      parent_comments = (<HTMLInputElement>document.getElementById('last_message')).value;
+    }catch(err){
+      console.log(err);
+      parent_comments = '';
+    }
     const updatefields = {
       crmid: this.recordid,
       userid: 1,
       commentcontent: message,
-      parent_comments: '',
+      parent_comments: parent_comments,
       contractorid: contractorid,
-      contractorname: contractorname
+      contractorname: contractorname,
+        requestpicklist: req_picklist
     };
     const headers = new HttpHeaders();
     headers.append("Accept", 'application/json');
@@ -247,6 +311,16 @@ ngOnInit() {
         });
         toast.present();
     }
+
+    async presentToastTop(message: string) {
+      var toast = await this.toastController.create({
+          message: message,
+          duration: 3500,
+          position: "top",
+          color: "danger"
+      });
+      toast.present();
+  }
 
     async presentToastPrimary(message: string) {
         var toast = await this.toastController.create({

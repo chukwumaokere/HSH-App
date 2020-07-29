@@ -1,4 +1,4 @@
-import {Component, OnInit, LOCALE_ID, Inject,} from '@angular/core';
+import {Component, OnInit, LOCALE_ID, Inject, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NavController} from '@ionic/angular';
 import {formatDate} from '@angular/common';
@@ -6,7 +6,8 @@ import {Storage} from '@ionic/storage';
 import {ProfileModalPage} from './profile/profile.page';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import {AppConfig} from '../AppConfig';
-
+import {LoadingController} from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 
 @Component({
     selector: 'app-services',
@@ -14,11 +15,18 @@ import {AppConfig} from '../AppConfig';
     styleUrls: ['./services.page.scss'],
 })
 export class ServicesPage implements OnInit {
+    @ViewChild(IonContent, {static: false}) content: IonContent;
     userinfo: any;
     newJobs: object;
     activeJobs: object;
+    completedJobs: object;
     user_id: any;
     apiurl: any;
+    loading: any;
+    activeJobsLength: any = "0";
+    newJobsLength: any = "0";
+    completedJobsLength: any = "0";
+    isLoading: boolean;
     service = {
         id: '',
         title: '', //Will be the Transferee + type of service
@@ -45,6 +53,7 @@ export class ServicesPage implements OnInit {
         public storage: Storage,
         private httpClient: HttpClient,
         public AppConfig: AppConfig,
+        public loadingController: LoadingController,
         private activatedRoute: ActivatedRoute,
         @Inject(LOCALE_ID) private locale: string
     ) {
@@ -140,9 +149,7 @@ export class ServicesPage implements OnInit {
                 userjson = result;
             }
         })
-        //console.log('from set current theme', userjson.theme);
         userjson['theme'] = theme.charAt(0).toUpperCase() + theme.slice(1);
-        //console.log('from set current theme', userjson);
         this.storage.set('userdata', userjson);
         this.userinfo.theme = theme.charAt(0).toUpperCase() + theme.slice(1);
         console.log('updated theme on storage memory');
@@ -189,7 +196,11 @@ export class ServicesPage implements OnInit {
         console.log('turning off previous theme', theme_switcher[theme]);
     }
 
-    getListJobs(contractor_id) {
+    async getListJobs(contractor_id) {
+        this.showLoading();
+        var x = await this.resolveAfter2Seconds(10);
+        console.log(x);
+        
         console.log('fetching records for', contractor_id);
         var headers = new HttpHeaders();
         headers.append("Accept", 'application/json');
@@ -197,6 +208,7 @@ export class ServicesPage implements OnInit {
         headers.append('Access-Control-Allow-Origin', '*');
         this.httpClient.post(this.apiurl + "getListJobs.php", {crmid: contractor_id}, { headers: headers, observe: 'response' })
             .subscribe(data => {
+                this.hideLoading();
                 console.log(data['body']);
                 var success = data['body']['success'];
                 console.log('login response was', success);
@@ -206,20 +218,30 @@ export class ServicesPage implements OnInit {
                     console.log('jobs', jobs);
                     if(data['body']['count'] > 0){
                         this.newJobs = jobs['new_jobs'];
+                        this.newJobsLength = jobs['new_jobs'].length;
                         this.activeJobs = jobs['active_jobs'];
+                        this.activeJobsLength = jobs['active_jobs'].length;
+                        this.completedJobs = jobs['completed_jobs'];
+                        this.completedJobsLength = jobs['completed_jobs'].length;
                     }
                 }else{
                     console.log('failed to fetch records');
                 }
 
             }, error => {
-                //console.log(error);
-                //console.log(error.message);
-                //console.error(error.message);
+                this.hideLoading();
                 console.log('failed to fetch records');
             });
 
     }
+
+    resolveAfter2Seconds(x) { 
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(x);
+          }, 500);
+        });
+      }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((userData) => {
@@ -235,12 +257,6 @@ export class ServicesPage implements OnInit {
                         console.log(err);
                     }
                 }
-                try {
-                    this.loadTheme(userData.theme.toLowerCase());
-                    this.getListJobs(userData.contractorsid);
-                } catch {
-                    console.log('couldnt load theme');
-                }
                 console.log('param user data length:', userData.length);
                 if (userData.length == undefined) {
                     console.log('nothing in params, so loading from storage');
@@ -250,12 +266,6 @@ export class ServicesPage implements OnInit {
                             this.userinfo = result;
                             this.loadTheme(result.theme.toLowerCase());
                             this.getListJobs(this.userinfo.contractorsid);
-                            try {
-                                console.log('scrolling to', this.sectionScroll);
-                                this.sectionScroll.scrollIntoView();
-                            } catch (err) {
-                                //console.log(err);
-                            }
                         } else {
                             console.log('nothing in storage, going back to login');
                             this.logout();
@@ -264,6 +274,51 @@ export class ServicesPage implements OnInit {
                 }
             }
         });
+    }
+
+    ionViewDidEnter() {
+        this.activatedRoute.fragment.subscribe(async (fragment: string) => {
+            await this.content.scrollToTop();
+            console.warn('Trying to navigate to', fragment);
+            await this.scrollTo(fragment);
+        });
+    }
+
+    async showLoading() {
+        this.loading = await this.loadingController.create({
+            message: 'Loading ...',
+            duration: 500
+        }).then((res) => {
+            this.isLoading = true;
+            console.log('Loading turning on');
+            res.present();
+
+            res.onDidDismiss().then((dis) =>{
+                console.warn('Loading dismissing', dis);
+                this.isLoading = false;
+                this.activatedRoute.fragment.subscribe((fragment: string) => {
+                    if(fragment && fragment != ''){
+                        this.ionViewDidEnter();
+                    }
+                });
+            })
+        });
+    }
+
+    async hideLoading() {
+        setTimeout(() => {
+            if (this.loading != undefined) {
+                this.loading.dismiss();
+            }
+            this.isLoading = false;
+            console.log('Loading turning off');
+        }, 500);
+    }
+
+    scrollTo(elementId: string) {
+        console.log('scrolling to ', elementId);
+        let y = document.getElementById(elementId).offsetTop;
+        this.content.scrollToPoint(0, y);
     }
 
 }

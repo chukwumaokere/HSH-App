@@ -16,38 +16,42 @@
         <ion-item *ngFor="let invite of invites">
             <ion-avatar><ion-icon color="warning" size="large" name="mail-unread"></ion-icon></ion-avatar>
             <ion-label>
-              <h2>{{invite.service_title}}</h2>
+              <h2>{{invite.type_of_service}}</h2>
               <p class="main-color">{{invite.service_date}}</p>
                 <div *ngIf="invite.job_desc !== ''" style="white-space: pre-wrap;" class="main-color" [innerHTML]="invite.job_desc"></div>
               <div class="invite-details-div">
                   <ion-grid class="invite-details-grid">
-                    <ion-row>
-                      <ion-col><p class="st">Coordinator</p></ion-col>
-                      <ion-col><p class="st">City</p></ion-col>
-                      <ion-col><p class="st">State</p></ion-col>
-                      <ion-col><p class="st">ZIP</p></ion-col>
+                    <ion-row class="inline">
+                      <ion-col><p class="st">Coordinator</p><p class="truncate">{{invite.coordinator}}</p></ion-col>
+                      <ion-col><p class="st">City</p><p>{{invite.city}}</p></ion-col>
+                      <ion-col><p class="st">State</p><p>{{invite.state}}</p></ion-col>
+                      <ion-col><p class="st">ZIP</p><p>{{invite.zip}}</p></ion-col>
                     </ion-row>
+                    <!--
                     <ion-row>
                       <ion-col><p>{{invite.coordinator}}</p></ion-col>
                       <ion-col><p>{{invite.city}}</p></ion-col>
                       <ion-col><p>{{invite.state}}</p></ion-col>
                       <ion-col><p>{{invite.zip}}</p></ion-col>
                     </ion-row>
-                    <ion-row>
-                      <ion-col>
+                    -->
+                    <ion-row class="buttons-inline">
+                      <ion-col *ngIf="invite.status != 'Declined'" >
                         <ion-button size="default" color="success" type="button" text="Accept" (click)="modifyInvite('accept', invite.id)" [disabled]="invite.status != 'Accepted' ? null : 'disabled'">
                           <ion-text *ngIf="invite.status != 'Accepted'">Accept</ion-text>
                           <ion-text *ngIf="invite.status == 'Accepted'">Accepted</ion-text>
                         </ion-button>
                       </ion-col>
                       <ion-col *ngIf="invite.status != 'Accepted'" >
-                        <ion-button size="default"  type="button" text="Decline" (click)="modifyInvite('decline', invite.id)">
-                          <ion-text>Decline</ion-text>
+                        <ion-button size="default"  type="button" text="Decline" (click)="modifyInvite('decline', invite.id)"  [disabled]="invite.status != 'Declined' ? null : 'disabled'">
+                          <ion-text *ngIf="invite.status != 'Declined'">Decline</ion-text>
+                          <ion-text *ngIf="invite.status == 'Declined'">Declined</ion-text>
                         </ion-button>
                       </ion-col>
                       <ion-col>
                         <ion-button size="default" type="button" text="Question" (click)="modifyInvite('question', invite.id)">
-                          <ion-text>Question</ion-text>
+                          <ion-text *ngIf="invite.status != ('Accepted') && invite.status != ('Declined')">Question</ion-text>
+                          <ion-text *ngIf="invite.status == ('Accepted') || invite.status == ('Declined')">Comment</ion-text>
                         </ion-button>
                       </ion-col>
                     </ion-row>
@@ -60,24 +64,78 @@
     </ion-list>
 
     <ion-item-divider sticky="true" #responses_ref id="responses_ref">
-      <ion-label>
-        Responses ({{count_notifications}})
+      <ion-label *ngIf="notifications != undefined">
+        Responses ({{notifications.length}})
       </ion-label>
+        <ion-label *ngIf="notifications == undefined">
+            Responses (0)
+        </ion-label>
     </ion-item-divider>
 
     <ion-list lines="full">
         <div *ngIf="count_notifications > 0">
-        <ion-item (click)="markRead(notification.id, notification.recordid)" *ngFor="let notification of notifications">
+        <ion-item (click)="markRead(notification.modcommentsid, notification.related_to,'response_made')" *ngFor="let notification of notifications">
             <ion-avatar><ion-icon color="warning" size="large" name="alert"></ion-icon></ion-avatar>
             <ion-label>
-              <h2>{{notification.title}}</h2>
-              <p class="main-color">{{notification.date}}</p>
+              <h2>{{notification.commentcontent}}</h2>
+              <p class="main-color">{{notification.createdtime}}</p>
               <div class="invite-details-div">
-                  <p>{{notification.comment}}</p>
+                  <p>{{notification.subject}}</p>
               </div>
             </ion-label>
           </ion-item>
         </div>
-          <p class="ion-padding" *ngIf="count_notifications == 0">No new notifications</p>
+          <p class="ion-padding" *ngIf="count_notifications == 0 ||  notifications == undefined">No new Responses</p>
     </ion-list>
+
+    <ion-item-divider sticky="true" #updates_needed id="updates_needed">
+      <ion-label *ngIf="updatesNeeded.count > 0">
+        Update Needed ({{updatesNeeded.count}})
+      </ion-label>
+        <ion-label *ngIf="updatesNeeded.count == undefined || updatesNeeded.count == 0">
+            Update Needed (0)
+        </ion-label>
+    </ion-item-divider>
+
+    <ion-list lines="full">
+        <div *ngIf="updatesNeeded.count > 0">
+        <ion-item (click)="markRead(item.modcommentsid, item.serviceid)" *ngFor="let item of updatesNeeded.data">
+            <ion-avatar><ion-icon color="danger" size="large" name="alert"></ion-icon></ion-avatar>
+            <ion-label>
+              <h2>{{item.commentcontent}}</h2>
+              <p class="main-color">{{item.createdtime}}</p>
+              <div class="invite-details-div">
+                  <p>{{item.servicetitle}}</p>
+              </div>
+            </ion-label>
+          </ion-item>
+        </div>
+          <p class="ion-padding" *ngIf="updatesNeeded == 0 ||  updatesNeeded == undefined">No new Updates Needed</p>
+    </ion-list>
+
+    <ion-item-divider sticky="true" #request_made id="request_made">
+      <ion-label *ngIf="requestMade.count > 0">
+        Requests Made ({{requestMade.count}})
+      </ion-label>
+        <ion-label *ngIf="requestMade.count == undefined || requestMade.count == 0">
+            Requests Made (0)
+        </ion-label>
+    </ion-item-divider>
+
+    <ion-list lines="full">
+        <div *ngIf="requestMade.count > 0">
+        <ion-item (click)="markRead(item.modcommentsid, item.serviceid)" *ngFor="let item of requestMade.data">
+            <ion-avatar><ion-icon color="tertiary" size="large" name="build"></ion-icon></ion-avatar>
+            <ion-label>
+              <h2>{{item.commentcontent}}</h2>
+              <p class="main-color">{{item.createdtime}}</p>
+              <div class="invite-details-div">
+                  <p>{{item.servicetitle}}</p>
+              </div>
+            </ion-label>
+          </ion-item>
+        </div>
+          <p class="ion-padding" *ngIf="requestMade == 0 ||  requestMade == undefined">No new Requests Made</p>
+    </ion-list>
+
 </ion-content>
