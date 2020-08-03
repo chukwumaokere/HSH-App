@@ -643,6 +643,30 @@ export class DetailPage implements OnInit {
         }) */
     }
 
+    transferee(phonenumber) {
+        console.log('opening action sheet for contact ', phonenumber, this.servicedetail.cf_765 );
+        const contactLabels = ['Call: ' + phonenumber, 'SMS: ' + phonenumber];
+
+        const contactOptions: ActionSheetOptions = {
+            title: 'Which would you like to do?',
+            buttonLabels: contactLabels,
+            addCancelButtonWithLabel: 'Cancel',
+            androidTheme: 1 //this.actionSheet.ANDROID_THEMES.THEME_HOLO_DARK,
+        }
+        this.actionSheet.show(contactOptions).then((buttonIndex: number) => {
+            console.log('Option pressed', buttonIndex);
+            if (buttonIndex == 1) {
+                this.call(phonenumber);
+            }
+            else if (buttonIndex == 2) {
+                this.sms(phonenumber);
+            }
+        }).catch((err) => {
+            console.log(err);
+            this.presentToast(`Operation failed! \n` + err);
+        })
+    }
+
     contact(supportname) {
         console.log('opening action sheet for contact', supportname);
         const contactLabels = ['Call: ' + this.servicedetail.support_ph, 'Chat: ' + supportname, 'Email: ' + this.servicedetail.support_email];
