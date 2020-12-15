@@ -39,6 +39,8 @@ export class DetailPage implements OnInit {
     servicedetail: any = {};
     buttonLabels = ['Take Photo', 'Upload from Library'];
 
+    customYearValues = [];
+
     actionOptions: ActionSheetOptions = {
         title: 'Which would you like to do?',
         buttonLabels: this.buttonLabels,
@@ -80,6 +82,14 @@ export class DetailPage implements OnInit {
                 @Inject(LOCALE_ID) private locale: string) {
         this.secondaryInfo.open = false;
         this.apiurl = this.AppConfig.apiurl;
+        let curYear = new Date().getFullYear();
+        let endYear = curYear + 2;
+        let startYear = 2019;
+        let diffYear = endYear - startYear;
+
+        for (let i = 0; i <= diffYear; i++){
+            this.customYearValues.push(startYear + i);
+        }
     }
 
     loadDetails(serviceid) {

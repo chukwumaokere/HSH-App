@@ -79,7 +79,7 @@
         <ion-item lines="none">
           <ion-label position="stacked" class="detail-header">Follow Up Date</ion-label>
           <!--<ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" value="{{date_sent}}" [(ngModel)]="date_sent" ></ion-datetime>-->
-          <ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" placeholder={{date_sent}}></ion-datetime>
+          <ion-datetime name="date_sent" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" [yearValues]="customYearValues.reverse()" placeholder={{date_sent}}></ion-datetime>
         </ion-item>
         <ion-item lines="none" class="service-date-wrap">
           <ion-label position="stacked" class="detail-header">Service Date</ion-label>
@@ -88,7 +88,7 @@
             <ion-grid class="date-grid">
               <ion-row class="date-row">
                 <ion-col class="date-col" size="8">
-                  <ion-datetime class="date-time" name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" placeholder="{{cf_738}}"></ion-datetime>
+                  <ion-datetime class="date-time" name="cf_738" (ionChange)="addUpdate($event)" displayFormat="MM-DD-YYYY" [yearValues]="customYearValues.reverse()" placeholder="{{cf_738}}"></ion-datetime>
                 </ion-col>
                 <ion-col size="4">
                   <ion-button size="default" expand="block" color="tertiary"  (click)="clearDate(servicedetail?.salesorderid)">
