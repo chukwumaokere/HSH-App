@@ -620,6 +620,7 @@ export class DetailPage implements OnInit {
         /* this.callNumber.callNumber(phonenumber, true)
         .then(res => console.log("Launched dialer!", res))
         .catch(err => console.log("Error launching", err)) */
+        phonenumber = phonenumber.replace('(', '').replace(')', '').replace(' ','-');
         this.iab.create('tel:' + phonenumber, '_system');
     }
 
@@ -628,6 +629,7 @@ export class DetailPage implements OnInit {
         /* this.callNumber.callNumber(phonenumber, true)
         .then(res => console.log("Launched dialer!", res))
         .catch(err => console.log("Error launching", err)) */
+        phonenumber = phonenumber.replace('(', '').replace(')', '').replace(' ','-');
         this.iab.create('sms:' + phonenumber, '_system');
     }
 
