@@ -656,10 +656,10 @@ export class DetailPage implements OnInit {
         }) */
     }
 
-    transferee(phonenumber) {
-        console.log('opening action sheet for contact ', phonenumber, this.servicedetail.cf_765 );
+    transferee(phonenumber) {        
         const contactLabels = ['Call: ' + phonenumber, 'SMS: ' + phonenumber];
         phonenumber = phonenumber.replace('(', '').replace(')', '').replace(' ','-');
+        console.log('opening action sheet for contact ', phonenumber, this.servicedetail.cf_765 );
         const contactOptions: ActionSheetOptions = {
             title: 'Which would you like to do?',
             buttonLabels: contactLabels,
