@@ -620,7 +620,7 @@ export class DetailPage implements OnInit {
         /* this.callNumber.callNumber(phonenumber, true)
         .then(res => console.log("Launched dialer!", res))
         .catch(err => console.log("Error launching", err)) */
-        phonenumber = phonenumber.replace('(', '').replace(')', '').replace(' ','-');
+        //phonenumber = phonenumber.replace('(', '').replace(')', '').replace(' ','-');
         this.iab.create('tel:' + phonenumber, '_system');
     }
 
@@ -629,7 +629,7 @@ export class DetailPage implements OnInit {
         /* this.callNumber.callNumber(phonenumber, true)
         .then(res => console.log("Launched dialer!", res))
         .catch(err => console.log("Error launching", err)) */
-        phonenumber = phonenumber.replace('(', '').replace(')', '').replace(' ','-');
+        //phonenumber = phonenumber.replace('(', '').replace(')', '').replace(' ','-');
         this.iab.create('sms:' + phonenumber, '_system');
     }
 
@@ -659,13 +659,14 @@ export class DetailPage implements OnInit {
     transferee(phonenumber) {
         console.log('opening action sheet for contact ', phonenumber, this.servicedetail.cf_765 );
         const contactLabels = ['Call: ' + phonenumber, 'SMS: ' + phonenumber];
-
+        phonenumber = phonenumber.replace('(', '').replace(')', '').replace(' ','-');
         const contactOptions: ActionSheetOptions = {
             title: 'Which would you like to do?',
             buttonLabels: contactLabels,
             addCancelButtonWithLabel: 'Cancel',
             androidTheme: 1 //this.actionSheet.ANDROID_THEMES.THEME_HOLO_DARK,
         }
+        
         this.actionSheet.show(contactOptions).then((buttonIndex: number) => {
             console.log('Option pressed', buttonIndex);
             if (buttonIndex == 1) {
